@@ -1,0 +1,60 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.9.12120.119 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSSAM.App", "src\RSSAM.App\RSSAM.App.csproj", "{8F5E92CA-7A8A-46A4-BF25-0C5D4BBE2075}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSSAM.Core", "src\RSSAM.Core\RSSAM.Core.csproj", "{B51ECAB4-0B78-4D6C-9BBF-1C1EAB92B822}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSSAM.API", "src\RSSAM.API\RSSAM.API.csproj", "{0E9D9FD1-FF8D-46FB-A6D0-2A9CB1F6FF1F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSSAM.UnitTests", "tests\RSSAM.UnitTests\RSSAM.UnitTests.csproj", "{8378E90D-D662-4A8A-B6AA-2D937C2530D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F5E92CA-7A8A-46A4-BF25-0C5D4BBE2075}.Debug|x64.ActiveCfg = Debug|x64
+		{8F5E92CA-7A8A-46A4-BF25-0C5D4BBE2075}.Debug|x64.Build.0 = Debug|x64
+		{8F5E92CA-7A8A-46A4-BF25-0C5D4BBE2075}.Debug|x86.ActiveCfg = Debug|x86
+		{8F5E92CA-7A8A-46A4-BF25-0C5D4BBE2075}.Debug|x86.Build.0 = Debug|x86
+		{8F5E92CA-7A8A-46A4-BF25-0C5D4BBE2075}.Release|x64.ActiveCfg = Release|x64
+		{8F5E92CA-7A8A-46A4-BF25-0C5D4BBE2075}.Release|x64.Build.0 = Release|x64
+		{8F5E92CA-7A8A-46A4-BF25-0C5D4BBE2075}.Release|x86.ActiveCfg = Release|x86
+		{8F5E92CA-7A8A-46A4-BF25-0C5D4BBE2075}.Release|x86.Build.0 = Release|x86
+		{B51ECAB4-0B78-4D6C-9BBF-1C1EAB92B822}.Debug|x64.ActiveCfg = Debug|x64
+		{B51ECAB4-0B78-4D6C-9BBF-1C1EAB92B822}.Debug|x64.Build.0 = Debug|x64
+		{B51ECAB4-0B78-4D6C-9BBF-1C1EAB92B822}.Debug|x86.ActiveCfg = Debug|x86
+		{B51ECAB4-0B78-4D6C-9BBF-1C1EAB92B822}.Debug|x86.Build.0 = Debug|x86
+		{B51ECAB4-0B78-4D6C-9BBF-1C1EAB92B822}.Release|x64.ActiveCfg = Release|x64
+		{B51ECAB4-0B78-4D6C-9BBF-1C1EAB92B822}.Release|x64.Build.0 = Release|x64
+		{B51ECAB4-0B78-4D6C-9BBF-1C1EAB92B822}.Release|x86.ActiveCfg = Release|x86
+		{B51ECAB4-0B78-4D6C-9BBF-1C1EAB92B822}.Release|x86.Build.0 = Release|x86
+		{0E9D9FD1-FF8D-46FB-A6D0-2A9CB1F6FF1F}.Debug|x64.ActiveCfg = Debug|x64
+		{0E9D9FD1-FF8D-46FB-A6D0-2A9CB1F6FF1F}.Debug|x64.Build.0 = Debug|x64
+		{0E9D9FD1-FF8D-46FB-A6D0-2A9CB1F6FF1F}.Debug|x86.ActiveCfg = Debug|x86
+		{0E9D9FD1-FF8D-46FB-A6D0-2A9CB1F6FF1F}.Debug|x86.Build.0 = Debug|x86
+		{0E9D9FD1-FF8D-46FB-A6D0-2A9CB1F6FF1F}.Release|x64.ActiveCfg = Release|x64
+		{0E9D9FD1-FF8D-46FB-A6D0-2A9CB1F6FF1F}.Release|x64.Build.0 = Release|x64
+		{0E9D9FD1-FF8D-46FB-A6D0-2A9CB1F6FF1F}.Release|x86.ActiveCfg = Release|x86
+		{0E9D9FD1-FF8D-46FB-A6D0-2A9CB1F6FF1F}.Release|x86.Build.0 = Release|x86
+		{8378E90D-D662-4A8A-B6AA-2D937C2530D4}.Debug|x64.ActiveCfg = Debug|x64
+		{8378E90D-D662-4A8A-B6AA-2D937C2530D4}.Debug|x64.Build.0 = Debug|x64
+		{8378E90D-D662-4A8A-B6AA-2D937C2530D4}.Debug|x86.ActiveCfg = Debug|x64
+		{8378E90D-D662-4A8A-B6AA-2D937C2530D4}.Debug|x86.Build.0 = Debug|x64
+		{8378E90D-D662-4A8A-B6AA-2D937C2530D4}.Release|x64.ActiveCfg = Release|x64
+		{8378E90D-D662-4A8A-B6AA-2D937C2530D4}.Release|x64.Build.0 = Release|x64
+		{8378E90D-D662-4A8A-B6AA-2D937C2530D4}.Release|x86.ActiveCfg = Release|x64
+		{8378E90D-D662-4A8A-B6AA-2D937C2530D4}.Release|x86.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {342036C4-30C2-4D13-A719-4183DB81B216}
+	EndGlobalSection
+EndGlobal

@@ -1,4 +1,4 @@
-# RSAM original build script.
+# RSSAM original build script.
 # Copyright (c) 2026 Daniel Riggi (riggi89).
 # Distributed under the project license; see LICENSE.md and NOTICE.md.
 
@@ -12,12 +12,12 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $props = Join-Path $root 'Directory.Build.props'
-$appVersion = Join-Path $root 'src\RSAM.App\AppVersion.cs'
-$appManifest = Join-Path $root 'src\RSAM.App\app.manifest'
+$appVersion = Join-Path $root 'src\RSSAM.App\AppVersion.cs'
+$appManifest = Join-Path $root 'src\RSSAM.App\app.manifest'
 $utf8WithoutBom = [System.Text.UTF8Encoding]::new($false)
 
 # Validate every version location before writing any file. This prevents a
-# changed source layout from silently leaving RSAM with mixed version values.
+# changed source layout from silently leaving RSSAM with mixed version values.
 $files = @(
     @{
         Path = $props
@@ -36,7 +36,7 @@ $files = @(
     @{
         Path = $appManifest
         Replacements = @(
-            @{ Pattern = '(?<=<assemblyIdentity version=")\d+\.\d+\.\d+\.\d+(?=" name="RSAM\.app"/>)'; Value = "${Version}.0" }
+            @{ Pattern = '(?<=<assemblyIdentity version=")\d+\.\d+\.\d+\.\d+(?=" name="RSSAM\.app"/>)'; Value = "${Version}.0" }
         )
     }
 )
@@ -71,5 +71,5 @@ foreach ($write in $pendingWrites) {
         $utf8WithoutBom)
 }
 
-Write-Host "RSAM source and manifest version set to $Version"
+Write-Host "RSSAM source and manifest version set to $Version"
 Write-Host 'Update CHANGELOG.md and the current-version text in README.md manually.'

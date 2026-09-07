@@ -1,0 +1,57 @@
+<!-- RSSAM unit tests.
+     Copyright (c) 2026 Daniel Riggi (riggi89).
+     Distributed under the project license; see LICENSE.md and NOTICE.md. -->
+
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
+    <RSSAMArchitecture>x64</RSSAMArchitecture>
+    <BuildingForUnitTests>true</BuildingForUnitTests>
+    <RuntimeIdentifier></RuntimeIdentifier>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <SelfContained>false</SelfContained>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <GenerateDependencyFile>true</GenerateDependencyFile>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <RunSettingsFilePath>$(MSBuildProjectDirectory)\RSSAM.UnitTests.runsettings</RunSettingsFilePath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\RSSAM.Core\RSSAM.Core.csproj"
+                      AdditionalProperties="BuildingForUnitTests=true;Platform=x64"
+                      ReferenceOutputAssembly="true"
+                      Private="true" />
+    <ProjectReference Include="..\..\src\RSSAM.API\RSSAM.API.csproj"
+                      AdditionalProperties="BuildingForUnitTests=true;Platform=x64"
+                      ReferenceOutputAssembly="true"
+                      Private="true" />
+  </ItemGroup>
+
+  <Target Name="ValidateUnitTestDependencies" AfterTargets="Build">
+    <Error Condition="!Exists('$(TargetDir)RSSAM.Core.dll')"
+           Text="RSSAM.Core.dll was not copied to the UnitTests output directory: $(TargetDir)" />
+    <Error Condition="!Exists('$(TargetDir)RSSAM.API.dll')"
+           Text="RSSAM.API.dll was not copied to the UnitTests output directory: $(TargetDir)" />
+  </Target>
+</Project>

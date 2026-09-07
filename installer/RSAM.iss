@@ -1,11 +1,11 @@
-; RSAM installer definition.
+; RSSAM installer definition.
 ; Copyright (c) 2026 Daniel Riggi (riggi89).
 ; Distributed under the project license; see LICENSE.md and NOTICE.md.
 
-#define MyAppVersion GetEnv("RSAM_VERSION")
-#define SourceRoot GetEnv("RSAM_SOURCE_ROOT")
-#define InstallerLicense GetEnv("RSAM_INSTALLER_LICENSE")
-#define MyAppArchitecture GetEnv("RSAM_ARCHITECTURE")
+#define MyAppVersion GetEnv("RSSAM_VERSION")
+#define SourceRoot GetEnv("RSSAM_SOURCE_ROOT")
+#define InstallerLicense GetEnv("RSSAM_INSTALLER_LICENSE")
+#define MyAppArchitecture GetEnv("RSSAM_ARCHITECTURE")
 
 #if MyAppArchitecture == "x64"
     #define RuntimeIdentifier "win-x64"
@@ -14,25 +14,25 @@
     #define RuntimeIdentifier "win-x86"
     #define AllowedArchitectures "x86compatible"
 #else
-    #error Unsupported or missing RSAM_ARCHITECTURE value
+    #error Unsupported or missing RSSAM_ARCHITECTURE value
 #endif
 
 [Setup]
 AppId={{F99429D7-C0F7-43A8-9368-407534934825}
-AppName=RSAM
+AppName=RSSAM
 AppVersion={#MyAppVersion}
-AppVerName=RSAM {#MyAppVersion}
+AppVerName=RSSAM {#MyAppVersion}
 AppPublisher=Daniel Riggi (riggi89)
 VersionInfoVersion={#MyAppVersion}
 VersionInfoCompany=Daniel Riggi (riggi89)
-VersionInfoDescription=RSAM {#MyAppArchitecture} Installer
-VersionInfoProductName=RSAM - Riggi's Steam Achievement Manager
+VersionInfoDescription=RSSAM {#MyAppArchitecture} Installer
+VersionInfoProductName=RSSAM - Riggi's Steam Achievement Manager
 
-SetupIconFile={#SourceRoot}\src\RSAM.App\Assets\RSAM-AppIcon.ico
-UninstallDisplayIcon={app}\RSAM.exe
+SetupIconFile={#SourceRoot}\src\RSSAM.App\Assets\RSSAM-AppIcon.ico
+UninstallDisplayIcon={app}\RSSAM.exe
 
-DefaultDirName={localappdata}\Programs\RSAM
-DefaultGroupName=RSAM
+DefaultDirName={localappdata}\Programs\RSSAM
+DefaultGroupName=RSSAM
 DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 
@@ -46,7 +46,7 @@ MinVersion=10.0.17763
 LicenseFile={#InstallerLicense}
 
 OutputDir={#SourceRoot}\artifacts\installer
-OutputBaseFilename=RSAM_{#MyAppVersion}-{#RuntimeIdentifier}-Setup
+OutputBaseFilename=RSSAM_{#MyAppVersion}-{#RuntimeIdentifier}-Setup
 
 Compression=lzma2/max
 SolidCompression=yes
@@ -71,17 +71,17 @@ Source: "{#SourceRoot}\artifacts\publish\{#RuntimeIdentifier}\*"; \
     Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{autoprograms}\RSAM"; \
-    Filename: "{app}\RSAM.exe"; \
+Name: "{autoprograms}\RSSAM"; \
+    Filename: "{app}\RSSAM.exe"; \
     WorkingDir: "{app}"
 
-Name: "{autodesktop}\RSAM"; \
-    Filename: "{app}\RSAM.exe"; \
+Name: "{autodesktop}\RSSAM"; \
+    Filename: "{app}\RSSAM.exe"; \
     WorkingDir: "{app}"; \
     Tasks: desktopicon
 
 [Run]
-Filename: "{app}\RSAM.exe"; \
+Filename: "{app}\RSSAM.exe"; \
     WorkingDir: "{app}"; \
-    Description: "{cm:LaunchProgram,RSAM}"; \
+    Description: "{cm:LaunchProgram,RSSAM}"; \
     Flags: nowait postinstall skipifsilent

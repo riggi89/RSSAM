@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- RSSAM unit-test configuration.
+     The production application supports x86 and x64, but the managed test
+     assembly always runs in the Visual Studio x64 test host. -->
+<RunSettings>
+  <RunConfiguration>
+    <TargetPlatform>x64</TargetPlatform>
+  </RunConfiguration>
+</RunSettings>

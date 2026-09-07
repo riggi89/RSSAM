@@ -1,41 +1,41 @@
-# RSAM Changelog
+# RSSAM Changelog
 
 ## 1.0.30 - 2026-09-04
 
 - Added README badges for the GitHub Actions build/test status, the verified 21-test suite, Windows x86/x64 support, .NET 10, WinUI 3, the current release version and the zlib license.
-- Linked the live build badge directly to the RSAM GitHub Actions release workflow.
-- Increased the RSAM build version to **1.0.30**.
+- Linked the live build badge directly to the RSSAM GitHub Actions release workflow.
+- Increased the RSSAM build version to **1.0.30**.
 
 ## 1.0.29 - 2026-09-04
 
-- Fixed `RSAM.Core.dll` and `RSAM.API.dll` still being omitted from the Visual Studio UnitTests output directory.
+- Fixed `RSSAM.Core.dll` and `RSSAM.API.dll` still being omitted from the Visual Studio UnitTests output directory.
 - Added a dedicated `BuildingForUnitTests` MSBuild path that prevents runtime identifiers from being applied to Core/API project-reference builds used by the tests.
-- Added an explicit direct `RSAM.API` reference to `RSAM.UnitTests` so both required RSAM assemblies participate in copy-local resolution.
+- Added an explicit direct `RSSAM.API` reference to `RSSAM.UnitTests` so both required RSSAM assemblies participate in copy-local resolution.
 - Added post-build validation that stops immediately with a clear build error if either required assembly is missing from the UnitTests output.
 - Kept runtime identifiers unchanged for the production x86/x64 application, publish and installer builds.
-- Increased the RSAM build version to **1.0.29**.
+- Increased the RSSAM build version to **1.0.29**.
 
 ## 1.0.28 - 2026-09-04
 
-- Fixed every unit test failing with `FileNotFoundException` because `RSAM.Core.dll` was not available to the Visual Studio test host.
+- Fixed every unit test failing with `FileNotFoundException` because `RSSAM.Core.dll` was not available to the Visual Studio test host.
 - Removed the unnecessary runtime identifier from the managed UnitTests output while retaining its x64 platform target.
-- Made `RSAM.UnitTests` framework-dependent and enabled runtime/dependency file generation for standard Visual Studio test discovery.
-- Explicitly enabled copy-local behavior for NuGet and project-reference assemblies so `RSAM.Core.dll` and `RSAM.API.dll` are deployed beside the test assembly.
+- Made `RSSAM.UnitTests` framework-dependent and enabled runtime/dependency file generation for standard Visual Studio test discovery.
+- Explicitly enabled copy-local behavior for NuGet and project-reference assemblies so `RSSAM.Core.dll` and `RSSAM.API.dll` are deployed beside the test assembly.
 - Removed the runtime-specific argument from `scripts/test.ps1` to match Visual Studio's framework-dependent test-host behavior.
-- Increased the RSAM build version to **1.0.28**.
+- Increased the RSSAM build version to **1.0.28**.
 
 ## 1.0.27 - 2026-09-04
 
-- Fixed `RSAM.UnitTests.dll` failing to load when Visual Studio used its x64 test host while the solution was configured for x86.
-- Made `RSAM.UnitTests` an explicit x64-only test project because the suite tests managed Core/API behavior and does not load the native Steam client.
-- Added `RSAM.UnitTests.runsettings` to select the x64 Visual Studio test host consistently.
+- Fixed `RSSAM.UnitTests.dll` failing to load when Visual Studio used its x64 test host while the solution was configured for x86.
+- Made `RSSAM.UnitTests` an explicit x64-only test project because the suite tests managed Core/API behavior and does not load the native Steam client.
+- Added `RSSAM.UnitTests.runsettings` to select the x64 Visual Studio test host consistently.
 - Mapped the solution's x86 configurations to the x64 UnitTests configuration while keeping all production projects native x86.
 - Simplified `scripts/test.ps1` so it always runs the suite once with the matching x64 runtime and test host.
-- Increased the RSAM build version to **1.0.27**.
+- Increased the RSSAM build version to **1.0.27**.
 
 ## 1.0.26 - 2026-09-04
 
-- Added the dedicated `RSAM.UnitTests` xUnit project to the solution for x86 and x64 configurations.
+- Added the dedicated `RSSAM.UnitTests` xUnit project to the solution for x86 and x64 configurations.
 - Added tests for settings normalization, persistence and reset behavior.
 - Added tests for favorites persistence, damaged JSON recovery, duplicate IDs and invalid App IDs.
 - Added tests for achievement/statistic models, culture-aware numeric parsing, localization, search delegation and the binary Steam KeyValue parser.
@@ -44,7 +44,7 @@
 - Made settings and favorites storage directories injectable so tests never access real user data.
 - Fixed possible temporary-file collisions between multiple settings or favorites service instances by using unique file names.
 - Added validation for invalid Steam App IDs and missing required game/search data.
-- Increased the RSAM build version to **1.0.26**.
+- Increased the RSSAM build version to **1.0.26**.
 
 ## 1.0.25 - 2026-09-04
 
@@ -55,30 +55,30 @@
 - Restored initialization of both `ISteamApps001` metadata access and `ISteamApps008` ownership checks.
 - Made legacy `ISteamApps001` metadata optional so the catalog can still load with App-ID names and standard capsule URLs if Steam removes that interface in the future.
 - Kept this Changelog English-only and outside all localization resource files.
-- Increased the RSAM build version to **1.0.25**.
+- Increased the RSSAM build version to **1.0.25**.
 
 ## 1.0.24 - 2026-09-04
 
-- Added a dedicated RSAM application icon combining a game controller with an achievement medal.
+- Added a dedicated RSSAM application icon combining a game controller with an achievement medal.
 - Added a seven-size Windows ICO resource for sharp rendering from 16 through 256 pixels.
-- Embedded the icon in `RSAM.exe` for Windows, taskbar, shortcut and installed-app presentation.
+- Embedded the icon in `RSSAM.exe` for Windows, taskbar, shortcut and installed-app presentation.
 - Applied the same icon to the Inno Setup executable and uninstall registration.
-- Replaced the generic TitleBar glyph with the new RSAM icon.
+- Replaced the generic TitleBar glyph with the new RSSAM icon.
 - Added PNG source variants and displayed the application icon in the README.
 - Kept this Changelog English-only and outside all localization resource files.
-- Increased the RSAM build version to **1.0.24**.
+- Increased the RSSAM build version to **1.0.24**.
 
 ## 1.0.23 - 2026-09-04
 
 - Fixed installer publishing failing because the unpackaged WinUI resource index was not copied to the publish directory.
 - Explicitly enabled PRI generation and standardized the project resource index name as `resources.pri`.
-- Added an MSBuild post-publish fallback that copies the generated PRI beside `RSAM.exe`.
-- Extended `publish.ps1` to recover either `resources.pri` or `RSAM.pri` from architecture-specific build output.
+- Added an MSBuild post-publish fallback that copies the generated PRI beside `RSSAM.exe`.
+- Extended `publish.ps1` to recover either `resources.pri` or `RSSAM.pri` from architecture-specific build output.
 - Kept strict publish validation so an installer cannot be created from a payload that would fail during WinUI startup.
 - Fixed nullable-reference warnings in the SAM-derived binary KeyValue reader.
 - Removed the unused backing event warning from the static Changelog page.
 - Kept this Changelog English-only and outside all localization resource files.
-- Increased the RSAM build version to **1.0.23**.
+- Increased the RSSAM build version to **1.0.23**.
 
 ## 1.0.22 - 2026-09-04
 
@@ -89,19 +89,19 @@
 - Made `set-version.ps1` validate every expected version location before writing changes and preserve UTF-8 without a byte-order mark.
 - Made `build.ps1` stop immediately when `dotnet restore` or `dotnet build` returns a non-zero exit code.
 - Kept version-specific release history in this English-only Changelog instead of duplicating it in the README or localization resources.
-- Increased the RSAM build version to **1.0.22**.
+- Increased the RSSAM build version to **1.0.22**.
 
 ## 1.0.21 - 2026-09-04
 
-- Added early startup diagnostics at `%LOCALAPPDATA%\\RSAM\\Logs\\startup.log`, including a native error dialog when WinUI cannot create the application window.
+- Added early startup diagnostics at `%LOCALAPPDATA%\\RSSAM\\Logs\\startup.log`, including a native error dialog when WinUI cannot create the application window.
 - Made the publish script fail immediately when `dotnet publish` returns an error instead of allowing a partially generated installer payload.
-- Added strict validation for the executable, RSAM assemblies, WinUI.TableView, Windows App SDK resources and self-contained .NET runtime files before the installer can be built.
+- Added strict validation for the executable, RSSAM assemblies, WinUI.TableView, Windows App SDK resources and self-contained .NET runtime files before the installer can be built.
 - Added a compatibility fallback that copies a generated `resources.pri` into the publish directory when Windows App SDK/MSBuild leaves it in the architecture-specific build output.
 - Explicitly disabled single-file publishing and trimming for the folder-based self-contained WinUI deployment.
 - Set the installation directory as the working directory for Start menu, desktop and post-install launches.
-- Kept the supplied MSIX bundle helper out of the project because the unsigned RSAM release uses a traditional Inno Setup installer instead of an MSIX package.
+- Kept the supplied MSIX bundle helper out of the project because the unsigned RSSAM release uses a traditional Inno Setup installer instead of an MSIX package.
 - Kept this Changelog English-only and outside all localization resource files.
-- Increased the RSAM build version to **1.0.21**.
+- Increased the RSSAM build version to **1.0.21**.
 
 ## 1.0.20 - 2026-09-04
 
@@ -110,7 +110,7 @@
 - Made a single click anywhere on a TableView row open the selected game's Achievements tab.
 - Added `%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe` to the automatic Inno Setup compiler search paths.
 - Kept this Changelog English-only and outside all localization resource files.
-- Increased the RSAM build version to **1.0.20**.
+- Increased the RSSAM build version to **1.0.20**.
 
 ## 1.0.19 - 2026-09-04
 
@@ -122,28 +122,28 @@
 - Added a GitHub Actions workflow that builds the unsigned setup and source archive and attaches both to tagged releases.
 - Added the supplied fork, modification and zlib third-party notices to the central root `LICENSE.md`.
 - Kept this Changelog English-only and outside all localization resource files.
-- Increased the RSAM build version to **1.0.19**.
+- Increased the RSSAM build version to **1.0.19**.
 
 ## 1.0.18 - 2026-09-04
 
 - Fixed the game-favorite UI build by importing WinUI's `Microsoft.UI.Xaml.Controls.Primitives` namespace for `ToggleButton`.
 - Removed the invalid attempt to set `Handled` on WinUI `RoutedEventArgs` and removed the unnecessary favorite-button Click handler.
-- Removed the unused `Pink.ico` and duplicate `LICENSE.txt` files from the `RSAM.API` project.
+- Removed the unused `Pink.ico` and duplicate `LICENSE.txt` files from the `RSSAM.API` project.
 - Renamed the single root license file from `LICENSE.txt` to `LICENSE.md` and updated all source, project, documentation and localized UI references.
 - Kept this Changelog English-only and outside all localization resource files.
-- Increased the RSAM build version to **1.0.18**.
+- Increased the RSSAM build version to **1.0.18**.
 
 ## 1.0.17 - 2026-09-04
 
 - Centered the universal search box against the complete TitleBar instead of the remaining space after the application branding.
 - Added a third, persisted Table view for the Steam game library using WinUI.TableView 1.4.1, with image, game name, App ID, type and favorite columns.
 - Added per-game favorites to the Tile, List and Table views together with an icon-only favorites filter.
-- Stored all favorite Steam App IDs in one atomically written `%LOCALAPPDATA%\\RSAM\\favorites.json` file, independently from UI settings.
+- Stored all favorite Steam App IDs in one atomically written `%LOCALAPPDATA%\\RSSAM\\favorites.json` file, independently from UI settings.
 - Migrated `settings.json` to schema version 7 so the selected Tile, List or Table view is retained.
 - Limited game-loading InfoBars to refreshes explicitly started by the Reload buttons; automatic startup loads and opening a game now remain unobtrusive.
 - Mirrored loading progress, completion messages and errors into the status bar regardless of whether an InfoBar is shown.
 - Kept this Changelog English-only and outside all localization resource files.
-- Increased the RSAM build version to **1.0.17**.
+- Increased the RSSAM build version to **1.0.17**.
 
 ## 1.0.16 - 2026-09-03
 
@@ -152,9 +152,9 @@
 - Mirrored current loading messages into the lower-left status bar and restored the normal game-count status after each operation finishes.
 - Stabilized the TitleBar layout so showing the Back button no longer shifts or resizes the search field.
 - Reduced the normal TitleBar search width by 25 percent from 720 to 540 pixels while retaining responsive widths on compact windows.
-- Changed RSAM from four-part `1.x.x.x` versions to three-part `1.x.x` versions and normalized the complete release history accordingly.
+- Changed RSSAM from four-part `1.x.x.x` versions to three-part `1.x.x` versions and normalized the complete release history accordingly.
 - Kept this Changelog English-only and outside all localization resource files.
-- Increased the RSAM build version to **1.0.16**.
+- Increased the RSSAM build version to **1.0.16**.
 
 ## 1.0.15 - 2026-09-03
 
@@ -162,41 +162,41 @@
 - Migrated game store/reset confirmations, reset-scope selection and settings reset confirmation away from duplicated page-local dialog code.
 - Added a live Steam process indicator to the lower-left status bar, refreshed every three seconds without blocking the UI.
 - Added localized Steam running, not-running and checking labels while keeping all Changelog content outside localization files.
-- Marked C#, XAML, project and build-script sources as RSAM-authored or SAM-derived, while preserving Rick's original copyright and zlib attribution in modified source files.
+- Marked C#, XAML, project and build-script sources as RSSAM-authored or SAM-derived, while preserving Rick's original copyright and zlib attribution in modified source files.
 - Kept this Changelog English-only and outside all localization resource files.
-- Increased the RSAM build version to **1.0.15**.
+- Increased the RSSAM build version to **1.0.15**.
 
 ## 1.0.14 - 2026-09-03
 
-- Removed the visible RSAM restart when a game is selected.
+- Removed the visible RSSAM restart when a game is selected.
 - Isolated native Steam catalog and game-stat operations in hidden, short-lived worker processes so every operation receives the correct Steam App ID without replacing the main UI process.
-- Kept the main RSAM window, navigation state and current page active while a selected game is loaded.
+- Kept the main RSSAM window, navigation state and current page active while a selected game is loaded.
 - Added icon-only Tile view and List view buttons to the upper-right corner of the Steam game page and persisted the selected view.
 - Added a full-width ListView layout with proportional game artwork, game names and App IDs.
 - Fixed cropped game artwork in the tile layout by using Steam's capsule aspect ratio and proportional `Uniform` scaling.
 - Migrated `settings.json` to schema version 6 for the persisted game-library view.
 - Kept this Changelog English-only and outside all localization resource files.
-- Increased the RSAM build version to **1.0.14**.
+- Increased the RSSAM build version to **1.0.14**.
 
 ## 1.0.13 - 2026-09-03
 
-- Fixed selected-game initialization by restarting RSAM with the chosen Steam App ID before the native Steam client is loaded, waiting for the previous process to exit and then reopening that game automatically.
+- Fixed selected-game initialization by restarting RSSAM with the chosen Steam App ID before the native Steam client is loaded, waiting for the previous process to exit and then reopening that game automatically.
 - Fixed the Language and Theme controls showing an empty value by populating localized items before restoring their selections and refreshing the displayed selection after a language change.
 - Made the Games navigation item always return to the Steam game list, including when the item is already selected while game details are open.
 - Removed the Restore last page and Start page settings together with persisted page, game-detail, tab, filter and statistics-editing session state.
 - Migrated `settings.json` to schema version 5; obsolete properties from older files are ignored and removed on the next save.
 - Kept this Changelog English-only and outside all localization resource files.
-- Increased the RSAM build version to **1.0.13**.
+- Increased the RSSAM build version to **1.0.13**.
 
 ## 1.0.12 - 2026-09-03
 
-- Fixed repeated Steam client initialization in the combined RSAM process by retaining `steamclient.dll` until process exit.
+- Fixed repeated Steam client initialization in the combined RSSAM process by retaining `steamclient.dll` until process exit.
 - Serialized native Steam client sessions and their non-thread-safe pipe/user lifecycle operations.
 - Added a bounded retry when Steam temporarily refuses to create its IPC communication pipe.
 - Replaced the raw `failed to create pipe` notification with localized, actionable Steam connection guidance.
 - Moved Steam game-session initialization, statistics storage and statistics reset work off the UI thread.
 - Kept this Changelog English-only and outside all localization resource files.
-- Increased the RSAM build version to **1.0.12**.
+- Increased the RSSAM build version to **1.0.12**.
 
 ## 1.0.11 - 2026-09-03
 
@@ -210,7 +210,7 @@
 - Serialized game load/save/reset operations and prevented stale or overlapping catalog requests from replacing current UI state.
 - Added preflight validation for protected, non-finite, out-of-range, increment-only and maximum-change statistic values.
 - Debounced search-state persistence and made settings-file writes synchronized and cleanup-safe.
-- Centralized the displayed application version and increased the RSAM build version to **1.0.11**.
+- Centralized the displayed application version and increased the RSSAM build version to **1.0.11**.
 
 ## 1.0.10 - 2026-09-02
 
@@ -223,7 +223,7 @@
 - Completed German and English localization for all new settings, commands and the full in-app changelog.
 - Rebuilt the in-app Changelog page to show the complete release history from `1.0.0` through `1.0.10`.
 - Kept the global floating InfoBar and ShellPage architecture introduced in `1.0.9`.
-- Increased the RSAM build version to **1.0.10**.
+- Increased the RSSAM build version to **1.0.10**.
 
 ## 1.0.9 - 2026-09-02
 
@@ -237,7 +237,7 @@
 - Settings and changelog are now real pages hosted by the shell `ContentFrame`; game picker/detail remain together in a cached `ManagerPage`.
 - Kept all Markdown documentation in the repository root.
 - Source-ZIP generation excludes `.git`, `.vs`, `artifacts`, `bin` and `obj` in every directory depth.
-- Increased the RSAM build version to **1.0.9**.
+- Increased the RSSAM build version to **1.0.9**.
 
 ## 1.0.8 - 2026-09-02
 
@@ -247,43 +247,43 @@
 - Removed the empty band between toolbar and NavigationView/content by disabling the unused NavigationView header area with `AlwaysShowHeader=False`.
 - Kept the reference shell geometry at **40 px TitleBar / 64 px toolbar / flexible content / 32 px statusbar**.
 - Consolidated all Markdown documentation into the repository root. Project-folder README files were merged into `PROJECTS.md`.
-- Increased the RSAM build version to **1.0.8**.
+- Increased the RSSAM build version to **1.0.8**.
 
 ## 1.0.7 - 2026-09-02
 
 - Fixed the incompatible `src` solution folder by using Visual Studio's correct Solution Folder project type GUID.
-- Added a central localization service to `RSAM.Core`.
+- Added a central localization service to `RSSAM.Core`.
 - Added German (`de-DE`) and English (`en-US`) UI resources.
 - Added a language selector to Settings with immediate runtime switching.
-- Persisted the selected language in `%LOCALAPPDATA%\RSAM\settings.json`.
+- Persisted the selected language in `%LOCALAPPDATA%\RSSAM\settings.json`.
 - Localized navigation, global search placeholders, CommandBar labels, settings, status messages, dialogs and core error/progress messages.
-- Achievement/statistic schema localization now prefers Steam `german` or `english` according to the selected RSAM language.
+- Achievement/statistic schema localization now prefers Steam `german` or `english` according to the selected RSSAM language.
 - Increased the build version to `1.0.7`.
 
 ## 1.0.6 - 2026-09-02
 
-- Restructured the solution into `src/RSAM.App`, `src/RSAM.Core` and `src/RSAM.API`.
-- Moved domain models, settings persistence, global-search contracts and Steam/game services into `RSAM.Core`.
+- Restructured the solution into `src/RSSAM.App`, `src/RSSAM.Core` and `src/RSSAM.API`.
+- Moved domain models, settings persistence, global-search contracts and Steam/game services into `RSSAM.Core`.
 - Reorganized the native Steam bridge into `Callbacks`, `Client`, `Common`, `Interfaces`, `Native`, `Types` and `Wrappers`.
-- Added shared shell resource dictionaries under `RSAM.App/Resources/Styles`.
+- Added shared shell resource dictionaries under `RSSAM.App/Resources/Styles`.
 - Unified TitleBar, global toolbar, NavigationView and status bar backgrounds so Mica/Acrylic flow through the shell without visible separator bands.
 - Aligned the custom TitleBar buttons with the reference shell: compact 28 px controls, transparent background, no explicit border and 6 px corner radius.
 - Standardized the shell geometry to a 40 px TitleBar, 64 px toolbar and 32 px status bar.
 - Updated publish/build paths for the new source layout.
-- Increased the RSAM build version to **1.0.6**.
+- Increased the RSSAM build version to **1.0.6**.
 
 ## 1.0.5 - 2026-09-02
 
-- Made the RSAM shell responsive across wide, compact and narrow window sizes.
-- The full `Riggi's Steam Achievement Manager` product name in the TitleBar is hidden automatically on smaller widths while `RSAM` remains visible.
+- Made the RSSAM shell responsive across wide, compact and narrow window sizes.
+- The full `Riggi's Steam Achievement Manager` product name in the TitleBar is hidden automatically on smaller widths while `RSSAM` remains visible.
 - The universal TitleBar search keeps the same maximum width and shrinks fluidly when less space is available.
 - CommandBar labels collapse automatically on compact windows while dynamic overflow remains enabled.
 - Navigation is forced into compact mode on narrow windows so the content area remains usable.
 - `SettingsRow` now switches to a two-row layout on narrow widths so descriptions and controls no longer fight for horizontal space.
-- Removed the separate **About RSAM** item from the main navigation.
-- Moved the complete RSAM information, original-author attribution and zlib license information into **Settings**.
+- Removed the separate **About RSSAM** item from the main navigation.
+- Moved the complete RSSAM information, original-author attribution and zlib license information into **Settings**.
 - Improved responsive margins for the games page, game details, changelog and settings.
-- Increased the RSAM build version to **1.0.5**.
+- Increased the RSSAM build version to **1.0.5**.
 
 ## 1.0.4 - 2026-09-02
 
@@ -291,12 +291,12 @@
 - Replaced page-specific search boxes with one fixed-width **universal TitleBar search**.
 - Added a modular `IGlobalSearchProvider`/`DelegateSearchProvider` system so future pages can register their own search behavior.
 - Global search now filters **games**, **achievements** and **statistics** depending on the active context.
-- Refined the TitleBar back/hamburger controls to a compact WinUI-style appearance and order: Back, Menu, RSAM.
+- Refined the TitleBar back/hamburger controls to a compact WinUI-style appearance and order: Back, Menu, RSSAM.
 - Reworked Settings to follow the supplied SettingsPage layout: centered responsive content, section headers and reusable SettingsRow cards.
 - Added **Mica / Acrylic / Standard** window backdrop settings.
 - Added **Show status bar** as a persisted JSON setting.
 - Updated settings schema to version 2.
-- Increased the RSAM build version to **1.0.4**.
+- Increased the RSSAM build version to **1.0.4**.
 
 ## 1.0.3 - 2026-09-02
 
@@ -312,7 +312,7 @@
 
 - Added a **Settings** entry at the bottom of the WinUI 3 `NavigationView`.
 - Added a **Changelog** entry directly above Settings.
-- Added JSON settings persistence at `%LOCALAPPDATA%\\RSAM\\settings.json`.
+- Added JSON settings persistence at `%LOCALAPPDATA%\\RSSAM\\settings.json`.
 - Added **System**, **Light** and **Dark** appearance modes.
 - Added **Compact** and **Expanded** navigation modes.
 - Added startup, confirmation, success-message and default statistics-editing preferences.
@@ -327,7 +327,7 @@
 
 ## 1.0.0 - 2026-09-02
 
-- Initial **RSAM - Riggi's Steam Achievement Manager** release.
+- Initial **RSSAM - Riggi's Steam Achievement Manager** release.
 - WinUI 3 / .NET 10 frontend.
 - Combined game picker and per-game achievement/statistics manager into one application.
 - Preserved the original Rick (Gibbed) zlib license and attribution.

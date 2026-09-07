@@ -1,4 +1,4 @@
-<!-- RSAM project code.
+<!-- RSSAM project code.
      Copyright (c) 2026 Daniel Riggi (riggi89).
      Attribution for modified SAM sources: LICENSE.md and NOTICE.md. -->
 
@@ -8,14 +8,14 @@
     <AssemblyVersion>1.0.30</AssemblyVersion>
     <FileVersion>1.0.30</FileVersion>
     <Platforms>x86;x64</Platforms>
-    <RSAMArchitecture Condition="'$(Platform)' == 'x86'">x86</RSAMArchitecture>
-    <RSAMArchitecture Condition="'$(Platform)' == 'x64'">x64</RSAMArchitecture>
-    <RSAMArchitecture Condition="'$(RSAMArchitecture)' == '' And '$(RuntimeIdentifier)' == 'win-x86'">x86</RSAMArchitecture>
-    <RSAMArchitecture Condition="'$(RSAMArchitecture)' == '' And '$(RuntimeIdentifier)' == 'win-x64'">x64</RSAMArchitecture>
-    <RSAMArchitecture Condition="'$(RSAMArchitecture)' == ''">x64</RSAMArchitecture>
-    <PlatformTarget>$(RSAMArchitecture)</PlatformTarget>
-    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == '' And '$(BuildingForUnitTests)' != 'true' And '$(MSBuildProjectName)' != 'RSAM.UnitTests'">win-$(RSAMArchitecture)</RuntimeIdentifier>
-    <DefineConstants Condition="'$(RSAMArchitecture)' == 'x64'">$(DefineConstants);RSAM_X64</DefineConstants>
+    <RSSAMArchitecture Condition="'$(Platform)' == 'x86'">x86</RSSAMArchitecture>
+    <RSSAMArchitecture Condition="'$(Platform)' == 'x64'">x64</RSSAMArchitecture>
+    <RSSAMArchitecture Condition="'$(RSSAMArchitecture)' == '' And '$(RuntimeIdentifier)' == 'win-x86'">x86</RSSAMArchitecture>
+    <RSSAMArchitecture Condition="'$(RSSAMArchitecture)' == '' And '$(RuntimeIdentifier)' == 'win-x64'">x64</RSSAMArchitecture>
+    <RSSAMArchitecture Condition="'$(RSSAMArchitecture)' == ''">x64</RSSAMArchitecture>
+    <PlatformTarget>$(RSSAMArchitecture)</PlatformTarget>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == '' And '$(BuildingForUnitTests)' != 'true' And '$(MSBuildProjectName)' != 'RSSAM.UnitTests'">win-$(RSSAMArchitecture)</RuntimeIdentifier>
+    <DefineConstants Condition="'$(RSSAMArchitecture)' == 'x64'">$(DefineConstants);RSSAM_X64</DefineConstants>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 </Project>

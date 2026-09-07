@@ -1,4 +1,4 @@
-# RSAM original build script.
+# RSSAM original build script.
 # Copyright (c) 2026 Daniel Riggi (riggi89).
 # Distributed under the project license; see LICENSE.md and NOTICE.md.
 
@@ -26,7 +26,7 @@ function Ensure-WinUiResourceIndex {
     # Some Windows App SDK/MSBuild combinations leave the project PRI in the
     # architecture-specific build folder or name it after the assembly instead
     # of copying it to publish as resources.pri.
-    $appProjectDirectory = Join-Path $root 'src\RSAM.App'
+    $appProjectDirectory = Join-Path $root 'src\RSSAM.App'
     $architecturePattern = "[\\/]($([regex]::Escape($TargetArchitecture))|$([regex]::Escape($RuntimeIdentifier)))[\\/]"
     $resourceIndex = Get-ChildItem `
         -LiteralPath $appProjectDirectory `
@@ -36,7 +36,7 @@ function Ensure-WinUiResourceIndex {
         -ErrorAction SilentlyContinue |
     Where-Object {
         $_.FullName -notlike "$OutputDirectory*" -and
-        $_.Name -in @('resources.pri', 'RSAM.pri') -and
+        $_.Name -in @('resources.pri', 'RSSAM.pri') -and
         $_.FullName -match $architecturePattern -and
         $_.FullName -match "[\\/]$([regex]::Escape($Configuration))[\\/]"
     } |
@@ -60,10 +60,10 @@ function Assert-PublishPayload {
     )
 
     $requiredFiles = @(
-        'RSAM.exe',
-        'RSAM.dll',
-        'RSAM.Core.dll',
-        'RSAM.API.dll',
+        'RSSAM.exe',
+        'RSSAM.dll',
+        'RSSAM.Core.dll',
+        'RSSAM.API.dll',
         'WinUI.TableView.dll',
         'Microsoft.UI.Xaml.dll',
         'Microsoft.WindowsAppRuntime.dll',
@@ -97,7 +97,7 @@ foreach ($targetArchitecture in $targetArchitectures) {
     }
 
     dotnet publish `
-        "$root\src\RSAM.App\RSAM.App.csproj" `
+        "$root\src\RSSAM.App\RSSAM.App.csproj" `
         -c $Configuration `
         -p:Platform=$targetArchitecture `
         -r $runtimeIdentifier `

@@ -1,4 +1,4 @@
-# RSAM original build script.
+# RSSAM original build script.
 # Copyright (c) 2026 Daniel Riggi (riggi89).
 # Distributed under the project license; see LICENSE.md and NOTICE.md.
 
@@ -51,7 +51,7 @@ New-Item `
     -Path $OutputDirectory |
     Out-Null
 
-$zip = Join-Path $OutputDirectory "RSAM_$version-Source.zip"
+$zip = Join-Path $OutputDirectory "RSSAM_$version-Source.zip"
 
 if (Test-Path -LiteralPath $zip) {
     Remove-Item -LiteralPath $zip -Force
@@ -59,7 +59,7 @@ if (Test-Path -LiteralPath $zip) {
 
 $temp = Join-Path `
     ([System.IO.Path]::GetTempPath()) `
-    ("rsam-src-" + [Guid]::NewGuid().ToString('N'))
+    ("RSSAM-src-" + [Guid]::NewGuid().ToString('N'))
 
 New-Item `
     -ItemType Directory `
@@ -79,6 +79,7 @@ $excludeDirs = @(
     'bin',
     'obj',
     'artifacts'
+    '*.png'
 )
 
 function Test-IsExcludedPath {
@@ -110,7 +111,7 @@ function Test-IsExcludedPath {
 try {
 
     Write-Host ""
-    Write-Host "RSAM Source ZIP"
+    Write-Host "RSSAM Source ZIP"
     Write-Host "---------------"
     Write-Host "Version : $version"
     Write-Host "Quelle  : $root"

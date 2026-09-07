@@ -1,4 +1,4 @@
-# RSAM installer build script.
+# RSSAM installer build script.
 # Copyright (c) 2026 Daniel Riggi (riggi89).
 # Distributed under the project license; see LICENSE.md and NOTICE.md.
 
@@ -20,7 +20,7 @@ $ErrorActionPreference = 'Stop'
 
 $root = Split-Path -Parent $PSScriptRoot
 $propsPath = Join-Path $root 'Directory.Build.props'
-$installerScript = Join-Path $root 'installer\RSAM.iss'
+$installerScript = Join-Path $root 'installer\RSSAM.iss'
 $installerOutput = Join-Path $root 'artifacts\installer'
 $installerLicense = Join-Path $installerOutput 'LICENSE.txt'
 
@@ -49,10 +49,10 @@ if (-not $SkipPublish) {
 }
 
 $requiredFiles = @(
-    'RSAM.exe',
-    'RSAM.dll',
-    'RSAM.Core.dll',
-    'RSAM.API.dll',
+    'RSSAM.exe',
+    'RSSAM.dll',
+    'RSSAM.Core.dll',
+    'RSSAM.API.dll',
     'WinUI.TableView.dll',
     'Microsoft.UI.Xaml.dll',
     'Microsoft.WindowsAppRuntime.dll',
@@ -145,20 +145,20 @@ if (
     )
 }
 
-$previousVersion = $env:RSAM_VERSION
-$previousSourceRoot = $env:RSAM_SOURCE_ROOT
-$previousLicense = $env:RSAM_INSTALLER_LICENSE
-$previousArchitecture = $env:RSAM_ARCHITECTURE
+$previousVersion = $env:RSSAM_VERSION
+$previousSourceRoot = $env:RSSAM_SOURCE_ROOT
+$previousLicense = $env:RSSAM_INSTALLER_LICENSE
+$previousArchitecture = $env:RSSAM_ARCHITECTURE
 
 $createdInstallers = @()
 
 try {
-    $env:RSAM_VERSION = $version
-    $env:RSAM_SOURCE_ROOT = $root
-    $env:RSAM_INSTALLER_LICENSE = $installerLicense
+    $env:RSSAM_VERSION = $version
+    $env:RSSAM_SOURCE_ROOT = $root
+    $env:RSSAM_INSTALLER_LICENSE = $installerLicense
 
     foreach ($targetArchitecture in $targetArchitectures) {
-        $env:RSAM_ARCHITECTURE = $targetArchitecture
+        $env:RSSAM_ARCHITECTURE = $targetArchitecture
 
         Write-Host "Building $targetArchitecture installer..."
 
@@ -173,7 +173,7 @@ try {
 
         $setupPath = Join-Path `
             $installerOutput `
-            "RSAM_$version-win-$targetArchitecture-Setup.exe"
+            "RSSAM_$version-win-$targetArchitecture-Setup.exe"
 
         if (-not (Test-Path -LiteralPath $setupPath)) {
             throw (
@@ -186,14 +186,14 @@ try {
     }
 }
 finally {
-    $env:RSAM_VERSION = $previousVersion
-    $env:RSAM_SOURCE_ROOT = $previousSourceRoot
-    $env:RSAM_INSTALLER_LICENSE = $previousLicense
-    $env:RSAM_ARCHITECTURE = $previousArchitecture
+    $env:RSSAM_VERSION = $previousVersion
+    $env:RSSAM_SOURCE_ROOT = $previousSourceRoot
+    $env:RSSAM_INSTALLER_LICENSE = $previousLicense
+    $env:RSSAM_ARCHITECTURE = $previousArchitecture
 }
 
 Write-Host ''
-Write-Host 'Unsigned RSAM installers created:'
+Write-Host 'Unsigned RSSAM installers created:'
 
 foreach ($createdInstaller in $createdInstallers) {
     Write-Host "  $createdInstaller"
