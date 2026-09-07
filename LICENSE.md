@@ -1,10 +1,31 @@
-Fork: Copyright (c) 2026 Daniel Riggi (riggi89)
-Original: Copyright (c) 2024 Rick (rick 'at' gibbed 'dot' us)
+# License
 
-MODIFICATION NOTICE:
-This distribution contains a modified version of the original software
-created by Rick. The modifications made in 2026 are Copyright (c) 2026
-Daniel Riggi and are not part of the original software.
+**Modifications:** Copyright (c) 2026 Daniel Riggi (riggi89)  
+**Original software:** Copyright (c) 2024 Rick (rick 'at' gibbed 'dot' us)
+
+## Modification Notice
+
+This distribution contains a modified version of the original
+**Steam Achievement Manager** software created by Rick.
+
+The modifications, extensions, modernization work, user-interface changes,
+build and release infrastructure, documentation, and other additions made
+for **RSSAM – Riggi's Steam Achievement Manager** in 2026 are
+Copyright (c) 2026 Daniel Riggi (riggi89).
+
+These modifications are not part of the original software and must not be
+represented as being part of, or created by, the original author.
+
+Development of the RSSAM modifications has been carried out with the
+assistance of AI-based development tools. AI assistance has been used for
+tasks including code analysis, debugging, refactoring, documentation,
+build and release tooling, and development support.
+
+The use of AI-assisted development tools does not change the attribution
+of the original software and does not imply authorship, ownership, or
+endorsement by any AI provider.
+
+## zlib License
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors or copyright holders be held
@@ -25,12 +46,15 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source
    distribution.
 
+---
 
-Third-Party Notice
-==================
+# Third-Party Notices
 
-zlib
-----
+This project contains or may depend on software developed by third
+parties. Such software remains subject to its respective copyright
+notices and license terms.
+
+## zlib
 
 Copyright (C) 1995-2026 Jean-loup Gailly and Mark Adler
 
@@ -53,5 +77,38 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source
    distribution.
 
-Jean-loup Gailly        Mark Adler
-jloup@gzip.org          madler@alumni.caltech.edu
+Jean-loup Gailly  
+jloup@gzip.org
+
+Mark Adler  
+madler@alumni.caltech.edu
+
+---
+
+## Original Project
+
+RSSAM is based on the original **Steam Achievement Manager** project.
+
+Original software:
+
+Copyright (c) 2024 Rick (rick 'at' gibbed 'dot' us)
+
+Original project:
+
+https://github.com/gibbed/SteamAchievementManager
+
+RSSAM is a modified and independently maintained fork and must not be
+represented as the original Steam Achievement Manager.
+
+## RSSAM
+
+Modifications and additions:
+
+Copyright (c) 2026 Daniel Riggi (riggi89)
+
+Project:
+
+https://github.com/riggi89/RSSAM
+
+RSSAM is an independent project and is not affiliated with or endorsed
+by Valve Corporation.
