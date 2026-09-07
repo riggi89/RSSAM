@@ -1,10 +1,14 @@
 # RSSAM Changelog
 
+## 1.0.31 - 2026-09-07
+
+- Rename project to RSSAM
+
 ## 1.0.30 - 2026-09-04
 
 - Added README badges for the GitHub Actions build/test status, the verified 21-test suite, Windows x86/x64 support, .NET 10, WinUI 3, the current release version and the zlib license.
 - Linked the live build badge directly to the RSSAM GitHub Actions release workflow.
-- Increased the RSSAM build version to **1.0.30**.
+- Increased the RSSAM build version to **1.0.31**.
 
 ## 1.0.29 - 2026-09-04
 

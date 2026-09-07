@@ -10,12 +10,12 @@
   <img alt="Windows x64 supported" src="https://img.shields.io/badge/Windows-x64-0078D4?logo=windows11&amp;logoColor=white">
   <img alt=".NET 10" src="https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet&amp;logoColor=white">
   <img alt="WinUI 3" src="https://img.shields.io/badge/UI-WinUI_3-0078D4">
-  <img alt="Version 1.0.30" src="https://img.shields.io/badge/version-1.0.30-blue">
+  <img alt="Version 1.0.31" src="https://img.shields.io/badge/version-1.0.31-blue">
 </p>
 
 RSSAM (Riggi's Steam Achievement Manager) is an unpackaged WinUI 3 desktop application for viewing and managing Steam achievements and statistics on Windows.
 
-Current version: **1.0.30**  
+Current version: **1.0.31**  
 Supported architectures: **x86 and x64**
 
 > [!CAUTION]
@@ -55,7 +55,7 @@ Supported architectures: **x86 and x64**
 
 ## Screenshots
 
-The screenshots below show the application layouts included in version 1.0.30. The footer visible in these images was captured from the preceding 1.0.21 build; later versions retain the same main interface while improving documentation, publishing reliability, branding and Steam interoperability.
+The screenshots below show the application layouts included in version 1.0.31. The footer visible in these images was captured from the preceding 1.0.21 build; later versions retain the same main interface while improving documentation, publishing reliability, branding and Steam interoperability.
 
 ### Tile view
 
@@ -107,8 +107,8 @@ Download the installer that matches the Windows architecture. The published appl
 ## Installation
 
 1. Download the installer that matches the Windows architecture:
-   - `RSSAM_1.0.30-win-x64-Setup.exe` for 64-bit Windows;
-   - `RSSAM_1.0.30-win-x86-Setup.exe` for 32-bit Windows.
+   - `RSSAM_1.0.31-win-x64-Setup.exe` for 64-bit Windows;
+   - `RSSAM_1.0.31-win-x86-Setup.exe` for 32-bit Windows.
 2. Run the installer and review the license page.
 3. Optionally enable the desktop shortcut.
 4. Start Steam and sign in.
@@ -302,7 +302,7 @@ Or use the repository wrapper:
 ### `set-version.ps1`
 
 ```powershell
-.\scripts\set-version.ps1 -Version 1.0.30
+.\scripts\set-version.ps1 -Version 1.0.31
 ```
 
 The version must contain exactly three numeric components. The script validates every expected location before it writes anything, then updates:
@@ -387,8 +387,8 @@ For the standard per-user installation requested for this project, pass the path
 The default build creates two intentionally unsigned installers:
 
 ```text
-artifacts\installer\RSSAM_1.0.30-win-x86-Setup.exe
-artifacts\installer\RSSAM_1.0.30-win-x64-Setup.exe
+artifacts\installer\RSSAM_1.0.31-win-x86-Setup.exe
+artifacts\installer\RSSAM_1.0.31-win-x64-Setup.exe
 ```
 
 Each installer contains only its matching self-contained publish output. Both installers use the same multi-resolution icon embedded in `RSSAM.exe`. During the build, `LICENSE.md` is copied to the ignored temporary file `artifacts\installer\LICENSE.txt` because Inno Setup's license page accepts TXT/RTF. The root `LICENSE.md` remains the sole source license file.
@@ -400,12 +400,12 @@ Each installer contains only its matching self-contained publish output. Both in
 .\scripts\build-source-zip.ps1 -OutputDirectory C:\Release\RSSAM
 ```
 
-The default result is `artifacts\source\RSSAM_1.0.30-Source.zip`. The archive recursively excludes `.git`, `.vs`, `bin`, `obj`, and `artifacts` directories at every depth.
+The default result is `artifacts\source\RSSAM_1.0.31-Source.zip`. The archive recursively excludes `.git`, `.vs`, `bin`, `obj`, and `artifacts` directories at every depth.
 
 ### Recommended release sequence
 
 ```powershell
-.\scripts\set-version.ps1 -Version 1.0.30
+.\scripts\set-version.ps1 -Version 1.0.31
 .\scripts\test.ps1 -Configuration Release
 .\scripts\build.ps1 -Configuration Release -Architecture All
 .\scripts\build-installer.ps1 -Configuration Release
@@ -428,14 +428,14 @@ Between versioning and building, update the English `CHANGELOG.md` entry and thi
 `workflow_dispatch` performs the build and artifact upload without creating a tagged release. A release tag for this version can be created with:
 
 ```powershell
-git tag v1.0.30
-git push origin v1.0.30
+git tag v1.0.31
+git push origin v1.0.31
 ```
 
 ## Versioning
 
 - Source, displayed, setup, and release versions use `1.x.x`.
-- The Windows application manifest requires four components, so `1.0.30` is stored there as `1.0.30.0`.
+- The Windows application manifest requires four components, so `1.0.31` is stored there as `1.0.31.0`.
 - Release notes belong only in the English [CHANGELOG.md](CHANGELOG.md).
 - Localization files contain interface strings only and must never contain changelog entries.
 

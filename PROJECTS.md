@@ -49,7 +49,7 @@ See `LICENSE.md` and `NOTICE.md` in the repository root for attribution and lice
 
 `RSSAM.App/Presentation/Views` contains the central `ShellPage` and cached content pages. `RSSAM.App/Presentation/Shell` contains the contracts/models used by pages to contribute toolbar actions, search context, back navigation and status text. `RSSAM.App/Presentation/ViewModels` remains reserved for future WinUI-specific view models; domain models stay in `RSSAM.Core/Models`.
 
-## RSSAM 1.0.30 state/localization and test notes
+## RSSAM 1.0.31 state/localization and test notes
 
 - `RSSAM.Core` owns the full `AppSettings` schema and German/English localization dictionaries.
 - `RSSAM.App` restores and persists window placement, shell state and global-search context state. Page and selected-game detail state are not restored.

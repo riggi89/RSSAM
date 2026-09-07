@@ -4,7 +4,7 @@
      Attribution for modified SAM sources: LICENSE.md and NOTICE.md. -->
 <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
   <!-- Windows application manifests require four numeric components. -->
-  <assemblyIdentity version="1.0.30.0" name="RSSAM.app"/>
+  <assemblyIdentity version="1.0.31.0" name="RSSAM.app"/>
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
     <security>
       <requestedPrivileges>

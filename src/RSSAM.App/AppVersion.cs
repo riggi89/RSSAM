@@ -6,7 +6,7 @@ namespace RSSAM;
 
 internal static class AppVersion
 {
-    public const string Fallback = "1.0.30";
+    public const string Fallback = "1.0.31";
 
     public static string Display
     {
