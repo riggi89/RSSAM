@@ -2,7 +2,11 @@
 
 ## 1.0.31 - 2026-09-07
 
-- Rename project to RSSAM
+- Renamed the project from RSAM to RSSAM.
+- Fixed `dotnet publish` failing with MSB3094 when the repository path contains an apostrophe (for example `Riggi's Software`) by publishing to a safe temporary staging directory before copying the validated payload to `artifacts\publish`.
+- Isolated every publish run in fresh temporary `bin`/`obj` directories so Visual Studio/Roslyn file locks and stale files from the former RSAM project name cannot interfere with RSSAM release builds.
+- Added `scripts/build-portable.ps1` to create self-contained x86 and x64 portable ZIP archives without an installer.
+- Added the portable archives to the GitHub Actions release artifacts and tagged GitHub releases.
 
 ## 1.0.30 - 2026-09-04
 

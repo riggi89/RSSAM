@@ -38,6 +38,10 @@ jobs:
         shell: pwsh
         run: ./scripts/build-installer.ps1 -Configuration Release
 
+      - name: Build portable archives
+        shell: pwsh
+        run: ./scripts/build-portable.ps1 -Configuration Release -SkipPublish
+
       - name: Build source archive
         shell: pwsh
         run: ./scripts/build-source-zip.ps1
@@ -48,6 +52,7 @@ jobs:
           name: RSSAM-Windows-${{ github.ref_name }}
           path: |
             artifacts/installer/*.exe
+            artifacts/portable/*.zip
             artifacts/source/*.zip
 
       - name: Publish tagged GitHub release
@@ -60,4 +65,4 @@ jobs:
           if ($LASTEXITCODE -ne 0) {
             gh release create "${{ github.ref_name }}" --title "RSSAM ${{ github.ref_name }}" --generate-notes
           }
-          gh release upload "${{ github.ref_name }}" artifacts/installer/*.exe artifacts/source/*.zip --clobber
+          gh release upload "${{ github.ref_name }}" artifacts/installer/*.exe artifacts/portable/*.zip artifacts/source/*.zip --clobber

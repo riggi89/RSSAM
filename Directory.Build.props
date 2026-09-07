@@ -8,6 +8,17 @@
     <AssemblyVersion>1.0.31</AssemblyVersion>
     <FileVersion>1.0.31</FileVersion>
     <Platforms>x86;x64</Platforms>
+
+    <!--
+      publish.ps1 can redirect every project's bin/obj state to an isolated
+      temporary build root. This prevents Visual Studio, Roslyn build servers
+      or a previous x86/x64 build from locking files inside src\*\obj.
+      Normal Visual Studio builds are unchanged because RSSAMBuildRoot is only
+      supplied by the publish script.
+    -->
+    <BaseIntermediateOutputPath Condition="'$(RSSAMBuildRoot)' != ''">$(RSSAMBuildRoot)\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <BaseOutputPath Condition="'$(RSSAMBuildRoot)' != ''">$(RSSAMBuildRoot)\bin\$(MSBuildProjectName)\</BaseOutputPath>
+
     <RSSAMArchitecture Condition="'$(Platform)' == 'x86'">x86</RSSAMArchitecture>
     <RSSAMArchitecture Condition="'$(Platform)' == 'x64'">x64</RSSAMArchitecture>
     <RSSAMArchitecture Condition="'$(RSSAMArchitecture)' == '' And '$(RuntimeIdentifier)' == 'win-x86'">x86</RSSAMArchitecture>

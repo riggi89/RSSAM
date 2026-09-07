@@ -102,7 +102,7 @@ Settings are applied immediately and restored from the local JSON settings file 
 - Steam installed, running, and signed in to the intended account.
 - Internet access for Steam catalog metadata and header images.
 
-Download the installer that matches the Windows architecture. The published application is self-contained, so users do not need to install the .NET runtime or Windows App SDK runtime separately.
+Download either the installer or the portable ZIP that matches the Windows architecture. Both distributions are self-contained, so users do not need to install the .NET runtime or Windows App SDK runtime separately.
 
 ## Installation
 
@@ -114,7 +114,7 @@ Download the installer that matches the Windows architecture. The published appl
 4. Start Steam and sign in.
 5. Start RSSAM from the Start menu or desktop shortcut.
 
-Most users should download the x64 installer. Use the x86 installer only on a 32-bit Windows installation.
+Most users should download the x64 installer. Use the x86 installer only on a 32-bit Windows installation. A portable ZIP is also available when RSSAM should run without installation; extract the complete `RSSAM` folder and start `RSSAM.exe` from that folder.
 
 RSSAM uses unsigned Inno Setup installers. Windows SmartScreen may therefore show **Unknown publisher**. Verify that the installer came from the expected GitHub release before choosing **More info** and **Run anyway**.
 
@@ -295,7 +295,8 @@ Or use the repository wrapper:
 | `set-version.ps1` | `-Version <x.y.z>` (required) | Synchronizes source, assembly, file, displayed fallback, and Windows manifest versions. |
 | `build.ps1` | `-Configuration Debug\|Release`; `-Architecture x86\|x64\|All` | Restores and builds the selected architecture; defaults to Release and both architectures. |
 | `test.ps1` | `-Configuration`; `-CollectCoverage` | Runs `RSSAM.UnitTests` once in the x64 test host and optionally creates XPlat coverage data. |
-| `publish.ps1` | `-Configuration Debug\|Release`; `-Architecture x86\|x64\|All` | Creates and validates self-contained folders under `artifacts\publish`. |
+| `publish.ps1` | `-Configuration Debug\|Release`; `-Architecture x86\|x64\|All`; `-SkipClean` | Creates and validates self-contained folders under `artifacts\publish`. |
+| `build-portable.ps1` | `-Configuration`; `-Architecture x86\|x64\|All`; `-SkipPublish` | Builds portable self-contained ZIP archives under `artifacts\portable`. |
 | `build-installer.ps1` | `-Configuration`; `-Architecture x86\|x64\|All`; `-SkipPublish`; `-InnoCompiler` | Builds separate `win-x86` and/or `win-x64` setup files under `artifacts\installer`. |
 | `build-source-zip.ps1` | `-OutputDirectory` | Builds `artifacts\source\RSSAM_<version>-Source.zip`. |
 
@@ -347,6 +348,25 @@ artifacts\publish\win-x64
 ```
 
 Publishing is self-contained, unpackaged, untrimmed, and not bundled into a single executable. This is intentional: WinUI and Windows App SDK resources must remain beside `RSSAM.exe`. The application project explicitly generates `resources.pri` and copies it to the publish directory. The script also recovers a misplaced `resources.pri` or `RSSAM.pri` from architecture-specific build output when necessary, then validates the application DLLs, WinUI/TableView runtime, Windows App Runtime, resource index, and .NET host/runtime files.
+
+Publishing uses a fresh isolated temporary `bin`/`obj` root for every architecture and attempt. The normal project `src\*\bin` and `src\*\obj` folders are not used by `publish.ps1`, which prevents collisions with Visual Studio, Roslyn/MSBuild build servers, previous x86/x64 builds, and stale files from the former RSAM project name. The final publish payload is copied to `artifacts\publish` only after validation. This also avoids the earlier MSBuild publish problem with the repository path `Riggi's Software`.
+
+### `build-portable.ps1`
+
+```powershell
+.\scripts\build-portable.ps1 -Configuration Release
+.\scripts\build-portable.ps1 -Configuration Release -Architecture x64
+.\scripts\build-portable.ps1 -Configuration Release -Architecture x86
+```
+
+By default the script publishes first and then creates:
+
+```text
+artifacts\portable\RSSAM_1.0.31-win-x86-Portable.zip
+artifacts\portable\RSSAM_1.0.31-win-x64-Portable.zip
+```
+
+Each ZIP contains a complete self-contained `RSSAM` folder. Extract that folder and run `RSSAM.exe`; no installer is required. Use `-SkipPublish` only when valid publish output already exists for every selected architecture. This is a portable multi-file deployment rather than a single-file executable because WinUI 3, Windows App SDK files and `resources.pri` must remain beside the application.
 
 ### `build-installer.ps1`
 
@@ -409,6 +429,7 @@ The default result is `artifacts\source\RSSAM_1.0.31-Source.zip`. The archive re
 .\scripts\test.ps1 -Configuration Release
 .\scripts\build.ps1 -Configuration Release -Architecture All
 .\scripts\build-installer.ps1 -Configuration Release
+.\scripts\build-portable.ps1 -Configuration Release -SkipPublish
 .\scripts\build-source-zip.ps1
 ```
 
@@ -421,8 +442,8 @@ Between versioning and building, update the English `CHANGELOG.md` entry and thi
 1. installs the .NET 10 SDK and Inno Setup 6;
 2. runs the x64 unit tests and collects code coverage;
 3. publishes x86 and x64 payloads;
-4. builds the separate unsigned x86 and x64 installers and the source ZIP;
-5. uploads all three files as workflow artifacts;
+4. builds the separate unsigned x86 and x64 installers, x86/x64 portable ZIPs, and the source ZIP;
+5. uploads all five release files as workflow artifacts;
 6. creates or updates a GitHub release when the workflow was triggered by a `v*` tag.
 
 `workflow_dispatch` performs the build and artifact upload without creating a tagged release. A release tag for this version can be created with:
