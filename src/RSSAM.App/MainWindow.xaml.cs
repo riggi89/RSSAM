@@ -2,6 +2,7 @@
 // Copyright (c) 2026 Daniel Riggi (riggi89).
 // Distributed under the project license; see LICENSE.md and NOTICE.md.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -13,7 +14,6 @@ namespace RSSAM;
 
 public sealed partial class MainWindow : Window
 {
-    private readonly DispatcherTimer _searchSettingsSaveTimer;
     private string? _activeSearchContext;
     private bool _initialized;
     private bool _restoringWindowPlacement;
@@ -22,14 +22,9 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
 
-        _searchSettingsSaveTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromMilliseconds(500)
-        };
-        _searchSettingsSaveTimer.Tick += SearchSettingsSaveTimer_Tick;
-
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
+        AppTitleBar.Loaded += AppTitleBar_Loaded;
         ApplySystemTitleBarChrome();
 
         ShellPageHost.SearchStateChanged += ShellPageHost_SearchStateChanged;
@@ -156,12 +151,6 @@ public sealed partial class MainWindow : Window
             nextContext,
             StringComparison.OrdinalIgnoreCase);
 
-        if (contextChanged && !string.IsNullOrWhiteSpace(_activeSearchContext))
-        {
-            App.RuntimeSettings.SearchQueries[_activeSearchContext] = UniversalSearchBox.Text ?? string.Empty;
-            ScheduleSearchSettingsSave();
-        }
-
         _activeSearchContext = nextContext;
         UniversalSearchBox.Visibility = ShellPageHost.IsSearchAvailable
             ? Visibility.Visible
@@ -170,13 +159,11 @@ public sealed partial class MainWindow : Window
 
         if (contextChanged)
         {
-            var restored = string.Empty;
-            if (!string.IsNullOrWhiteSpace(nextContext))
-                App.RuntimeSettings.SearchQueries.TryGetValue(nextContext, out restored);
-
-            if (!string.Equals(UniversalSearchBox.Text, restored, StringComparison.Ordinal))
-                UniversalSearchBox.Text = restored ?? string.Empty;
+            UniversalSearchBox.Text = string.Empty;
+            ShellPageHost.ApplySearch(string.Empty);
         }
+
+        DispatcherQueue.TryEnqueue(UpdateTitleBarPassthroughRegion);
     }
 
     private void UpdateTitleBarState()
@@ -194,12 +181,6 @@ public sealed partial class MainWindow : Window
             return;
 
         var value = sender.Text?.Trim() ?? string.Empty;
-        if (!string.IsNullOrWhiteSpace(_activeSearchContext))
-        {
-            App.RuntimeSettings.SearchQueries[_activeSearchContext] = value;
-            ScheduleSearchSettingsSave();
-        }
-
         ShellPageHost.ApplySearch(value);
     }
 
@@ -210,7 +191,64 @@ public sealed partial class MainWindow : Window
         => ShellPageHost.GoBack();
 
     private void RootLayout_SizeChanged(object sender, SizeChangedEventArgs e)
-        => UpdateResponsiveLayout(e.NewSize.Width);
+    {
+        UpdateResponsiveLayout(e.NewSize.Width);
+        UpdateTitleBarPassthroughRegion();
+    }
+
+    private void AppTitleBar_Loaded(object sender, RoutedEventArgs e)
+        => UpdateTitleBarPassthroughRegion();
+
+    private void UpdateTitleBarPassthroughRegion()
+    {
+        try
+        {
+            if (!ExtendsContentIntoTitleBar || AppTitleBar.XamlRoot is null)
+                return;
+
+            var nonClientPointerSource = InputNonClientPointerSource.GetForWindowId(AppWindow.Id);
+            var scale = AppTitleBar.XamlRoot.RasterizationScale;
+
+            var interactiveElements = new FrameworkElement[]
+            {
+                TitleBarBackButton,
+                TitleBarPaneButton,
+                UniversalSearchBox
+            };
+
+            var passthroughRegions = interactiveElements
+                .Where(element =>
+                    element.Visibility == Visibility.Visible &&
+                    element.ActualWidth > 0 &&
+                    element.ActualHeight > 0)
+                .Select(element => CreateScaledRect(element, scale))
+                .ToArray();
+
+            nonClientPointerSource.SetRegionRects(
+                NonClientRegionKind.Passthrough,
+                passthroughRegions);
+        }
+        catch
+        {
+            // Title-bar hit testing must never prevent the window from starting.
+        }
+    }
+
+    private static RectInt32 CreateScaledRect(FrameworkElement element, double scale)
+    {
+        var transform = element.TransformToVisual(null);
+        var bounds = transform.TransformBounds(new Windows.Foundation.Rect(
+            0,
+            0,
+            element.ActualWidth,
+            element.ActualHeight));
+
+        return new RectInt32(
+            (int)Math.Round(bounds.X * scale),
+            (int)Math.Round(bounds.Y * scale),
+            (int)Math.Round(bounds.Width * scale),
+            (int)Math.Round(bounds.Height * scale));
+    }
 
     private void UpdateResponsiveLayout(double width)
     {
@@ -259,25 +297,9 @@ public sealed partial class MainWindow : Window
 
     private void MainWindow_Closed(object sender, WindowEventArgs args)
     {
-        _searchSettingsSaveTimer.Stop();
         DialogService.ResetState();
 
-        if (!string.IsNullOrWhiteSpace(_activeSearchContext))
-            App.RuntimeSettings.SearchQueries[_activeSearchContext] = UniversalSearchBox.Text ?? string.Empty;
-
         SaveWindowPlacement();
-        App.TrySaveSettings(showError: false);
-    }
-
-    private void ScheduleSearchSettingsSave()
-    {
-        _searchSettingsSaveTimer.Stop();
-        _searchSettingsSaveTimer.Start();
-    }
-
-    private void SearchSettingsSaveTimer_Tick(object? sender, object e)
-    {
-        _searchSettingsSaveTimer.Stop();
         App.TrySaveSettings(showError: false);
     }
 }
