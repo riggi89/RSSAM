@@ -23,9 +23,14 @@ public sealed class LocalizationService : ILocalizationService
 
     public string Language { get; private set; } = "de-DE";
 
-    public string SteamLanguage => Language.Equals("de-DE", StringComparison.OrdinalIgnoreCase)
-        ? "german"
-        : "english";
+    public string SteamLanguage => Language switch
+    {
+        "de-DE" => "german",
+        "es-ES" => "spanish",
+        "fr-FR" => "french",
+        "tr-TR" => "turkish",
+        _ => "english"
+    };
 
     public event EventHandler? LanguageChanged;
 
@@ -64,10 +69,14 @@ public sealed class LocalizationService : ILocalizationService
         => string.Format(CultureInfo.CurrentCulture, Get(key), args);
 
     private static string NormalizeLanguage(string? language)
-        => string.Equals(language, "en-US", StringComparison.OrdinalIgnoreCase) ||
-           string.Equals(language, "en", StringComparison.OrdinalIgnoreCase)
-            ? "en-US"
-            : "de-DE";
+        => language?.Trim().ToLowerInvariant() switch
+        {
+            "en" or "en-us" => "en-US",
+            "es" or "es-es" => "es-ES",
+            "fr" or "fr-fr" => "fr-FR",
+            "tr" or "tr-tr" => "tr-TR",
+            _ => "de-DE"
+        };
 
     private static Dictionary<string, string> LoadDictionary(string language)
     {

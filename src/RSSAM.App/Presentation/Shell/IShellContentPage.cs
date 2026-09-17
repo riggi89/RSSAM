@@ -11,6 +11,7 @@ public interface IShellContentPage
     string? SearchPlaceholder { get; }
     string StatusText { get; }
     bool CanGoBack { get; }
+    bool IsBusy { get; }
 
     event EventHandler? ShellStateChanged;
 

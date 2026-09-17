@@ -21,6 +21,7 @@ public sealed partial class SettingsPage : Page, IShellContentPage
     public string? SearchPlaceholder => null;
     public string StatusText => string.Empty;
     public bool CanGoBack => false;
+    public bool IsBusy => false;
 
     public SettingsPage()
     {
@@ -54,6 +55,20 @@ public sealed partial class SettingsPage : Page, IShellContentPage
 
     public void ApplySearch(string query) { }
     public void GoBack() { }
+
+    public void RefreshRuntimeSettings()
+    {
+        var previousLoadingState = _loading;
+        _loading = true;
+        try
+        {
+            ApplySettingsToControls();
+        }
+        finally
+        {
+            _loading = previousLoadingState;
+        }
+    }
 
     private void SettingsPage_Loaded(object sender, RoutedEventArgs e)
     {
@@ -123,6 +138,9 @@ public sealed partial class SettingsPage : Page, IShellContentPage
         LanguageSettingsRow.Description = App.LocalizationService.Get("Settings.Language.Description");
         LanguageGermanItem.Content = App.LocalizationService.Get("Settings.Language.German");
         LanguageEnglishItem.Content = App.LocalizationService.Get("Settings.Language.English");
+        LanguageSpanishItem.Content = App.LocalizationService.Get("Settings.Language.Spanish");
+        LanguageFrenchItem.Content = App.LocalizationService.Get("Settings.Language.French");
+        LanguageTurkishItem.Content = App.LocalizationService.Get("Settings.Language.Turkish");
 
         ThemeSettingsRow.Title = App.LocalizationService.Get("Settings.Theme.Title");
         ThemeSettingsRow.Description = App.LocalizationService.Get("Settings.Theme.Description");

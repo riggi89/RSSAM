@@ -21,7 +21,7 @@ Application/domain layer independent of WinUI.
 
 - `Infrastructure/SteamSchema` – Valve KeyValue/schema parsing retained from the SAM-derived implementation.
 - `Interfaces` – contracts shared with the application shell.
-- `Localization` – German/English localization service and JSON resources.
+- `Localization` – German, English, Spanish, French, and Turkish localization service and JSON resources.
 - `Models` – game, achievement and persisted settings models.
 - `Search` – reusable global-search provider implementations.
 - `Services` – game catalog and Steam achievement/stat orchestration.
@@ -49,9 +49,9 @@ See `LICENSE.md` and `NOTICE.md` in the repository root for attribution and lice
 
 `RSSAM.App/Presentation/Views` contains the central `ShellPage` and cached content pages. `RSSAM.App/Presentation/Shell` contains the contracts/models used by pages to contribute toolbar actions, search context, back navigation and status text. `RSSAM.App/Presentation/ViewModels` remains reserved for future WinUI-specific view models; domain models stay in `RSSAM.Core/Models`.
 
-## RSSAM 1.0.31 state/localization and test notes
+## RSSAM 1.0.32 state/localization and test notes
 
-- `RSSAM.Core` owns the full `AppSettings` schema and German/English localization dictionaries.
+- `RSSAM.Core` owns the full `AppSettings` schema and German, English, Spanish, French, and Turkish localization dictionaries.
 - `RSSAM.App` restores and persists window placement, shell state and global-search context state. Page and selected-game detail state are not restored.
 - Public Core services keep Steam IPC out of the WinUI process. Hidden one-operation workers initialize the native Steam client with the required App ID and return serialized catalog/stat data.
 - The selected Tile/List/Table game-library layout is stored in settings schema version 7 without restoring a previously selected game page.

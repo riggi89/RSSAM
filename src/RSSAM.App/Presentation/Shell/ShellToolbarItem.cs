@@ -7,7 +7,8 @@ namespace RSSAM.Presentation.Shell;
 public enum ShellToolbarItemType
 {
     Button,
-    ToggleButton
+    ToggleButton,
+    Separator
 }
 
 public enum ShellToolbarItemPlacement

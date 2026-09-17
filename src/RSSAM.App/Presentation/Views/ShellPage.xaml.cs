@@ -74,6 +74,9 @@ public sealed partial class ShellPage : Page
         if (!_isLoaded)
             return;
 
+        if (ContentFrame.Content is SettingsPage settingsPage)
+            settingsPage.RefreshRuntimeSettings();
+
         ApplyResponsiveLayout();
     }
 
@@ -119,6 +122,7 @@ public sealed partial class ShellPage : Page
     private void ApplyLocalization()
     {
         GamesNavigationItem.Content = App.LocalizationService.Get("Nav.Games");
+        ChangelogNavigationItem.Content = App.LocalizationService.Get("Nav.Changelog");
         SettingsNavigationItem.Content = App.LocalizationService.Get("Nav.Settings");
         RenderSteamStatus();
     }
@@ -266,6 +270,7 @@ public sealed partial class ShellPage : Page
 
         LeftStatusTextBlock.Text = _lastStatusText;
         UpdateToolbarForCurrentPage();
+        UpdateLoadingBar();
         SearchStateChanged?.Invoke(this, EventArgs.Empty);
         NavigationStateChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -275,6 +280,7 @@ public sealed partial class ShellPage : Page
         if (_activePage is not null)
             _activePage.ShellStateChanged -= ActivePage_ShellStateChanged;
         _activePage = null;
+        UpdateLoadingBar();
     }
 
     private void ActivePage_ShellStateChanged(object? sender, EventArgs e)
@@ -284,6 +290,7 @@ public sealed partial class ShellPage : Page
 
         LeftStatusTextBlock.Text = _lastStatusText;
         UpdateToolbarForCurrentPage();
+        UpdateLoadingBar();
         SearchStateChanged?.Invoke(this, EventArgs.Empty);
         NavigationStateChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -291,18 +298,45 @@ public sealed partial class ShellPage : Page
     private void UpdateToolbarForCurrentPage()
     {
         ToolbarItemsHost.Children.Clear();
+        ToolbarRightItemsHost.Children.Clear();
 
         if (_activePage is not null)
         {
             foreach (var item in _activePage.GetToolbarItems())
-                ToolbarItemsHost.Children.Add(CreateToolbarElement(item));
+            {
+                var host = item.Placement == ShellToolbarItemPlacement.Right
+                    ? ToolbarRightItemsHost
+                    : ToolbarItemsHost;
+                host.Children.Add(CreateToolbarElement(item));
+            }
         }
 
         UpdateToolbarVisibility();
     }
 
+    private void UpdateLoadingBar()
+    {
+        var isBusy = _activePage?.IsBusy == true;
+        PageLoadingBar.IsIndeterminate = isBusy;
+        PageLoadingBar.Visibility = isBusy
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+    }
+
     private FrameworkElement CreateToolbarElement(ShellToolbarItem item)
     {
+        if (item.ItemType == ShellToolbarItemType.Separator)
+        {
+            return new Border
+            {
+                Width = 1,
+                Height = 28,
+                Margin = new Thickness(2, 0, 2, 0),
+                VerticalAlignment = VerticalAlignment.Center,
+                Background = (Brush)Application.Current.Resources["AppBorderBrush"]
+            };
+        }
+
         if (item.ItemType == ShellToolbarItemType.ToggleButton)
         {
             var toggle = new ToggleButton
@@ -310,12 +344,17 @@ public sealed partial class ShellPage : Page
                 Style = (Style)Application.Current.Resources["ToolbarToggleButtonStyle"],
                 IsChecked = item.IsChecked,
                 IsEnabled = item.IsEnabled,
+                Width = 36,
+                Height = 36,
+                Padding = new Thickness(0),
                 HorizontalAlignment = HorizontalAlignment.Left,
-                HorizontalContentAlignment = HorizontalAlignment.Left,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center,
                 Content = CreateToolbarButtonContent(item)
             };
 
             ToolTipService.SetToolTip(toggle, item.ToolTip ?? item.Text);
+            Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(toggle, item.Text);
             toggle.Click += (_, _) => item.Toggle?.Invoke(toggle.IsChecked == true);
             return toggle;
         }
@@ -324,54 +363,36 @@ public sealed partial class ShellPage : Page
         {
             Style = (Style)Application.Current.Resources["ToolbarCommandButtonStyle"],
             IsEnabled = item.IsEnabled,
+            Width = 36,
+            Height = 36,
+            Padding = new Thickness(0),
             HorizontalAlignment = HorizontalAlignment.Left,
-            HorizontalContentAlignment = HorizontalAlignment.Left,
+            HorizontalContentAlignment = HorizontalAlignment.Center,
+            VerticalContentAlignment = VerticalAlignment.Center,
             Content = CreateToolbarButtonContent(item)
         };
 
         ToolTipService.SetToolTip(button, item.ToolTip ?? item.Text);
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(button, item.Text);
         button.Click += (_, _) => item.Execute?.Invoke();
         return button;
     }
 
     private UIElement CreateToolbarButtonContent(ShellToolbarItem item)
     {
-        var panel = new StackPanel
+        return new FontIcon
         {
-            Orientation = Orientation.Horizontal,
-            Spacing = _isCompactToolbarMode ? 0 : 6,
+            Glyph = item.Glyph,
+            FontSize = 15,
             VerticalAlignment = VerticalAlignment.Center,
-            HorizontalAlignment = HorizontalAlignment.Left
+            HorizontalAlignment = HorizontalAlignment.Center
         };
-
-        if (!string.IsNullOrWhiteSpace(item.Glyph))
-        {
-            panel.Children.Add(new FontIcon
-            {
-                Glyph = item.Glyph,
-                FontSize = 13,
-                VerticalAlignment = VerticalAlignment.Center
-            });
-        }
-
-        if (!_isCompactToolbarMode && !string.IsNullOrWhiteSpace(item.Text))
-        {
-            panel.Children.Add(new TextBlock
-            {
-                Text = item.Text,
-                FontSize = 12,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                TextTrimming = TextTrimming.CharacterEllipsis
-            });
-        }
-
-        return panel;
     }
 
     private void UpdateToolbarVisibility()
     {
-        var visible = ToolbarItemsHost.Children.Count > 0;
+        var visible = ToolbarItemsHost.Children.Count > 0 ||
+                      ToolbarRightItemsHost.Children.Count > 0;
         var height = _isCompactToolbarMode ? 58 : 64;
 
         ToolbarHost.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;

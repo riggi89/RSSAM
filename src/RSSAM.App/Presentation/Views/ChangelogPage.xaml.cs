@@ -25,6 +25,7 @@ public sealed partial class ChangelogPage : Page, IShellContentPage
     public string? SearchPlaceholder => null;
     public string StatusText => string.Empty;
     public bool CanGoBack => false;
+    public bool IsBusy => false;
 
     public ChangelogPage()
     {

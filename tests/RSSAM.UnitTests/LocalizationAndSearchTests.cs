@@ -18,6 +18,21 @@ public sealed class LocalizationAndSearchTests
         Assert.Equal("english", localization.SteamLanguage);
         Assert.Equal("Missing.Test.Key", localization.Get("Missing.Test.Key"));
 
+        localization.SetLanguage("es");
+        Assert.Equal("es-ES", localization.Language);
+        Assert.Equal("spanish", localization.SteamLanguage);
+        Assert.Equal("Juegos", localization.Get("Nav.Games"));
+
+        localization.SetLanguage("fr-FR");
+        Assert.Equal("fr-FR", localization.Language);
+        Assert.Equal("french", localization.SteamLanguage);
+        Assert.Equal("Jeux", localization.Get("Nav.Games"));
+
+        localization.SetLanguage("tr");
+        Assert.Equal("tr-TR", localization.Language);
+        Assert.Equal("turkish", localization.SteamLanguage);
+        Assert.Equal("Oyunlar", localization.Get("Nav.Games"));
+
         localization.SetLanguage("unsupported");
         Assert.Equal("de-DE", localization.Language);
         Assert.Equal("german", localization.SteamLanguage);

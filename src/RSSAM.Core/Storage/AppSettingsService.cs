@@ -140,7 +140,7 @@ public sealed class AppSettingsService
 
         settings.SchemaVersion = 7;
 
-        if (settings.Language is not ("de-DE" or "en-US"))
+        if (settings.Language is not ("de-DE" or "en-US" or "es-ES" or "fr-FR" or "tr-TR"))
             settings.Language = "de-DE";
 
         if (settings.Theme is not ("System" or "Light" or "Dark"))

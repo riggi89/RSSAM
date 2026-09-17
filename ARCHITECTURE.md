@@ -51,10 +51,13 @@ New modules should request strings by key from `ILocalizationService` instead of
 The Changelog is the deliberate exception: it is always English and is loaded from the embedded root `CHANGELOG.md`, so release notes are maintained in one place and are not part of the localization dictionaries.
 The selected language is persisted in `AppSettings.Language`.
 
-Initial languages:
+Supported languages:
 
 - `de-DE` – Deutsch
 - `en-US` – English
+- `es-ES` – Español
+- `fr-FR` – Français
+- `tr-TR` – Türkçe
 
 ## Documentation placement
 

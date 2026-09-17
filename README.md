@@ -5,12 +5,12 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/riggi89/RSSAM/actions"><img alt="Unit tests: 21 passed" src="https://img.shields.io/badge/unit_tests-21_passed-brightgreen"></a>
+  <a href="https://github.com/riggi89/RSSAM/actions"><img alt="Unit tests: 23" src="https://img.shields.io/badge/unit_tests-23-blue"></a>
   <a href="https://github.com/riggi89/RSSAM/releases"><img alt="Windows x86 supported" src="https://img.shields.io/badge/Windows-x86-0078D4?logo=windows11&amp;logoColor=white"></a>
   <a href="https://github.com/riggi89/RSSAM/releases"><img alt="Windows x64 supported" src="https://img.shields.io/badge/Windows-x64-0078D4?logo=windows11&amp;logoColor=white"></a>
   <a href="https://dotnet.microsoft.com/download/dotnet/10.0"><img alt=".NET 10" src="https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet&amp;logoColor=white"></a>
   <a href="https://learn.microsoft.com/windows/apps/winui/winui3/"><img alt="WinUI 3" src="https://img.shields.io/badge/UI-WinUI_3-0078D4"></a>
-  <a href="https://github.com/riggi89/RSSAM/releases"><img alt="Version 1.0.31" src="https://img.shields.io/badge/version-1.0.31-blue"></a>
+  <a href="https://github.com/riggi89/RSSAM/releases"><img alt="Version 1.0.32" src="https://img.shields.io/badge/version-1.0.32-blue"></a>
 </p>
 
 <p align="center">
@@ -27,8 +27,9 @@
 - Grid, list, and read-only TableView layouts.
 - Save games as favorites and filter the library.
 - View, unlock, lock, and save achievements.
+- Export achievement data to CSV.
 - Read and edit supported integer and floating-point statistics.
-- English and German user interface.
+- German, English, Spanish, French, and Turkish user interface.
 - Light, dark, and system themes with Mica or Acrylic backdrops.
 - Local JSON settings and favorites.
 - Separate self-contained x86 and x64 releases.
@@ -47,11 +48,11 @@ Download the latest version from [GitHub Releases](https://github.com/riggi89/RS
 
 | Package | Intended use |
 | --- | --- |
-| `RSSAM_1.0.31-win-x64-Setup.exe` | Installer for most Windows computers |
-| `RSSAM_1.0.31-win-x86-Setup.exe` | Installer for 32-bit Windows |
-| `RSSAM_1.0.31-win-x64-Portable.zip` | Portable x64 version |
-| `RSSAM_1.0.31-win-x86-Portable.zip` | Portable x86 version |
-| `RSSAM_1.0.31-Source.zip` | Source code |
+| `RSSAM_1.0.32-win-x64-Setup.exe` | Installer for most Windows computers |
+| `RSSAM_1.0.32-win-x86-Setup.exe` | Installer for 32-bit Windows |
+| `RSSAM_1.0.32-win-x64-Portable.zip` | Portable x64 version |
+| `RSSAM_1.0.32-win-x86-Portable.zip` | Portable x86 version |
+| `RSSAM_1.0.32-Source.zip` | Source code |
 
 The installers are self-contained, install per user to `%LOCALAPPDATA%\Programs\RSSAM`, and do not require administrator rights. Portable packages must be extracted completely before starting `RSSAM.exe`.
 
@@ -125,7 +126,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) and [PROJECTS.md](PROJECTS.md) for implem
 Build all release packages:
 
 ```powershell
-.\scripts\set-version.ps1 -Version 1.0.31
+.\scripts\set-version.ps1 -Version 1.0.32
 .\scripts\test.ps1 -Configuration Release
 .\scripts\build.ps1 -Configuration Release -Architecture All
 .\scripts\build-installer.ps1 -Configuration Release

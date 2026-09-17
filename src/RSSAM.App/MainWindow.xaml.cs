@@ -30,6 +30,7 @@ public sealed partial class MainWindow : Window
         ShellPageHost.SearchStateChanged += ShellPageHost_SearchStateChanged;
         ShellPageHost.NavigationStateChanged += ShellPageHost_NavigationStateChanged;
         App.LocalizationService.LanguageChanged += LocalizationService_LanguageChanged;
+        RootLayout.ActualThemeChanged += RootLayout_ActualThemeChanged;
         Closed += MainWindow_Closed;
 
         _initialized = true;
@@ -60,6 +61,8 @@ public sealed partial class MainWindow : Window
 
         ShellPageHost.ApplyRuntimeSettings();
         ApplySystemTitleBarChrome();
+        UpdateThemeToggleState();
+        DispatcherQueue.TryEnqueue(UpdateThemeToggleState);
     }
 
     public void RestorePersistedWindowPlacement()
@@ -128,6 +131,7 @@ public sealed partial class MainWindow : Window
     {
         ToolTipService.SetToolTip(TitleBarBackButton, App.LocalizationService.Get("Tool.Back"));
         ToolTipService.SetToolTip(TitleBarPaneButton, App.LocalizationService.Get("Tool.Navigation"));
+        UpdateThemeToggleState();
         UpdateSearchState();
         ShellPageHost.RefreshLocalization();
     }
@@ -171,6 +175,7 @@ public sealed partial class MainWindow : Window
         TitleBarBackButton.Visibility = ShellPageHost.CanGoBack
             ? Visibility.Visible
             : Visibility.Collapsed;
+        DispatcherQueue.TryEnqueue(UpdateTitleBarPassthroughRegion);
     }
 
     private void UniversalSearchBox_TextChanged(
@@ -189,6 +194,36 @@ public sealed partial class MainWindow : Window
 
     private void TitleBarBackButton_Click(object sender, RoutedEventArgs e)
         => ShellPageHost.GoBack();
+
+    private void ThemeToggleButton_Click(object sender, RoutedEventArgs e)
+    {
+        App.RuntimeSettings.Theme = RootLayout.ActualTheme == ElementTheme.Dark
+            ? "Light"
+            : "Dark";
+
+        if (App.TrySaveSettings())
+            ApplyRuntimeSettings();
+    }
+
+    private void RootLayout_ActualThemeChanged(FrameworkElement sender, object args)
+    {
+        UpdateThemeToggleState();
+        ApplySystemTitleBarChrome();
+    }
+
+    private void UpdateThemeToggleState()
+    {
+        if (ThemeToggleButton is null || ThemeToggleIcon is null)
+            return;
+
+        var isDark = RootLayout.ActualTheme == ElementTheme.Dark;
+        ThemeToggleIcon.Glyph = isDark ? "\uE706" : "\uE708";
+
+        var description = App.LocalizationService.Get(
+            isDark ? "Tool.UseLightTheme" : "Tool.UseDarkTheme");
+        ToolTipService.SetToolTip(ThemeToggleButton, description);
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(ThemeToggleButton, description);
+    }
 
     private void RootLayout_SizeChanged(object sender, SizeChangedEventArgs e)
     {
@@ -213,7 +248,8 @@ public sealed partial class MainWindow : Window
             {
                 TitleBarBackButton,
                 TitleBarPaneButton,
-                UniversalSearchBox
+                UniversalSearchBox,
+                ThemeToggleButton
             };
 
             var passthroughRegions = interactiveElements
@@ -285,10 +321,29 @@ public sealed partial class MainWindow : Window
                 return;
 
             var titleBar = AppWindow.TitleBar;
+            var isDark = RootLayout.ActualTheme == ElementTheme.Dark;
+            var captionForeground = isDark
+                ? Microsoft.UI.Colors.White
+                : Microsoft.UI.Colors.Black;
+            var captionHoverBackground = isDark
+                ? Microsoft.UI.ColorHelper.FromArgb(32, 255, 255, 255)
+                : Microsoft.UI.ColorHelper.FromArgb(20, 0, 0, 0);
+            var captionPressedBackground = isDark
+                ? Microsoft.UI.ColorHelper.FromArgb(52, 255, 255, 255)
+                : Microsoft.UI.ColorHelper.FromArgb(36, 0, 0, 0);
+
             titleBar.BackgroundColor = Microsoft.UI.Colors.Transparent;
             titleBar.InactiveBackgroundColor = Microsoft.UI.Colors.Transparent;
+            titleBar.ForegroundColor = captionForeground;
+            titleBar.InactiveForegroundColor = captionForeground;
             titleBar.ButtonBackgroundColor = Microsoft.UI.Colors.Transparent;
             titleBar.ButtonInactiveBackgroundColor = Microsoft.UI.Colors.Transparent;
+            titleBar.ButtonForegroundColor = captionForeground;
+            titleBar.ButtonHoverBackgroundColor = captionHoverBackground;
+            titleBar.ButtonHoverForegroundColor = captionForeground;
+            titleBar.ButtonPressedBackgroundColor = captionPressedBackground;
+            titleBar.ButtonPressedForegroundColor = captionForeground;
+            titleBar.ButtonInactiveForegroundColor = captionForeground;
         }
         catch
         {

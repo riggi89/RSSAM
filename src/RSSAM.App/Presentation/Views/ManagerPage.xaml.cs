@@ -4,6 +4,7 @@
 
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -11,6 +12,8 @@ using Microsoft.UI.Xaml.Navigation;
 using RSSAM.Models;
 using RSSAM.Presentation.Shell;
 using RSSAM.Services;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 
 namespace RSSAM.Views;
 
@@ -61,6 +64,7 @@ public sealed partial class ManagerPage : Page, IShellContentPage
         : _operationStatusText;
 
     public bool CanGoBack => GameDetailView.Visibility == Visibility.Visible && !_isGameBusy;
+    public bool IsBusy => _isCatalogBusy || _isGameBusy;
 
     public ManagerPage()
     {
@@ -98,7 +102,7 @@ public sealed partial class ManagerPage : Page, IShellContentPage
                     Key = "reload-games",
                     Text = App.LocalizationService.Get("Command.ReloadGames"),
                     Glyph = "\uE72C",
-                    Placement = ShellToolbarItemPlacement.Left,
+                    Placement = ShellToolbarItemPlacement.Right,
                     IsEnabled = !_isCatalogBusy,
                     Execute = () => _ = LoadGamesAsync(showInfoBar: true)
                 }
@@ -109,17 +113,31 @@ public sealed partial class ManagerPage : Page, IShellContentPage
         {
             return
             [
-                ToolbarButton("reload", "Command.Reload", "\uE72C", () => _ = LoadSelectedGameStatsAsync(showInfoBar: true)),
+                ToolbarButton("save", "Command.Save", "\uE74E", () => _ = StoreChangesAsync()),
+                ToolbarSeparator("save-actions-separator"),
                 ToolbarButton("lock-all", "Command.LockAll", "\uE72E", LockAll),
                 ToolbarButton("invert", "Command.Invert", "\uE895", InvertAll),
                 ToolbarButton("unlock-all", "Command.UnlockAll", "\uE785", UnlockAll),
-                ToolbarButton("save", "Command.Save", "\uE74E", () => _ = StoreChangesAsync())
+                ToolbarSeparator("edit-export-separator"),
+                ToolbarButton(
+                    "export-csv",
+                    "Command.ExportCsv",
+                    "\uE8A5",
+                    () => _ = ExportAchievementsCsvAsync(),
+                    isEnabled: !_isGameBusy && _allAchievements.Count > 0),
+                ToolbarButton(
+                    "reload",
+                    "Command.Reload",
+                    "\uE72C",
+                    () => _ = LoadSelectedGameStatsAsync(showInfoBar: true),
+                    placement: ShellToolbarItemPlacement.Right)
             ];
         }
 
         return
         [
-            ToolbarButton("reload", "Command.Reload", "\uE72C", () => _ = LoadSelectedGameStatsAsync(showInfoBar: true)),
+            ToolbarButton("save", "Command.Save", "\uE74E", () => _ = StoreChangesAsync()),
+            ToolbarSeparator("save-statistics-separator"),
             new ShellToolbarItem
             {
                 Key = "edit-stats",
@@ -132,7 +150,12 @@ public sealed partial class ManagerPage : Page, IShellContentPage
                 Toggle = SetStatisticsEditing
             },
             ToolbarButton("reset", "Command.Reset", "\uE7A7", () => _ = ResetStatsAsync()),
-            ToolbarButton("save", "Command.Save", "\uE74E", () => _ = StoreChangesAsync())
+            ToolbarButton(
+                "reload",
+                "Command.Reload",
+                "\uE72C",
+                () => _ = LoadSelectedGameStatsAsync(showInfoBar: true),
+                placement: ShellToolbarItemPlacement.Right)
         ];
     }
 
@@ -183,15 +206,29 @@ public sealed partial class ManagerPage : Page, IShellContentPage
         ShellStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    private ShellToolbarItem ToolbarButton(string key, string textKey, string glyph, Action action)
+    private ShellToolbarItem ToolbarButton(
+        string key,
+        string textKey,
+        string glyph,
+        Action action,
+        bool? isEnabled = null,
+        ShellToolbarItemPlacement placement = ShellToolbarItemPlacement.Left)
         => new()
         {
             Key = key,
             Text = App.LocalizationService.Get(textKey),
             Glyph = glyph,
-            Placement = ShellToolbarItemPlacement.Left,
-            IsEnabled = !_isGameBusy,
+            Placement = placement,
+            IsEnabled = isEnabled ?? !_isGameBusy,
             Execute = action
+        };
+
+    private static ShellToolbarItem ToolbarSeparator(string key)
+        => new()
+        {
+            Key = key,
+            Text = string.Empty,
+            ItemType = ShellToolbarItemType.Separator
         };
 
     private async void ManagerPage_Loaded(object sender, RoutedEventArgs e)
@@ -662,6 +699,61 @@ public sealed partial class ManagerPage : Page, IShellContentPage
         ShellStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    private async Task ExportAchievementsCsvAsync()
+    {
+        if (_selectedGame is null || _allAchievements.Count == 0 || App.MainWindow is null)
+            return;
+
+        try
+        {
+            var picker = new FileSavePicker
+            {
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+                SuggestedFileName = CreateCsvSuggestedName(_selectedGame.Name)
+            };
+            picker.FileTypeChoices.Add(
+                App.LocalizationService.Get("Export.Csv.FileType"),
+                new List<string> { ".csv" });
+
+            var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, windowHandle);
+
+            var file = await picker.PickSaveFileAsync();
+            if (file is null)
+                return;
+
+            var csv = AchievementCsvExporter.Create(_selectedGame, _allAchievements);
+            var utf8WithBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: true);
+            var bytes = utf8WithBom.GetPreamble()
+                .Concat(utf8WithBom.GetBytes(csv))
+                .ToArray();
+
+            await FileIO.WriteBytesAsync(file, bytes);
+
+            var message = App.LocalizationService.Format("Info.ExportCsvSaved", file.Name);
+            SetStatusText(message);
+            App.InfoBarService.ShowSuccess(message);
+        }
+        catch (Exception ex)
+        {
+            var message = App.LocalizationService.Format("Info.ExportCsvError", ex.Message);
+            SetStatusText(message);
+            App.InfoBarService.ShowError(message);
+        }
+    }
+
+    private static string CreateCsvSuggestedName(string gameName)
+    {
+        var invalidCharacters = Path.GetInvalidFileNameChars();
+        var safeName = new string(gameName
+            .Select(character => invalidCharacters.Contains(character) ? '_' : character)
+            .ToArray())
+            .Trim()
+            .TrimEnd('.');
+
+        return $"{(string.IsNullOrWhiteSpace(safeName) ? "RSSAM" : safeName)}-achievements";
+    }
+
     private async Task StoreChangesAsync()
     {
         if (_gameStatsService is null)
@@ -810,7 +902,6 @@ public sealed partial class ManagerPage : Page, IShellContentPage
         _isGameBusy = busy;
         if (!string.IsNullOrWhiteSpace(text))
             _operationStatusText = text;
-        GameProgressRing.IsActive = busy;
         GameStatusText.Text = text ?? _operationStatusText ?? App.LocalizationService.Get("Status.Ready");
         GameTabView.IsEnabled = !busy;
         ShellStateChanged?.Invoke(this, EventArgs.Empty);
@@ -827,7 +918,6 @@ public sealed partial class ManagerPage : Page, IShellContentPage
         _isCatalogBusy = busy;
         if (!string.IsNullOrWhiteSpace(text))
             _operationStatusText = text;
-        CatalogProgressRing.IsActive = busy;
         GamesGrid.IsEnabled = !busy;
         GamesList.IsEnabled = !busy;
         GamesTable.IsEnabled = !busy;

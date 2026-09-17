@@ -28,7 +28,7 @@ public sealed class AppSettingsServiceTests
         var service = new AppSettingsService(directory.Path);
         var original = new AppSettings
         {
-            Language = "en-US",
+            Language = "tr-TR",
             Theme = "Dark",
             WindowWidth = 1600,
             SearchQueries = new Dictionary<string, string>
@@ -40,7 +40,7 @@ public sealed class AppSettingsServiceTests
         service.Save(original);
         var loaded = service.Load();
 
-        Assert.Equal("en-US", loaded.Language);
+        Assert.Equal("tr-TR", loaded.Language);
         Assert.Equal("Dark", loaded.Theme);
         Assert.Equal(1600, loaded.WindowWidth);
         Assert.Equal("portal", loaded.SearchQueries["games"]);
@@ -55,7 +55,7 @@ public sealed class AppSettingsServiceTests
         File.WriteAllText(service.SettingsPath, """
             {
               "SchemaVersion": 1,
-              "Language": "fr-FR",
+              "Language": "xx-YY",
               "Theme": "Neon",
               "Backdrop": "Glass",
               "NavigationMode": "Expanded",

@@ -1,5 +1,22 @@
 # RSSAM Changelog
 
+## 1.0.32 - 2026-09-17
+
+- Added a quick light/dark theme toggle to the title bar while retaining the System, Light and Dark choices in Settings.
+- Added CSV export for all achievements of the selected game, including stable identifiers, names, descriptions, unlock state and time, protection and hidden flags.
+- Added RFC-style CSV escaping, UTF-8 BOM output for Excel compatibility and two dedicated exporter unit tests.
+- Declared explicit Per-Monitor V2 DPI awareness and enabled layout rounding to improve text clarity on high-DPI displays, including 4K at 150% scaling.
+- Added full-name tooltips to game tiles so truncated titles remain readable.
+- Reworked tile hover and selection rendering so the visual effect follows the tile instead of drawing a second outer frame.
+- Fixed the minimize, maximize and close buttons in light mode by synchronizing their native normal, hover and pressed colors with the active app theme.
+- Restored one-click game opening across the complete TableView row, including the favorite, image, name, App ID and type cells.
+- Replaced the game and catalog loading circles with a single indeterminate loading bar directly below the global toolbar.
+- Converted toolbar commands to icon-only buttons with localized tooltips and accessible names.
+- Reordered the game-detail toolbar so Save appears first, related actions are separated into clear groups and Reload remains anchored at the far right.
+- Added complete Spanish (`es-ES`), French (`fr-FR`) and Turkish (`tr-TR`) UI translations, including matching Steam achievement/statistic language selection.
+- Increased the unit-test suite from 21 to 23 tests.
+- Increased the RSSAM build version to **1.0.32**.
+
 ## 1.0.31 - 2026-09-07
 
 - Renamed the project from RSAM to RSSAM.

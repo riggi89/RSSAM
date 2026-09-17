@@ -11,6 +11,7 @@
 
     <Grid x:Name="RootLayout"
           Background="{ThemeResource AppShellBackgroundBrush}"
+          UseLayoutRounding="True"
           SizeChanged="RootLayout_SizeChanged">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -72,6 +73,19 @@
                             Visibility="Collapsed"
                             QueryIcon="Find"
                             TextChanged="UniversalSearchBox_TextChanged" />
+
+            <Button x:Name="ThemeToggleButton"
+                    Grid.Column="1"
+                    Width="28"
+                    Height="28"
+                    Margin="0,0,8,0"
+                    Padding="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TitleBarSmallIconButtonStyle}"
+                    Click="ThemeToggleButton_Click">
+                <FontIcon x:Name="ThemeToggleIcon" Glyph="&#xE708;" FontSize="13" />
+            </Button>
         </Grid>
 
         <views:ShellPage x:Name="ShellPageHost" Grid.Row="1" />
