@@ -14,6 +14,7 @@
 - Converted toolbar commands to icon-only buttons with localized tooltips and accessible names.
 - Reordered the game-detail toolbar so Save appears first, related actions are separated into clear groups and Reload remains anchored at the far right.
 - Added complete Spanish (`es-ES`), French (`fr-FR`) and Turkish (`tr-TR`) UI translations, including matching Steam achievement/statistic language selection.
+- Reworked all Markdown documentation so the root README focuses exclusively on the application while Visual Studio, C#, WinUI, PowerShell, architecture, build, test and release documentation is organized below `docs`.
 - Increased the unit-test suite from 21 to 23 tests.
 - Increased the RSSAM build version to **1.0.32**.
 

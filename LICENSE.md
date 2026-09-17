@@ -48,7 +48,7 @@ freely, subject to the following restrictions:
 
 ---
 
-# Third-Party Notices
+## Third-Party Notices
 
 This project contains or may depend on software developed by third
 parties. Such software remains subject to its respective copyright
