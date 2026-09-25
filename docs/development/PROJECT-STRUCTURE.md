@@ -5,6 +5,7 @@
 | Project | Responsibility | Platform |
 | --- | --- | --- |
 | `RSSAM.App` | WinUI 3 application, title bar, shell, pages and startup | x86 and x64 |
+| `RSSAM.CardIdler` | Embedded WinUI page and SteamKit2 trading-card idling engine | x86 and x64 |
 | `RSSAM.Core` | Models, services, storage, localization, search and schemas | x86 and x64 through the app |
 | `RSSAM.API` | Native Steam client interoperability | x86 and x64 |
 | `RSSAM.UnitTests` | Tests for Core and API behavior | x64 test host |
@@ -25,7 +26,23 @@ Important locations:
 | `Services` | Dialog, InfoBar and other UI-specific services |
 | `Assets` | Application icon files used by the executable and title bar |
 
-`RSSAM.App` references `RSSAM.Core`. Native Steam calls must remain behind Core services.
+`RSSAM.App` references `RSSAM.Core` and `RSSAM.CardIdler`. Native achievement-management Steam calls must remain behind Core services.
+
+## RSSAM.CardIdler
+
+Important locations:
+
+| Path | Purpose |
+| --- | --- |
+| `Views/CardIdlerPage.xaml` / `.cs` | Embedded WinUI interface and RSSAM localization bridge |
+| `ViewModels` | Login, Steam Guard, scan, queue and idle-loop state |
+| `Services/SteamService.cs` | SteamKit2 authentication, playing state and community cookies |
+| `Services/BadgeScraper.cs` | Private badge-page parsing and remaining-drop detection |
+| `Services/MetadataService.cs` | Regional Steam Store metadata and cache |
+| `Models/GameInfo.cs` | Bindable game/drop model |
+| `LICENSE.CardIdler.txt` | MIT license retained from CardIdler by Sam-218 |
+
+The project builds as `RSSAM.CardIdler.dll`. It uses SteamKit2 independently of the native API bridge and stores its data below `%LOCALAPPDATA%\RSSAM\CardIdler`.
 
 ## RSSAM.Core
 

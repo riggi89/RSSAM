@@ -21,7 +21,18 @@ RSSAM is derived from **Steam Achievement Manager (SAM)** by **Rick (Gibbed)**.
 
 The original native Steam integration and portions of the achievement and statistic schema logic were retained and adapted for RSSAM. Files copied from or substantially derived from the original project retain attribution headers where applicable.
 
-## Third-party dependency
+## CardIdler integration
+
+RSSAM 2.0 includes an adapted version of **CardIdler 1.0.0** by **Sam-218** as the separate `RSSAM.CardIdler` module.
+
+- Original author: Sam-218
+- Original component: CardIdler
+- License: MIT License
+- Original copyright: Copyright (c) 2026 Sam-218
+
+The original WPF window was replaced with an embedded WinUI 3 page and the storage, localization, packaging and lifecycle behavior were integrated into RSSAM. The original MIT license is retained in `src/RSSAM.CardIdler/LICENSE.CardIdler.txt` and reproduced in `LICENSE.md`.
+
+## Third-party dependencies
 
 RSSAM uses **WinUI.TableView 1.4.1** for the table presentation of the game library.
 
@@ -29,6 +40,13 @@ RSSAM uses **WinUI.TableView 1.4.1** for the table presentation of the game libr
 - License: MIT License
 
 Third-party components remain subject to their own copyright notices and license terms.
+
+`RSSAM.CardIdler` uses **SteamKit2 3.4.0** to authenticate with the Steam network and report played games.
+
+- Project: https://github.com/SteamRE/SteamKit
+- License: GNU Lesser General Public License v2.1
+
+SteamKit2 and its transitive dependencies remain subject to their own package notices and license terms.
 
 ## License information
 

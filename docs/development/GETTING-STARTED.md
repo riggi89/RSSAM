@@ -50,6 +50,7 @@ The scripts stop on restore, compiler, test or packaging errors. Do not continue
 - Production builds support `x86` and `x64`.
 - The app is unpackaged and self-contained for release publishing.
 - Steam must be installed and running for live catalog or achievement testing.
+- Card Idler uses SteamKit2 and requires network access plus a test account with Steam Guard for complete manual testing.
 - Unit tests do not require the WinUI shell or an active Steam session.
 
 ## Recommended workflow

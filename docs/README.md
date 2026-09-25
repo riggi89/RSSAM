@@ -7,7 +7,7 @@ This directory contains the technical documentation for working on RSSAM. The re
 | Document | Contents |
 | --- | --- |
 | [Getting started](development/GETTING-STARTED.md) | Visual Studio, .NET, C# and WinUI prerequisites; first local build |
-| [Architecture](development/ARCHITECTURE.md) | Dependency direction, shell composition, workers, state and localization |
+| [Architecture](development/ARCHITECTURE.md) | Dependency direction, Card Idler module, shell composition, workers, state and localization |
 | [Project structure](development/PROJECT-STRUCTURE.md) | Responsibilities of every project and important source folders |
 | [C# and WinUI guidelines](development/CSHARP-AND-WINUI.md) | Code conventions, UI patterns, threading, theming, DPI and localization |
 | [PowerShell scripts](development/POWERSHELL-SCRIPTS.md) | Parameters, examples and generated output for every script |

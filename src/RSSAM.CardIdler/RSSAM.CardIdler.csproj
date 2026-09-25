@@ -1,0 +1,30 @@
+<!-- Card Idler integration for RSSAM.
+     Copyright (c) 2026 Daniel Riggi (riggi89).
+     Based on CardIdler Copyright (c) 2026 Sam-218 (MIT). -->
+
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>RSSAM.CardIdler</RootNamespace>
+    <AssemblyName>RSSAM.CardIdler</AssemblyName>
+    <AssemblyTitle>RSSAM.CardIdler</AssemblyTitle>
+    <UseWinUI>true</UseWinUI>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Company>Daniel Riggi (riggi89)</Company>
+    <Authors>Daniel Riggi (riggi89); Sam-218</Authors>
+    <Product>RSSAM Card Idler</Product>
+    <Description>WinUI 3 module for farming Steam trading-card drops inside RSSAM.</Description>
+    <Copyright>RSSAM integration Copyright © 2026 Daniel Riggi (riggi89). CardIdler Copyright © 2026 Sam-218.</Copyright>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.4.0" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.0" />
+    <PackageReference Include="SteamKit2" Version="3.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="LICENSE.CardIdler.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

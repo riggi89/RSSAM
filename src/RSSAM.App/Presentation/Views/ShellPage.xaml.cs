@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
+using RSSAM.CardIdler.Views;
 using RSSAM.Presentation.Shell;
 using RSSAM.Services;
 
@@ -37,6 +38,8 @@ public sealed partial class ShellPage : Page
     public ShellPage()
     {
         InitializeComponent();
+
+        CardIdlerPage.LocalizationResolver = App.LocalizationService.Get;
 
         _steamStatusTimer = new DispatcherTimer
         {
@@ -122,8 +125,11 @@ public sealed partial class ShellPage : Page
     private void ApplyLocalization()
     {
         GamesNavigationItem.Content = App.LocalizationService.Get("Nav.Games");
+        CardIdlerNavigationItem.Content = App.LocalizationService.Get("Nav.CardIdler");
         ChangelogNavigationItem.Content = App.LocalizationService.Get("Nav.Changelog");
         SettingsNavigationItem.Content = App.LocalizationService.Get("Nav.Settings");
+        if (ContentFrame.Content is CardIdlerPage cardIdlerPage)
+            cardIdlerPage.RefreshLocalization();
         RenderSteamStatus();
     }
 
@@ -205,6 +211,7 @@ public sealed partial class ShellPage : Page
         {
             "settings" => typeof(SettingsPage),
             "changelog" => typeof(ChangelogPage),
+            "card-idler" => typeof(CardIdlerPage),
             _ => typeof(ManagerPage)
         };
 
@@ -228,6 +235,7 @@ public sealed partial class ShellPage : Page
         {
             "settings" => SettingsNavigationItem,
             "changelog" => ChangelogNavigationItem,
+            "card-idler" => CardIdlerNavigationItem,
             _ => GamesNavigationItem
         };
 
@@ -243,7 +251,7 @@ public sealed partial class ShellPage : Page
     }
 
     private static string NormalizeNavigationKey(string? key)
-        => key is "settings" or "changelog" ? key : "games";
+        => key is "settings" or "changelog" or "card-idler" ? key : "games";
 
     private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
     {

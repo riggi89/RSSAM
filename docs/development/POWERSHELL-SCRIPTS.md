@@ -88,7 +88,7 @@ Expected filenames:
     [-SkipPublish]
 ```
 
-The script validates required application, WinUI, .NET runtime and resource files before creating each archive.
+The script validates required application, Card Idler, SteamKit2, WinUI, .NET runtime and resource files before creating each archive.
 
 Expected filenames:
 
@@ -106,7 +106,7 @@ Without an output argument, the archive is created as `artifacts/source/RSSAM_<v
 ## Version synchronization
 
 ```powershell
-.\scripts\set-version.ps1 -Version 1.0.32
+.\scripts\set-version.ps1 -Version 2.0.0
 ```
 
 The value must contain exactly three numeric parts. The script validates every expected match before writing and synchronizes:
@@ -120,7 +120,7 @@ The script deliberately does not rewrite changelog text, README package examples
 ## Safe release order
 
 ```powershell
-.\scripts\set-version.ps1 -Version 1.0.32
+.\scripts\set-version.ps1 -Version 2.0.0
 .\scripts\clean.ps1
 .\scripts\test.ps1 -Configuration Release -CollectCoverage
 .\scripts\publish.ps1 -Configuration Release -Architecture All

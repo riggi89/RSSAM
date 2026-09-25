@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://github.com/riggi89/RSSAM/releases"><img alt="Windows x86 supported" src="https://img.shields.io/badge/Windows-x86-0078D4?logo=windows11&amp;logoColor=white"></a>
   <a href="https://github.com/riggi89/RSSAM/releases"><img alt="Windows x64 supported" src="https://img.shields.io/badge/Windows-x64-0078D4?logo=windows11&amp;logoColor=white"></a>
-  <a href="https://github.com/riggi89/RSSAM/releases"><img alt="Version 1.0.32" src="https://img.shields.io/badge/version-1.0.32-blue"></a>
+  <a href="https://github.com/riggi89/RSSAM/releases"><img alt="Version 2.0.0" src="https://img.shields.io/badge/version-2.0.0-blue"></a>
   <a href="LICENSE.md"><img alt="zlib license" src="https://img.shields.io/badge/license-zlib-green"></a>
 </p>
 
@@ -23,6 +23,8 @@
 
 RSSAM provides one clear interface for a Steam game library, achievements and supported statistics. Games can be displayed as tiles, a list or a table. Favorites, search and filters make large libraries easier to navigate.
 
+Version 2.0 adds Card Idler as a dedicated navigation area. It scans the signed-in account for remaining Steam trading-card drops and can idle several eligible games at the same time without opening them individually.
+
 RSSAM is an independently maintained fork of Steam Achievement Manager. It is not affiliated with or endorsed by Valve Corporation.
 
 ## Features
@@ -33,6 +35,7 @@ RSSAM is an independently maintained fork of Steam Achievement Manager. It is no
 - Achievement progress and global rarity information.
 - Unlock, lock, invert and save achievement changes.
 - View and edit supported integer and floating-point statistics.
+- Integrated Card Idler with Steam Guard sign-in, drop scanning, queue management and up to 32 simultaneous idle games.
 - CSV export for achievement data.
 - One-click game opening from the complete table row.
 - Loading progress directly below the toolbar.
@@ -55,10 +58,10 @@ Download the latest version from [GitHub Releases](https://github.com/riggi89/RS
 
 | Package | Recommended for |
 | --- | --- |
-| `RSSAM_1.0.32-win-x64-Setup.exe` | Most Windows 10 and Windows 11 computers |
-| `RSSAM_1.0.32-win-x86-Setup.exe` | 32-bit Windows installations |
-| `RSSAM_1.0.32-win-x64-Portable.zip` | Portable use on 64-bit Windows |
-| `RSSAM_1.0.32-win-x86-Portable.zip` | Portable use on 32-bit Windows |
+| `RSSAM_2.0.0-win-x64-Setup.exe` | Most Windows 10 and Windows 11 computers |
+| `RSSAM_2.0.0-win-x86-Setup.exe` | 32-bit Windows installations |
+| `RSSAM_2.0.0-win-x64-Portable.zip` | Portable use on 64-bit Windows |
+| `RSSAM_2.0.0-win-x86-Portable.zip` | Portable use on 32-bit Windows |
 
 The installers install RSSAM for the current user under `%LOCALAPPDATA%\Programs\RSSAM` and do not require administrator rights. Extract a portable ZIP completely before starting `RSSAM.exe`.
 
@@ -82,6 +85,12 @@ Install the new release over the existing installation using the same architectu
 3. Select a game to open its achievements and statistics.
 4. Use the toolbar commands to change, export or reload data.
 5. Review every confirmation dialog before saving or resetting changes.
+
+## Card Idler
+
+Open **Card Idler** from the navigation pane, sign in with the Steam account name and password, and complete Steam Guard when requested. RSSAM scans the private badges pages for games with remaining card drops. Select **Start idling** to report the configured batch as being played; the module stops briefly and rechecks at the selected interval so Steam can grant and report new drops.
+
+The optional saved login uses a Windows DPAPI-protected refresh token tied to the current Windows user. RSSAM never stores the Steam password. Signing out removes the saved token. Starting a game elsewhere pauses Card Idler automatically until that playing session ends.
 
 ## Game library
 
@@ -118,6 +127,9 @@ RSSAM stores its user data under `%LOCALAPPDATA%\RSSAM`.
 | `settings.json` | Interface, window and behavior settings |
 | `favorites.json` | Favorite Steam App IDs |
 | `Logs\startup.log` | Startup and error diagnostics |
+| `CardIdler\settings.json` | Card Idler account name, intervals and DPAPI-protected refresh token |
+| `CardIdler\metadata-cache.json` | Cached Steam Store details for games with card drops |
+| `CardIdler\log.txt` | Card Idler diagnostics without passwords or Steam Guard codes |
 
 Deleting `settings.json` or `favorites.json` while RSSAM is closed resets the corresponding data. The application recreates missing files with default values.
 
@@ -146,7 +158,7 @@ When reporting a problem, include the RSSAM version, Windows version, x86 or x64
 Fork modifications: Copyright (c) 2026 Daniel Riggi (riggi89)  
 Original software: Copyright (c) 2024 Rick (rick 'at' gibbed 'dot' us)
 
-RSSAM is based on the original [Steam Achievement Manager](https://github.com/gibbed/SteamAchievementManager).
+RSSAM is based on the original [Steam Achievement Manager](https://github.com/gibbed/SteamAchievementManager). The integrated Card Idler module is adapted from CardIdler by Sam-218 under the MIT License and uses SteamKit2 for Steam network authentication.
 
 See [LICENSE.md](LICENSE.md) and [NOTICE.md](NOTICE.md) for the complete license and attribution information.
 

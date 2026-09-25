@@ -1,5 +1,18 @@
 # RSSAM Changelog
 
+## 2.0.0 - 2026-09-25
+
+- Integrated CardIdler 1.0.0 as the dedicated WinUI 3 module `RSSAM.CardIdler` and added Card Idler to the main navigation.
+- Added SteamKit2-based account sign-in, Windows DPAPI-protected refresh-token storage, Steam Guard code prompts and automatic reconnect handling.
+- Added private Steam badge scanning, remaining-drop detection, configurable batches of up to 32 games, a waiting queue and periodic drop rechecks.
+- Added automatic pausing while the Steam account is playing elsewhere, card-drop notifications, session statistics, store metadata and an activity log.
+- Rebuilt the original standalone WPF interface as an embedded theme-aware WinUI page that follows RSSAM light and dark modes.
+- Added Card Idler navigation and page translations for German, English, Spanish, French and Turkish.
+- Added `RSSAM.CardIdler.dll` and `SteamKit2.dll` to release-payload validation for installer and portable packages.
+- Stored Card Idler settings, encrypted session data, metadata cache and diagnostics below `%LOCALAPPDATA%\RSSAM\CardIdler`.
+- Added MIT attribution for the imported CardIdler source and documented the SteamKit2 dependency.
+- Increased the RSSAM version to **2.0.0**.
+
 ## 1.0.32 - 2026-09-17
 
 - Added a quick light/dark theme toggle to the title bar while retaining the System, Light and Dark choices in Settings.

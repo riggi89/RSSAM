@@ -20,6 +20,7 @@ Do not introduce `Windows.UI.Xaml` or other UWP presentation namespaces into the
 ## Layer boundaries
 
 - Put window and control behavior in `RSSAM.App`.
+- Keep Card Idler UI and SteamKit2 behavior inside `RSSAM.CardIdler` so its assembly boundary remains explicit.
 - Put reusable models, validation, storage and orchestration in `RSSAM.Core`.
 - Put native vtable and Steam interface work in `RSSAM.API`.
 - Keep Core free of WinUI controls, brushes, dispatchers and XAML types.
@@ -28,6 +29,8 @@ Do not introduce `Windows.UI.Xaml` or other UWP presentation namespaces into the
 ## WinUI pages and shell integration
 
 Pages that participate in the main shell implement `IShellContentPage`. They should publish state through that contract and raise `ShellStateChanged` when toolbar items, busy state, search state or back-navigation state changes.
+
+Feature-module pages such as `CardIdlerPage` may be navigated directly when they do not use global search or shell toolbar actions. They must expose a public parameterless constructor for `Frame.Navigate`, use application theme resources and provide an explicit localization refresh hook.
 
 Use the shared shell toolbar instead of adding a page-local command bar. Toolbar commands should provide:
 
@@ -94,7 +97,7 @@ Settings and favorites are written atomically. New persistent settings require:
 4. tests for defaults, round-trip and invalid values;
 5. schema-version consideration for migration.
 
-Do not store credentials, Steam session tokens or other secrets in settings files.
+Do not store passwords, Steam Guard codes or plaintext session tokens in settings files. Card Idler is the narrow exception for a refresh token protected with Windows DPAPI for the current user; clearing the saved login must remove that encrypted token.
 
 ## Native interop
 

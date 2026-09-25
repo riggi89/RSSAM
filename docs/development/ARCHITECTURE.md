@@ -5,6 +5,7 @@
 ```mermaid
 flowchart LR
     App["RSSAM.App<br>WinUI presentation"] --> Core["RSSAM.Core<br>Application and domain"]
+    App --> Idler["RSSAM.CardIdler<br>Trading-card idling"]
     Core --> API["RSSAM.API<br>Native Steam bridge"]
     Tests["RSSAM.UnitTests<br>x64 test host"] --> Core
     Tests --> API
@@ -12,9 +13,11 @@ flowchart LR
 
 Dependencies point toward the native bridge. `RSSAM.API` has no WinUI dependency, `RSSAM.Core` has no presentation dependency, and `RSSAM.App` does not call native Steam interfaces directly.
 
+`RSSAM.CardIdler` is a separate WinUI class library referenced only by the application. It owns its SteamKit2 session, badge scraper, encrypted refresh-token settings, store metadata cache, view model and embedded page. It does not call the native SAM bridge used by achievement management.
+
 ## Application layer
 
-`RSSAM.App` owns startup, the custom title bar, navigation, page composition and all WinUI controls. `MainWindow` configures the Windows title bar, theme-aware caption colors, global search and responsive title-bar layout. `ShellPage` owns the navigation pane, page toolbar, loading bar, content frame and status bar.
+`RSSAM.App` owns startup, the custom title bar, navigation and page composition. Application controls remain in App; the self-contained Card Idler page is supplied by `RSSAM.CardIdler`. `MainWindow` configures the Windows title bar, theme-aware caption colors, global search and responsive title-bar layout. `ShellPage` owns the navigation pane, page toolbar, loading bar, content frame and status bar.
 
 Content pages implement `IShellContentPage` and expose:
 
@@ -102,6 +105,8 @@ All WinUI `ContentDialog` instances are shown through `DialogService`. The servi
 
 `%LOCALAPPDATA%\RSSAM\favorites.json` stores favorite Steam App IDs separately. Resetting application settings therefore does not remove favorites. Both services use atomic replacement and support isolated data directories for unit tests.
 
+Card Idler keeps its independent settings, DPAPI-protected refresh token, metadata cache and rotating log below `%LOCALAPPDATA%\RSSAM\CardIdler`. The plaintext Steam password and Steam Guard codes are never persisted.
+
 ## Localization
 
 `LocalizationService` loads embedded JSON dictionaries from `RSSAM.Core/Localization/Resources` and falls back to copied resource files when required. The English dictionary is the missing-key fallback.
@@ -120,6 +125,6 @@ All dictionaries must contain identical keys and compatible composite-format pla
 
 ## Extension points
 
-New pages belong under `RSSAM.App/Presentation/Views`. Reusable application logic belongs in Core. Native Steam additions belong in API. Shared shell actions should use `ShellToolbarItem` rather than adding page-specific command bars.
+New application pages belong under `RSSAM.App/Presentation/Views`. A feature that must ship as an independently named assembly may expose a public WinUI page from its own project, following the `RSSAM.CardIdler` pattern. Reusable application logic belongs in Core. Native Steam additions belong in API. Shared shell actions should use `ShellToolbarItem` rather than adding page-specific command bars.
 
 Before adding a dependency between projects, preserve the existing direction shown above.

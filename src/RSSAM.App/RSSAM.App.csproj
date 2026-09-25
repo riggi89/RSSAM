@@ -32,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RSSAM.Core\RSSAM.Core.csproj" />
+    <ProjectReference Include="..\RSSAM.CardIdler\RSSAM.CardIdler.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\RSSAM-AppIcon-24.png"

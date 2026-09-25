@@ -41,6 +41,13 @@
                             <SymbolIcon Symbol="Library" />
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
+                    <NavigationViewItem x:Name="CardIdlerNavigationItem"
+                                        Content="Card Idler"
+                                        Tag="card-idler">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE7FC;" />
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
                 </NavigationView.MenuItems>
 
                 <NavigationView.FooterMenuItems>
