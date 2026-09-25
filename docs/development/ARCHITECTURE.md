@@ -30,7 +30,7 @@ Content pages implement `IShellContentPage` and expose:
 
 The shell renders left and right toolbar groups independently. Page actions are icon-only buttons with localized tooltips and accessible names. Reload actions can be anchored at the far right through `ShellToolbarItemPlacement.Right`.
 
-Card Idler also publishes its Start/Stop, Rescan, batch-size, recheck-interval, view-mode and sign-out controls through this contract. Slider toolbar items expose live value and countdown text without introducing a page-local command bar.
+Card Idler also publishes its Start/Stop, Rescan, batch-size, recheck-interval, view-mode and sign-out controls through this contract. Slider toolbar items expose live value and countdown text without introducing a page-local command bar. Its detail layout uses WinUI.TableView with single-row selection and complete-row item clicks, matching the main game library.
 
 ## Core layer
 

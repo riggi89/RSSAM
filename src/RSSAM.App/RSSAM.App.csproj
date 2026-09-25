@@ -35,6 +35,16 @@
     <ProjectReference Include="..\RSSAM.CardIdler\RSSAM.CardIdler.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <!--
+      Shell contracts moved to RSSAM.Core in 2.0.1 so feature modules can use
+      them without referencing the application. Explicit removal also protects
+      upgrades extracted over an older source tree where the former files may
+      still exist and otherwise shadow the Core types.
+    -->
+    <Compile Remove="Presentation\Shell\IShellContentPage.cs" />
+    <Compile Remove="Presentation\Shell\ShellToolbarItem.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Assets\RSSAM-AppIcon-24.png"
              CopyToOutputDirectory="PreserveNewest"
              CopyToPublishDirectory="PreserveNewest" />

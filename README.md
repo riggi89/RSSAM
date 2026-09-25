@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://github.com/riggi89/RSSAM/releases"><img alt="Windows x86 supported" src="https://img.shields.io/badge/Windows-x86-0078D4?logo=windows11&amp;logoColor=white"></a>
   <a href="https://github.com/riggi89/RSSAM/releases"><img alt="Windows x64 supported" src="https://img.shields.io/badge/Windows-x64-0078D4?logo=windows11&amp;logoColor=white"></a>
-  <a href="https://github.com/riggi89/RSSAM/releases"><img alt="Version 2.0.2" src="https://img.shields.io/badge/version-2.0.2-blue"></a>
+  <a href="https://github.com/riggi89/RSSAM/releases"><img alt="Version 2.0.3" src="https://img.shields.io/badge/version-2.0.3-blue"></a>
   <a href="LICENSE.md"><img alt="zlib license" src="https://img.shields.io/badge/license-zlib-green"></a>
 </p>
 
@@ -52,16 +52,20 @@ RSSAM is an independently maintained fork of Steam Achievement Manager. It is no
 
 Additional views: [List](docs/images/game-library-list.png) · [Table](docs/images/game-library-table.png) · [Favorites](docs/images/game-library-favorites.png) · [Settings](docs/images/settings.png)
 
+### Card Idler
+
+![RSSAM Card Idler](docs/images/card-idler.png)
+
 ## Download and installation
 
 Download the latest version from [GitHub Releases](https://github.com/riggi89/RSSAM/releases).
 
 | Package | Recommended for |
 | --- | --- |
-| `RSSAM_2.0.2-win-x64-Setup.exe` | Most Windows 10 and Windows 11 computers |
-| `RSSAM_2.0.2-win-x86-Setup.exe` | 32-bit Windows installations |
-| `RSSAM_2.0.2-win-x64-Portable.zip` | Portable use on 64-bit Windows |
-| `RSSAM_2.0.2-win-x86-Portable.zip` | Portable use on 32-bit Windows |
+| `RSSAM_2.0.3-win-x64-Setup.exe` | Most Windows 10 and Windows 11 computers |
+| `RSSAM_2.0.3-win-x86-Setup.exe` | 32-bit Windows installations |
+| `RSSAM_2.0.3-win-x64-Portable.zip` | Portable use on 64-bit Windows |
+| `RSSAM_2.0.3-win-x86-Portable.zip` | Portable use on 32-bit Windows |
 
 The installers install RSSAM for the current user under `%LOCALAPPDATA%\Programs\RSSAM` and do not require administrator rights. Extract a portable ZIP completely before starting `RSSAM.exe`.
 

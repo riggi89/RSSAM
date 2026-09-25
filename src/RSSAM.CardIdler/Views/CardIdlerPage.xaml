@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="using:RSSAM.CardIdler.Converters"
+    xmlns:tv="using:WinUI.TableView"
     x:Name="RootPage"
     NavigationCacheMode="Required">
 
@@ -123,37 +124,48 @@
                         </ListView>
 
                         <Grid x:Name="DetailGamesPanel" Visibility="Collapsed">
-                            <Grid.RowDefinitions><RowDefinition Height="40" /><RowDefinition Height="*" /></Grid.RowDefinitions>
-                            <Grid Padding="12,0" ColumnSpacing="12" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="92" /><ColumnDefinition Width="*" /><ColumnDefinition Width="88" />
-                                    <ColumnDefinition Width="76" /><ColumnDefinition Width="110" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock x:Name="DetailImageColumnText" Text="Image" FontWeight="SemiBold" VerticalAlignment="Center" />
-                                <TextBlock x:Name="DetailGameColumnText" Grid.Column="1" Text="Game" FontWeight="SemiBold" VerticalAlignment="Center" />
-                                <TextBlock x:Name="DetailAppIdColumnText" Grid.Column="2" Text="App ID" FontWeight="SemiBold" VerticalAlignment="Center" />
-                                <TextBlock x:Name="DetailDropsColumnText" Grid.Column="3" Text="Drops" FontWeight="SemiBold" VerticalAlignment="Center" />
-                                <TextBlock x:Name="DetailPlaytimeColumnText" Grid.Column="4" Text="Playtime" FontWeight="SemiBold" VerticalAlignment="Center" />
-                            </Grid>
-                            <ListView x:Name="DetailGamesView" Grid.Row="1"
-                                      ItemsSource="{Binding FilteredGames, ElementName=RootPage}"
-                                      IsItemClickEnabled="True" ItemClick="GameList_ItemClick" SelectionMode="Single">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid MinHeight="58" Padding="12,5" ColumnSpacing="12" ToolTipService.ToolTip="{Binding Name}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="92" /><ColumnDefinition Width="*" /><ColumnDefinition Width="88" />
-                                                <ColumnDefinition Width="76" /><ColumnDefinition Width="110" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border CornerRadius="4"><Image Source="{Binding HeaderUrl}" Stretch="UniformToFill" /></Border>
-                                            <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                            <TextBlock Grid.Column="2" Text="{Binding AppId}" VerticalAlignment="Center" />
-                                            <TextBlock Grid.Column="3" Text="{Binding DropsRemaining}" VerticalAlignment="Center" />
-                                            <TextBlock Grid.Column="4" Text="{Binding HoursText}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
+                            <tv:TableView x:Name="DetailGamesView"
+                                          ItemsSource="{Binding FilteredGames, ElementName=RootPage}"
+                                          AutoGenerateColumns="False"
+                                          IsReadOnly="True"
+                                          CanResizeColumns="False"
+                                          CanReorderColumns="False"
+                                          CanSortColumns="False"
+                                          CanFilterColumns="False"
+                                          IsItemClickEnabled="True"
+                                          SelectionMode="Single"
+                                          SelectionUnit="Row"
+                                          CornerButtonMode="None"
+                                          ItemClick="GameList_ItemClick">
+                                <tv:TableView.Columns>
+                                    <tv:TableViewTemplateColumn x:Name="DetailImageColumn" Width="142">
+                                        <tv:TableViewTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border Width="116"
+                                                        Height="44"
+                                                        CornerRadius="4"
+                                                        VerticalAlignment="Center"
+                                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                                        ToolTipService.ToolTip="{Binding Name}">
+                                                    <Image Source="{Binding HeaderUrl}" Stretch="UniformToFill" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </tv:TableViewTemplateColumn.CellTemplate>
+                                    </tv:TableViewTemplateColumn>
+                                    <tv:TableViewTextColumn x:Name="DetailGameColumn"
+                                                            Width="*"
+                                                            Binding="{Binding Name, Mode=OneWay}" />
+                                    <tv:TableViewNumberColumn x:Name="DetailAppIdColumn"
+                                                              Width="100"
+                                                              Binding="{Binding AppId, Mode=OneWay}" />
+                                    <tv:TableViewNumberColumn x:Name="DetailDropsColumn"
+                                                              Width="90"
+                                                              Binding="{Binding DropsRemaining, Mode=OneWay}" />
+                                    <tv:TableViewTextColumn x:Name="DetailPlaytimeColumn"
+                                                            Width="120"
+                                                            Binding="{Binding HoursText, Mode=OneWay}" />
+                                </tv:TableView.Columns>
+                            </tv:TableView>
                         </Grid>
                     </Grid>
 

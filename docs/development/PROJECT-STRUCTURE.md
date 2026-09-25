@@ -33,7 +33,7 @@ Important locations:
 
 | Path | Purpose |
 | --- | --- |
-| `Views/CardIdlerPage.xaml` / `.cs` | Embedded WinUI interface, three game views, title-bar search and shell toolbar integration |
+| `Views/CardIdlerPage.xaml` / `.cs` | Embedded WinUI interface, tile/list/TableView game layouts, title-bar search and shell toolbar integration |
 | `ViewModels` | Password, Steam Guard and QR login, scan, queue and idle-loop state |
 | `Services/SteamService.cs` | SteamKit2 credentials/QR authentication, playing state and community cookies |
 | `Services/BadgeScraper.cs` | Private badge-page parsing and remaining-drop detection |
@@ -41,7 +41,7 @@ Important locations:
 | `Models/GameInfo.cs` | Bindable game/drop model |
 | `LICENSE.CardIdler.txt` | MIT license retained from CardIdler by Sam-218 |
 
-The project builds as `RSSAM.CardIdler.dll`. It uses SteamKit2 independently of the native API bridge, QRCoder for local Steam Mobile QR rendering and stores its data below `%LOCALAPPDATA%\RSSAM\CardIdler`.
+The project builds as `RSSAM.CardIdler.dll`. It uses SteamKit2 independently of the native API bridge, QRCoder for local Steam Mobile QR rendering and WinUI.TableView for the read-only detail layout. Its data is stored below `%LOCALAPPDATA%\RSSAM\CardIdler`.
 
 ## RSSAM.Core
 

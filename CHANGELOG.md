@@ -1,7 +1,16 @@
 # RSSAM Changelog
 
+## 2.0.3 - 2026-09-25
+
+- Replaced the Card Idler's manually constructed detail list with the shared `WinUI.TableView` control.
+- Added read-only image, game, App ID, drops and playtime columns with localized headers.
+- Enabled single-click selection across the complete Card Idler detail row, matching the main game library.
+- Added the Card Idler screenshot to the root README.
+- Increased the RSSAM version to **2.0.3**.
+
 ## 2.0.2 - 2026-09-25
 
+- Prevented obsolete App-local shell contract files from shadowing the Core `ShellToolbarItem` definition during source-tree upgrades.
 - Fixed the Card Idler `GameInfo.AppId` setter so scan and import paths no longer trigger an init-only assignment compiler error.
 - Renamed the main navigation entry from **Card Idler** to **Idler** while retaining Card Idler as the feature and assembly name.
 - Removed the redundant game-library subtitle below **Steam games**.

@@ -81,7 +81,7 @@ Before a release, test at least:
 | DPI | 100 percent and 150 percent |
 | Library | Tile, List, Table, Favorites |
 | Detail page | Achievements and Statistics |
-| Card Idler | Password/Steam Guard and QR sign-in, scan, tile/list/detail views, search, toolbar controls, start/stop, pause and sign-out |
+| Card Idler | Password/Steam Guard and QR sign-in, scan, tile/list/TableView detail layouts, complete-row clicks, search, toolbar controls, start/stop, pause and sign-out |
 | Input | Complete row click, toolbar buttons, search, dialogs |
 | Languages | German, English, Spanish, French, Turkish |
 | Distribution | Installer and portable ZIP |
