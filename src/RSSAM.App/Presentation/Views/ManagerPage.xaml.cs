@@ -264,7 +264,6 @@ public sealed partial class ManagerPage : Page, IShellContentPage
     private void ApplyLocalization()
     {
         GamesTitleText.Text = App.LocalizationService.Get("Games.Title");
-        GamesSubtitleText.Text = App.LocalizationService.Get("Games.Subtitle");
         var favoritesOnlyText = App.LocalizationService.Get("Games.Favorites.Only");
         var gridViewText = App.LocalizationService.Get("Games.View.Grid");
         var listViewText = App.LocalizationService.Get("Games.View.List");

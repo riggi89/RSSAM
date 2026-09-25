@@ -39,8 +39,8 @@
                                   Width="220"
                                   HorizontalAlignment="Left"
                                   SelectionChanged="SettingsControl_SelectionChanged">
-                            <ComboBoxItem x:Name="LanguageGermanItem" Content="Deutsch" Tag="de-DE" />
-                            <ComboBoxItem x:Name="LanguageEnglishItem" Content="English" Tag="en-US" />
+                            <ComboBoxItem x:Name="LanguageGermanItem" Content="Deutsch (German)" Tag="de-DE" />
+                            <ComboBoxItem x:Name="LanguageEnglishItem" Content="Englisch (English)" Tag="en-US" />
                             <ComboBoxItem x:Name="LanguageSpanishItem" Content="Español" Tag="es-ES" />
                             <ComboBoxItem x:Name="LanguageFrenchItem" Content="Français" Tag="fr-FR" />
                             <ComboBoxItem x:Name="LanguageTurkishItem" Content="Türkçe" Tag="tr-TR" />

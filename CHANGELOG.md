@@ -1,5 +1,14 @@
 # RSSAM Changelog
 
+## 2.0.2 - 2026-09-25
+
+- Fixed the Card Idler `GameInfo.AppId` setter so scan and import paths no longer trigger an init-only assignment compiler error.
+- Renamed the main navigation entry from **Card Idler** to **Idler** while retaining Card Idler as the feature and assembly name.
+- Removed the redundant game-library subtitle below **Steam games**.
+- Reserved a permanent three-pixel loading-bar row so the game list no longer moves vertically when loading starts or finishes.
+- Expanded every language selector label with its native language name, such as `German (Deutsch)`, in all five interface languages.
+- Increased the RSSAM version to **2.0.2**.
+
 ## 2.0.1 - 2026-09-25
 
 - Added tile, list and detail views to Card Idler, with icon-only view controls in the global toolbar.

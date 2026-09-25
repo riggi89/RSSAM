@@ -19,7 +19,7 @@ public sealed class GameInfo : ObservableObject
     private string _price = "";
     private bool _metaLoaded;
 
-    public int AppId { get; init; }
+    public int AppId { get; set; }
 
     public string Name { get => _name; set => Set(ref _name, value); }
     public int DropsRemaining { get => _dropsRemaining; set => Set(ref _dropsRemaining, value); }

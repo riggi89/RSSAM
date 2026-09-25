@@ -112,4 +112,4 @@ The compiled version is synchronized across:
 - `src/RSSAM.App/AppVersion.cs`;
 - `src/RSSAM.App/app.manifest`.
 
-The Windows manifest uses four parts; the final component remains zero. User-facing RSSAM versions use three parts, for example `2.0.1`.
+The Windows manifest uses four parts; the final component remains zero. User-facing RSSAM versions use three parts, for example `2.0.2`.

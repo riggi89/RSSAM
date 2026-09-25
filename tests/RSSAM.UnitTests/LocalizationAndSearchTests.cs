@@ -16,6 +16,8 @@ public sealed class LocalizationAndSearchTests
 
         Assert.Equal("en-US", localization.Language);
         Assert.Equal("english", localization.SteamLanguage);
+        Assert.Equal("Idler", localization.Get("Nav.CardIdler"));
+        Assert.Equal("German (Deutsch)", localization.Get("Settings.Language.German"));
         Assert.Equal("Missing.Test.Key", localization.Get("Missing.Test.Key"));
 
         localization.SetLanguage("es");
@@ -39,6 +41,7 @@ public sealed class LocalizationAndSearchTests
         localization.SetLanguage("unsupported");
         Assert.Equal("de-DE", localization.Language);
         Assert.Equal("german", localization.SteamLanguage);
+        Assert.Equal("Deutsch (German)", localization.Get("Settings.Language.German"));
     }
 
     [Fact]

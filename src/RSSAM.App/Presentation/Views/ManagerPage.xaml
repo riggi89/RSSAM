@@ -24,14 +24,9 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel>
-                    <TextBlock x:Name="GamesTitleText"
-                               Style="{StaticResource TitleTextBlockStyle}" />
-                    <TextBlock x:Name="GamesSubtitleText"
-                               Margin="0,4,0,0"
-                               Foreground="{ThemeResource AppSecondaryTextBrush}"
-                               TextWrapping="Wrap" />
-                </StackPanel>
+                <TextBlock x:Name="GamesTitleText"
+                           Style="{StaticResource TitleTextBlockStyle}"
+                           VerticalAlignment="Center" />
 
                 <StackPanel Grid.Column="1"
                             Orientation="Horizontal"
