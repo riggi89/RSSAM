@@ -19,7 +19,6 @@ Important locations:
 | `App.xaml` / `App.xaml.cs` | Application startup, services and hidden worker dispatch |
 | `MainWindow.xaml` / `.cs` | Custom title bar, theme toggle, global search and native caption styling |
 | `Presentation/Views` | Shell, manager, settings and changelog pages |
-| `Presentation/Shell` | Page-to-shell contracts and toolbar item models |
 | `Presentation/Controls` | Reusable WinUI controls such as `SettingsRow` |
 | `Presentation/ViewModels` | Reserved for presentation-specific view models |
 | `Resources/Styles` | Colors, brushes, controls, toolbar and shell styles |
@@ -34,15 +33,15 @@ Important locations:
 
 | Path | Purpose |
 | --- | --- |
-| `Views/CardIdlerPage.xaml` / `.cs` | Embedded WinUI interface and RSSAM localization bridge |
-| `ViewModels` | Login, Steam Guard, scan, queue and idle-loop state |
-| `Services/SteamService.cs` | SteamKit2 authentication, playing state and community cookies |
+| `Views/CardIdlerPage.xaml` / `.cs` | Embedded WinUI interface, three game views, title-bar search and shell toolbar integration |
+| `ViewModels` | Password, Steam Guard and QR login, scan, queue and idle-loop state |
+| `Services/SteamService.cs` | SteamKit2 credentials/QR authentication, playing state and community cookies |
 | `Services/BadgeScraper.cs` | Private badge-page parsing and remaining-drop detection |
 | `Services/MetadataService.cs` | Regional Steam Store metadata and cache |
 | `Models/GameInfo.cs` | Bindable game/drop model |
 | `LICENSE.CardIdler.txt` | MIT license retained from CardIdler by Sam-218 |
 
-The project builds as `RSSAM.CardIdler.dll`. It uses SteamKit2 independently of the native API bridge and stores its data below `%LOCALAPPDATA%\RSSAM\CardIdler`.
+The project builds as `RSSAM.CardIdler.dll`. It uses SteamKit2 independently of the native API bridge, QRCoder for local Steam Mobile QR rendering and stores its data below `%LOCALAPPDATA%\RSSAM\CardIdler`.
 
 ## RSSAM.Core
 
@@ -51,6 +50,7 @@ Important locations:
 | Path | Purpose |
 | --- | --- |
 | `Interfaces` | Localization and search contracts shared with the app |
+| `Presentation/Shell` | Presentation-neutral page-to-shell contracts and toolbar item models |
 | `Localization` | Localization service and embedded JSON dictionaries |
 | `Models` | Games, achievements, settings and worker data models |
 | `Search` | Search provider implementations |

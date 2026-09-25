@@ -53,6 +53,7 @@ $requiredFiles = @(
     'RSSAM.API.dll',
     'RSSAM.CardIdler.dll',
     'SteamKit2.dll',
+    'QRCoder.dll',
     'WinUI.TableView.dll',
     'Microsoft.UI.Xaml.dll',
     'Microsoft.WindowsAppRuntime.dll',

@@ -16,6 +16,10 @@ public sealed partial class MainViewModel
     private string _guardHint = "";
     private string _guardCode = "";
     private bool _guardWrong;
+    private CancellationTokenSource? _qrLoginCts;
+    private bool _qrLoginVisible;
+    private string _qrChallengeUrl = "";
+    private string _qrStatus = "";
 
     public string Username { get => _username; set => Set(ref _username, value); }
     public string AccountName { get => _accountName; private set => Set(ref _accountName, value); }
@@ -39,6 +43,17 @@ public sealed partial class MainViewModel
     public string GuardHint { get => _guardHint; private set => Set(ref _guardHint, value); }
     public bool GuardWrong { get => _guardWrong; private set => Set(ref _guardWrong, value); }
     public string GuardCode { get => _guardCode; set => Set(ref _guardCode, value); }
+    public bool QrLoginVisible
+    {
+        get => _qrLoginVisible;
+        private set
+        {
+            if (Set(ref _qrLoginVisible, value))
+                RefreshCommands();
+        }
+    }
+    public string QrChallengeUrl { get => _qrChallengeUrl; private set => Set(ref _qrChallengeUrl, value); }
+    public string QrStatus { get => _qrStatus; private set => Set(ref _qrStatus, value); }
 
     /// <summary>Startup: sign in with the saved login, if there is one. Only scans - idling waits for Start.</summary>
     public async Task TryAutoLoginAsync()
@@ -50,6 +65,7 @@ public sealed partial class MainViewModel
     private async Task LoginAsync(string? password)
     {
         if (Busy) return;
+        CancelQrLogin(resetStatus: false);
         Busy = true;
         LoginError = "";
         State = ConnState.Connecting;
@@ -83,6 +99,87 @@ public sealed partial class MainViewModel
         finally { Busy = false; }
     }
 
+    private async Task LoginWithQrAsync()
+    {
+        if (Busy || IsLoggedIn) return;
+
+        _qrLoginCts?.Cancel();
+        _qrLoginCts?.Dispose();
+        var cts = _qrLoginCts = new CancellationTokenSource();
+        QrChallengeUrl = "";
+        QrStatus = "Requesting QR code from Steam...";
+        QrLoginVisible = true;
+        Busy = true;
+        LoginError = "";
+        State = ConnState.Connecting;
+        Status = "Waiting for Steam Mobile confirmation...";
+
+        _steam?.Dispose();
+        var steam = _steam = CreateSteam();
+        try
+        {
+            var account = await steam.LogInWithQrAsync(challenge => Dispatch(() =>
+            {
+                QrChallengeUrl = challenge;
+                QrStatus = "Scan this code with Steam Mobile and confirm the sign-in.";
+            }), cts.Token);
+
+            AccountName = account;
+            Username = account;
+            _settings.Username = account;
+            _settings.SetToken(StayLoggedIn ? steam.RefreshToken : null);
+            OnSignedIn(steam);
+            AddLog($"Signed in as {account} with Steam Mobile (store region {_meta.Country})");
+            QrLoginVisible = false;
+            QrChallengeUrl = "";
+            _ = ScanAsync();
+        }
+        catch (OperationCanceledException)
+        {
+            steam.Dispose();
+            if (steam == _steam) _steam = null;
+            State = ConnState.Offline;
+            Status = "Sign in to start farming cards";
+            QrStatus = "";
+        }
+        catch (Exception ex)
+        {
+            if (ex is not SteamLoginException) Log.Write("QR login failed", ex);
+            LoginError = ex is SteamLoginException ? ex.Message : "QR sign-in failed: " + ex.Message;
+            steam.Dispose();
+            if (steam == _steam) _steam = null;
+            State = ConnState.Offline;
+            Status = "Sign in to start farming cards";
+            QrLoginVisible = false;
+            QrChallengeUrl = "";
+        }
+        finally
+        {
+            if (_qrLoginCts == cts)
+            {
+                _qrLoginCts.Dispose();
+                _qrLoginCts = null;
+            }
+            Busy = false;
+        }
+    }
+
+    private void CancelQrLogin(bool resetStatus = true)
+    {
+        _qrLoginCts?.Cancel();
+        QrLoginVisible = false;
+        QrChallengeUrl = "";
+        QrStatus = "";
+        if (resetStatus && !IsLoggedIn)
+            Status = "Sign in to start farming cards";
+    }
+
+    public void ReportQrRenderingError(string message)
+    {
+        QrStatus = "The QR code could not be displayed: " + message;
+        Log.Write("QR rendering failed: " + message);
+    }
+
     private void OnSignedIn(SteamService steam)
     {
         if (steam.Country != null) _meta.Country = steam.Country;
@@ -91,6 +188,7 @@ public sealed partial class MainViewModel
 
     private void Logout()
     {
+        CancelQrLogin();
         StopIdling(null);
         _settings.SetToken(null);
         _steam?.Dispose();

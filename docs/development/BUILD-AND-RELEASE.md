@@ -39,7 +39,7 @@ artifacts/
    └─ win-x86/
 ```
 
-Each directory contains the matching RSSAM executable, managed assemblies including `RSSAM.CardIdler.dll`, SteamKit2 and its dependencies, the native Steam bridge, WinUI and .NET runtime dependencies, assets, documentation and `resources.pri`.
+Each directory contains the matching RSSAM executable, managed assemblies including `RSSAM.CardIdler.dll`, SteamKit2, QRCoder and their dependencies, the native Steam bridge, WinUI and .NET runtime dependencies, assets, documentation and `resources.pri`.
 
 Publishing uses isolated temporary build roots and validates required files before making the result available under `artifacts`. This prevents stale `bin` or `obj` files from entering a release.
 
@@ -86,7 +86,7 @@ The source archive contains the repository source and documentation while exclud
 11. Smoke-test the installed and portable x64 versions on Windows 11.
 12. Smoke-test x86 when a suitable Windows environment is available.
 13. Verify Steam connection, game loading, achievement loading, save confirmation and settings persistence.
-14. Verify Card Idler sign-in, Steam Guard, badge scanning, start/stop, playing-elsewhere pause and sign-out token removal.
+14. Verify Card Idler password/Steam Guard and QR sign-in, badge scanning, title-bar search, all three views, toolbar sliders, start/stop, playing-elsewhere pause and sign-out token removal.
 15. Verify light and dark title-bar buttons, 150 percent DPI scaling and every supported language.
 16. Generate checksums after signing and after all file content is final.
 
@@ -112,4 +112,4 @@ The compiled version is synchronized across:
 - `src/RSSAM.App/AppVersion.cs`;
 - `src/RSSAM.App/app.manifest`.
 
-The Windows manifest uses four parts; the final component remains zero. User-facing RSSAM versions use three parts, for example `2.0.0`.
+The Windows manifest uses four parts; the final component remains zero. User-facing RSSAM versions use three parts, for example `2.0.1`.

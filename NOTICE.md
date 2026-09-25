@@ -48,6 +48,14 @@ Third-party components remain subject to their own copyright notices and license
 
 SteamKit2 and its transitive dependencies remain subject to their own package notices and license terms.
 
+`RSSAM.CardIdler` uses **QRCoder 1.8.0** to render Steam authentication challenge URLs as QR images locally.
+
+- Project: https://github.com/Shane32/QRCoder
+- License: MIT License
+- Original author: Raffael Herrmann
+
+QRCoder remains subject to its own copyright notice and MIT license terms.
+
 ## License information
 
 The complete fork copyright, original-project copyright, modification notice, zlib license and third-party notice are provided in [`LICENSE.md`](LICENSE.md).

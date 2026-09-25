@@ -6,6 +6,7 @@
 flowchart LR
     App["RSSAM.App<br>WinUI presentation"] --> Core["RSSAM.Core<br>Application and domain"]
     App --> Idler["RSSAM.CardIdler<br>Trading-card idling"]
+    Idler --> Core
     Core --> API["RSSAM.API<br>Native Steam bridge"]
     Tests["RSSAM.UnitTests<br>x64 test host"] --> Core
     Tests --> API
@@ -13,7 +14,7 @@ flowchart LR
 
 Dependencies point toward the native bridge. `RSSAM.API` has no WinUI dependency, `RSSAM.Core` has no presentation dependency, and `RSSAM.App` does not call native Steam interfaces directly.
 
-`RSSAM.CardIdler` is a separate WinUI class library referenced only by the application. It owns its SteamKit2 session, badge scraper, encrypted refresh-token settings, store metadata cache, view model and embedded page. It does not call the native SAM bridge used by achievement management.
+`RSSAM.CardIdler` is a separate WinUI class library referenced by the application. It owns its SteamKit2 session, badge scraper, encrypted refresh-token settings, store metadata cache, view model and embedded page. It references Core only for the presentation-neutral shell contract and does not call the native SAM bridge used by achievement management.
 
 ## Application layer
 
@@ -28,6 +29,8 @@ Content pages implement `IShellContentPage` and expose:
 - busy state for the global loading bar.
 
 The shell renders left and right toolbar groups independently. Page actions are icon-only buttons with localized tooltips and accessible names. Reload actions can be anchored at the far right through `ShellToolbarItemPlacement.Right`.
+
+Card Idler also publishes its Start/Stop, Rescan, batch-size, recheck-interval, view-mode and sign-out controls through this contract. Slider toolbar items expose live value and countdown text without introducing a page-local command bar.
 
 ## Core layer
 
@@ -85,6 +88,7 @@ The title bar contains one global search field. Its behavior depends on the acti
 - game-library search filters games;
 - achievement search filters achievements;
 - statistics search filters statistics;
+- Card Idler search filters games with remaining card drops;
 - settings and changelog pages hide the search field.
 
 New searchable pages should provide a stable search context instead of adding a second search box.
@@ -106,6 +110,8 @@ All WinUI `ContentDialog` instances are shown through `DialogService`. The servi
 `%LOCALAPPDATA%\RSSAM\favorites.json` stores favorite Steam App IDs separately. Resetting application settings therefore does not remove favorites. Both services use atomic replacement and support isolated data directories for unit tests.
 
 Card Idler keeps its independent settings, DPAPI-protected refresh token, metadata cache and rotating log below `%LOCALAPPDATA%\RSSAM\CardIdler`. The plaintext Steam password and Steam Guard codes are never persisted.
+
+Password/Steam Guard and Steam Mobile QR authentication both use SteamKit2. QR challenge URLs are rendered locally with QRCoder, refreshed when Steam rotates the challenge and discarded after completion or cancellation.
 
 ## Localization
 

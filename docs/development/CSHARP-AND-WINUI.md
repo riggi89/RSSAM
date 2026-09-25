@@ -30,7 +30,7 @@ Do not introduce `Windows.UI.Xaml` or other UWP presentation namespaces into the
 
 Pages that participate in the main shell implement `IShellContentPage`. They should publish state through that contract and raise `ShellStateChanged` when toolbar items, busy state, search state or back-navigation state changes.
 
-Feature-module pages such as `CardIdlerPage` may be navigated directly when they do not use global search or shell toolbar actions. They must expose a public parameterless constructor for `Frame.Navigate`, use application theme resources and provide an explicit localization refresh hook.
+Feature-module pages such as `CardIdlerPage` may implement the Core-owned shell contract to use global search, toolbar actions, status and loading state without referencing `RSSAM.App`. They must expose a public parameterless constructor for `Frame.Navigate`, use application theme resources and provide an explicit localization refresh hook.
 
 Use the shared shell toolbar instead of adding a page-local command bar. Toolbar commands should provide:
 
@@ -40,6 +40,8 @@ Use the shared shell toolbar instead of adding a page-local command bar. Toolbar
 - enabled and checked state;
 - left or right placement;
 - an action or toggle callback.
+
+Slider commands additionally publish minimum, maximum, step, value text and an optional secondary status such as the Card Idler recheck countdown.
 
 Use separators only between meaningful action groups. Keep the primary save action first and reload actions on the right where the current page follows that pattern.
 
@@ -97,7 +99,7 @@ Settings and favorites are written atomically. New persistent settings require:
 4. tests for defaults, round-trip and invalid values;
 5. schema-version consideration for migration.
 
-Do not store passwords, Steam Guard codes or plaintext session tokens in settings files. Card Idler is the narrow exception for a refresh token protected with Windows DPAPI for the current user; clearing the saved login must remove that encrypted token.
+Do not store passwords, Steam Guard codes, QR challenge URLs or plaintext session tokens in settings files. Card Idler is the narrow exception for a refresh token protected with Windows DPAPI for the current user; clearing the saved login must remove that encrypted token.
 
 ## Native interop
 

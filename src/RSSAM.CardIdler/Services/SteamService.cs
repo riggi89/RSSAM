@@ -61,11 +61,7 @@ public sealed class SteamService : IDisposable
     /// <summary>Logs in. Pass either a saved refresh token, or username + password.</summary>
     public async Task<string> LogInAsync(string username, string? password, string? savedToken, IGuardPrompt guard, CancellationToken ct)
     {
-        StartPump();
-
-        _connected = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        _client.Connect();
-        await WaitAsync(_connected.Task, TimeSpan.FromSeconds(20), "Could not reach Steam (connection timed out).", ct);
+        await ConnectAsync(ct);
 
         string accountName = username;
         if (!string.IsNullOrEmpty(savedToken))
@@ -100,6 +96,51 @@ public sealed class SteamService : IDisposable
             }
         }
 
+        return await CompleteLogOnAsync(accountName, !string.IsNullOrEmpty(savedToken), ct);
+    }
+
+    /// <summary>Starts a Steam Mobile QR sign-in and reports each refreshed challenge URL to the UI.</summary>
+    public async Task<string> LogInWithQrAsync(Action<string> challengeChanged, CancellationToken ct)
+    {
+        ArgumentNullException.ThrowIfNull(challengeChanged);
+        await ConnectAsync(ct);
+
+        try
+        {
+            var session = await _client.Authentication.BeginAuthSessionViaQRAsync(new AuthSessionDetails
+            {
+                DeviceFriendlyName = "RSSAM Card Idler",
+                IsPersistentSession = true,
+            });
+
+            session.ChallengeURLChanged = () => challengeChanged(session.ChallengeURL);
+            challengeChanged(session.ChallengeURL);
+
+            var result = await session.PollingWaitForResultAsync(ct);
+            _refreshToken = result.RefreshToken;
+            return await CompleteLogOnAsync(result.AccountName, savedTokenProvided: false, ct);
+        }
+        catch (AuthenticationException ex)
+        {
+            throw new SteamLoginException(ex.Result switch
+            {
+                EResult.RateLimitExceeded or EResult.AccountLoginDeniedThrottle => "Too many attempts - wait a few minutes and try again.",
+                EResult.Expired => "The QR code expired - request a new one.",
+                _ => $"QR sign-in failed ({ex.Result}).",
+            });
+        }
+    }
+
+    private async Task ConnectAsync(CancellationToken ct)
+    {
+        StartPump();
+        _connected = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _client.Connect();
+        await WaitAsync(_connected.Task, TimeSpan.FromSeconds(20), "Could not reach Steam (connection timed out).", ct);
+    }
+
+    private async Task<string> CompleteLogOnAsync(string accountName, bool savedTokenProvided, CancellationToken ct)
+    {
         _logOn = new TaskCompletionSource<SteamUser.LoggedOnCallback>(TaskCreationOptions.RunContinuationsAsynchronously);
         _user.LogOn(new SteamUser.LogOnDetails
         {
@@ -110,7 +151,8 @@ public sealed class SteamService : IDisposable
         var logged = await WaitAsync(_logOn.Task, TimeSpan.FromSeconds(30), "Steam did not answer the login request.", ct);
         if (logged.Result != EResult.OK)
         {
-            var expired = logged.Result is EResult.AccessDenied or EResult.InvalidPassword or EResult.Expired or EResult.LoggedInElsewhere && !string.IsNullOrEmpty(savedToken);
+            var expired = savedTokenProvided &&
+                          (logged.Result is EResult.AccessDenied or EResult.InvalidPassword or EResult.Expired or EResult.LoggedInElsewhere);
             throw new SteamLoginException(expired
                 ? "Saved login expired - please sign in again."
                 : $"Steam refused the login ({logged.Result}).");

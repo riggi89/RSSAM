@@ -12,7 +12,6 @@
         <conv:NullToVisibilityConverter x:Key="NotNullToVisibility" />
         <conv:InverseNullToVisibilityConverter x:Key="NullToVisibility" />
         <conv:StringToVisibilityConverter x:Key="StringToVisibility" />
-
         <Style x:Key="StatCardStyle" TargetType="Border">
             <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
             <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
@@ -23,31 +22,19 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
 
         <Grid Margin="28,22,28,14" ColumnSpacing="16">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
             <StackPanel>
                 <TextBlock x:Name="PageTitleText" Text="Card Idler" Style="{ThemeResource TitleTextBlockStyle}" />
-                <TextBlock x:Name="PageSubtitleText"
-                           Margin="0,4,0,0"
+                <TextBlock x:Name="PageSubtitleText" Margin="0,4,0,0"
                            Text="Farm remaining Steam trading-card drops without launching each game."
-                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           TextWrapping="Wrap" />
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" />
             </StackPanel>
-            <Border Grid.Column="1"
-                    Padding="12,6"
-                    CornerRadius="16"
+            <Border Grid.Column="1" Padding="12,6" CornerRadius="16"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1"
                     VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon Glyph="&#xE701;" FontSize="13" />
@@ -57,166 +44,123 @@
             </Border>
         </Grid>
 
-        <ProgressBar Grid.Row="1"
-                     Height="3"
-                     IsIndeterminate="True"
-                     Visibility="{Binding IsWorking, Converter={StaticResource BoolToVisibility}}" />
-
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="1">
             <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVisibility}}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+                <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
 
                 <Grid Margin="28,8,28,12" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" /><ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" /><ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Border Style="{StaticResource StatCardStyle}">
-                        <StackPanel>
-                            <TextBlock x:Name="BatchLabelText" Text="READY TO IDLE" Style="{ThemeResource CaptionTextBlockStyle}" />
-                            <TextBlock Text="{Binding NowPlaying.Count}" FontSize="28" FontWeight="SemiBold" />
-                        </StackPanel>
+                        <StackPanel><TextBlock x:Name="BatchLabelText" Text="READY TO IDLE" Style="{ThemeResource CaptionTextBlockStyle}" /><TextBlock Text="{Binding NowPlaying.Count}" FontSize="28" FontWeight="SemiBold" /></StackPanel>
                     </Border>
                     <Border Grid.Column="1" Style="{StaticResource StatCardStyle}">
-                        <StackPanel>
-                            <TextBlock x:Name="DropsLeftLabelText" Text="DROPS LEFT" Style="{ThemeResource CaptionTextBlockStyle}" />
-                            <TextBlock Text="{Binding TotalDrops}" FontSize="28" FontWeight="SemiBold" />
-                        </StackPanel>
+                        <StackPanel><TextBlock x:Name="DropsLeftLabelText" Text="DROPS LEFT" Style="{ThemeResource CaptionTextBlockStyle}" /><TextBlock Text="{Binding TotalDrops}" FontSize="28" FontWeight="SemiBold" /></StackPanel>
                     </Border>
                     <Border Grid.Column="2" Style="{StaticResource StatCardStyle}">
-                        <StackPanel>
-                            <TextBlock x:Name="CardsEarnedLabelText" Text="CARDS EARNED" Style="{ThemeResource CaptionTextBlockStyle}" />
-                            <TextBlock Text="{Binding CardsEarned}" FontSize="28" FontWeight="SemiBold" />
-                        </StackPanel>
+                        <StackPanel><TextBlock x:Name="CardsEarnedLabelText" Text="CARDS EARNED" Style="{ThemeResource CaptionTextBlockStyle}" /><TextBlock Text="{Binding CardsEarned}" FontSize="28" FontWeight="SemiBold" /></StackPanel>
                     </Border>
                     <Border Grid.Column="3" Style="{StaticResource StatCardStyle}">
-                        <StackPanel>
-                            <TextBlock x:Name="SessionLabelText" Text="SESSION" Style="{ThemeResource CaptionTextBlockStyle}" />
-                            <TextBlock Text="{Binding Uptime}" FontSize="26" FontWeight="SemiBold" FontFamily="Consolas" />
-                        </StackPanel>
+                        <StackPanel><TextBlock x:Name="SessionLabelText" Text="SESSION" Style="{ThemeResource CaptionTextBlockStyle}" /><TextBlock Text="{Binding Uptime}" FontSize="26" FontWeight="SemiBold" FontFamily="Consolas" /></StackPanel>
                     </Border>
                 </Grid>
 
-                <Grid Grid.Row="1" Margin="28,0,28,14" ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Bottom">
-                        <Button x:Name="StartButton" Content="Start idling" Command="{Binding StartCommand}" Style="{ThemeResource AccentButtonStyle}" Visibility="{Binding IsIdling, Converter={StaticResource InverseBoolToVisibility}}" />
-                        <Button x:Name="StopButton" Content="Stop" Command="{Binding StopCommand}" Visibility="{Binding IsIdling, Converter={StaticResource BoolToVisibility}}" />
-                        <Button x:Name="RescanButton" Content="Rescan" Command="{Binding RefreshCommand}" />
-                    </StackPanel>
-                    <StackPanel Grid.Column="1">
-                        <TextBlock x:Name="ConcurrentLabelText" Text="Games at once" Style="{ThemeResource CaptionTextBlockStyle}" />
-                        <Grid ColumnSpacing="8">
-                            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="32" /></Grid.ColumnDefinitions>
-                            <Slider Minimum="1" Maximum="32" StepFrequency="1" Value="{Binding ConcurrentGames, Mode=TwoWay}" />
-                            <TextBlock Grid.Column="1" Text="{Binding ConcurrentGames}" VerticalAlignment="Center" />
-                        </Grid>
-                    </StackPanel>
-                    <StackPanel Grid.Column="2">
-                        <Grid>
-                            <TextBlock x:Name="RecheckLabelText" Text="Recheck interval (minutes)" Style="{ThemeResource CaptionTextBlockStyle}" />
-                            <TextBlock Text="{Binding NextCheckText}" HorizontalAlignment="Right" Style="{ThemeResource CaptionTextBlockStyle}" />
-                        </Grid>
-                        <Grid ColumnSpacing="8">
-                            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="32" /></Grid.ColumnDefinitions>
-                            <Slider Minimum="5" Maximum="60" StepFrequency="5" Value="{Binding RecheckMinutes, Mode=TwoWay}" />
-                            <TextBlock Grid.Column="1" Text="{Binding RecheckMinutes}" VerticalAlignment="Center" />
-                        </Grid>
-                    </StackPanel>
-                    <Button x:Name="SignOutButton" Grid.Column="3" Content="Sign out" Command="{Binding LogoutCommand}" VerticalAlignment="Bottom" />
-                </Grid>
+                <Grid Grid.Row="1" Margin="28,0,28,20" ColumnSpacing="14">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="5*" /><ColumnDefinition Width="3*" MinWidth="300" /></Grid.ColumnDefinitions>
 
-                <Grid Grid.Row="2" Margin="28,0,28,20" ColumnSpacing="14">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*" />
-                        <ColumnDefinition Width="3*" MinWidth="280" />
-                    </Grid.ColumnDefinitions>
-
-                    <Grid RowSpacing="8">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock x:Name="NowPlayingLabelText" Text="Ready to idle" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <GridView x:Name="NowPlayingGrid"
-                                  Grid.Row="1"
-                                  ItemsSource="{Binding NowPlaying}"
-                                  IsItemClickEnabled="True"
-                                  ItemClick="GameList_ItemClick"
-                                  SelectionMode="Single"
-                                  SelectedItem="{Binding Selected, Mode=OneWay}">
-                            <GridView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <ItemsWrapGrid Orientation="Horizontal" ItemWidth="270" ItemHeight="88" />
-                                </ItemsPanelTemplate>
-                            </GridView.ItemsPanel>
+                    <Grid>
+                        <GridView x:Name="TileGamesView" ItemsSource="{Binding FilteredGames, ElementName=RootPage}"
+                                  IsItemClickEnabled="True" ItemClick="GameList_ItemClick" SelectionMode="Single">
+                            <GridView.ItemsPanel><ItemsPanelTemplate><ItemsWrapGrid Orientation="Horizontal" ItemWidth="270" ItemHeight="136" /></ItemsPanelTemplate></GridView.ItemsPanel>
                             <GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Width="258" Height="76" Margin="4" Padding="8" CornerRadius="8"
+                                    <Border Width="258" Height="124" Margin="4" CornerRadius="8"
                                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1"
                                             ToolTipService.ToolTip="{Binding Name}">
-                                        <Grid ColumnSpacing="10">
-                                            <Grid.ColumnDefinitions><ColumnDefinition Width="112" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
-                                            <Border CornerRadius="5">
-                                                <Image Source="{Binding HeaderUrl}" Stretch="UniformToFill" />
+                                        <Grid>
+                                            <Grid.RowDefinitions><RowDefinition Height="76" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+                                            <Image Source="{Binding HeaderUrl}" Stretch="UniformToFill" />
+                                            <Border Grid.Row="1" Padding="10,6">
+                                                <Grid ColumnSpacing="8">
+                                                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                                                    <StackPanel VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                                        <TextBlock Text="{Binding HoursText}" Style="{ThemeResource CaptionTextBlockStyle}" />
+                                                    </StackPanel>
+                                                    <Border Grid.Column="1" Padding="8,3" CornerRadius="10" Background="{ThemeResource AccentFillColorSecondaryBrush}" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding DropsRemaining}" FontWeight="SemiBold" />
+                                                    </Border>
+                                                </Grid>
                                             </Border>
-                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-                                                <TextBlock Text="{Binding HoursText}" Style="{ThemeResource CaptionTextBlockStyle}" />
-                                                <StackPanel Orientation="Horizontal" Spacing="4">
-                                                    <TextBlock Text="{Binding DropsRemaining}" FontWeight="SemiBold" />
-                                                    <TextBlock Text="drops" Style="{ThemeResource CaptionTextBlockStyle}" />
-                                                </StackPanel>
-                                            </StackPanel>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
-                        <TextBlock x:Name="QueueLabelText" Grid.Row="2" Text="Up next" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,8,0,0" />
-                        <ListView x:Name="QueueList"
-                                  Grid.Row="3"
-                                  MaxHeight="160"
-                                  ItemsSource="{Binding Queue}"
-                                  IsItemClickEnabled="True"
-                                  ItemClick="GameList_ItemClick"
-                                  SelectionMode="Single">
+
+                        <ListView x:Name="ListGamesView" Visibility="Collapsed"
+                                  ItemsSource="{Binding FilteredGames, ElementName=RootPage}"
+                                  IsItemClickEnabled="True" ItemClick="GameList_ItemClick" SelectionMode="Single">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid MinHeight="48" ColumnSpacing="10" ToolTipService.ToolTip="{Binding Name}">
-                                        <Grid.ColumnDefinitions><ColumnDefinition Width="80" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                                        <Image Source="{Binding HeaderUrl}" Stretch="UniformToFill" />
+                                    <Grid MinHeight="72" Padding="8" ColumnSpacing="12" ToolTipService.ToolTip="{Binding Name}">
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="128" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                                        <Border CornerRadius="5"><Image Source="{Binding HeaderUrl}" Stretch="UniformToFill" /></Border>
                                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
-                                            <TextBlock Text="{Binding HoursText}" Style="{ThemeResource CaptionTextBlockStyle}" />
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="15" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="{Binding HoursText}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                         </StackPanel>
-                                        <TextBlock Grid.Column="2" Text="{Binding DropsRemaining}" VerticalAlignment="Center" FontWeight="SemiBold" />
+                                        <StackPanel Grid.Column="2" MinWidth="72" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                            <TextBlock Text="{Binding DropsRemaining}" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                            <TextBlock Text="Drops" Style="{ThemeResource CaptionTextBlockStyle}" HorizontalAlignment="Right" />
+                                        </StackPanel>
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
+
+                        <Grid x:Name="DetailGamesPanel" Visibility="Collapsed">
+                            <Grid.RowDefinitions><RowDefinition Height="40" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+                            <Grid Padding="12,0" ColumnSpacing="12" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="92" /><ColumnDefinition Width="*" /><ColumnDefinition Width="88" />
+                                    <ColumnDefinition Width="76" /><ColumnDefinition Width="110" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Name="DetailImageColumnText" Text="Image" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                <TextBlock x:Name="DetailGameColumnText" Grid.Column="1" Text="Game" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                <TextBlock x:Name="DetailAppIdColumnText" Grid.Column="2" Text="App ID" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                <TextBlock x:Name="DetailDropsColumnText" Grid.Column="3" Text="Drops" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                <TextBlock x:Name="DetailPlaytimeColumnText" Grid.Column="4" Text="Playtime" FontWeight="SemiBold" VerticalAlignment="Center" />
+                            </Grid>
+                            <ListView x:Name="DetailGamesView" Grid.Row="1"
+                                      ItemsSource="{Binding FilteredGames, ElementName=RootPage}"
+                                      IsItemClickEnabled="True" ItemClick="GameList_ItemClick" SelectionMode="Single">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid MinHeight="58" Padding="12,5" ColumnSpacing="12" ToolTipService.ToolTip="{Binding Name}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="92" /><ColumnDefinition Width="*" /><ColumnDefinition Width="88" />
+                                                <ColumnDefinition Width="76" /><ColumnDefinition Width="110" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border CornerRadius="4"><Image Source="{Binding HeaderUrl}" Stretch="UniformToFill" /></Border>
+                                            <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Grid.Column="2" Text="{Binding AppId}" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="3" Text="{Binding DropsRemaining}" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="4" Text="{Binding HoursText}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
                     </Grid>
 
-                    <Border Grid.Column="1" CornerRadius="8"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    <Border Grid.Column="1" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                         <Grid>
-                            <TextBlock x:Name="SelectGameHintText"
-                                       Text="Select a game to see its details."
+                            <TextBlock x:Name="SelectGameHintText" Text="Select a game to see its details."
                                        HorizontalAlignment="Center" VerticalAlignment="Center"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                        Visibility="{Binding Selected, Converter={StaticResource NullToVisibility}}" />
@@ -255,55 +199,76 @@
                 </Grid>
             </Grid>
 
-            <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource InverseBoolToVisibility}}"
-                  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                <Border Width="430" Padding="30" CornerRadius="12"
-                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            <Grid Visibility="{Binding IsLoggedIn, Converter={StaticResource InverseBoolToVisibility}}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <Border Width="450" Padding="30" CornerRadius="12" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <StackPanel>
-                        <FontIcon Glyph="&#xE72E;" FontSize="36" HorizontalAlignment="Left" />
-                        <TextBlock x:Name="LoginTitleText" Text="Steam sign-in" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,16,0,0" />
-                        <TextBlock x:Name="LoginDescriptionText" Text="Sign in to scan your remaining card drops and start idling." Margin="0,4,0,18" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                        <TextBlock x:Name="UsernameLabelText" Text="Steam account name" Style="{ThemeResource CaptionTextBlockStyle}" />
-                        <TextBox x:Name="UserBox" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding NotBusy}" />
-                        <TextBlock x:Name="PasswordLabelText" Text="Password" Style="{ThemeResource CaptionTextBlockStyle}" Margin="0,12,0,0" />
-                        <PasswordBox x:Name="PasswordBox" IsEnabled="{Binding NotBusy}" KeyDown="PasswordBox_KeyDown" />
-                        <CheckBox x:Name="StaySignedInCheckBox" Content="Stay signed in (encrypted on this PC)" IsChecked="{Binding StayLoggedIn, Mode=TwoWay}" Margin="0,12,0,0" />
-                        <InfoBar IsOpen="True" Severity="Error" IsClosable="False" Message="{Binding LoginError}" Margin="0,12,0,0" Visibility="{Binding LoginError, Converter={StaticResource StringToVisibility}}" />
-                        <Button x:Name="LoginButton" Content="Sign in" Style="{ThemeResource AccentButtonStyle}" Margin="0,18,0,0" HorizontalAlignment="Stretch" Click="LoginButton_Click" IsEnabled="{Binding NotBusy}" />
-                        <TextBlock Text="{Binding Status}" Margin="0,10,0,0" HorizontalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" Visibility="{Binding Busy, Converter={StaticResource BoolToVisibility}}" />
-                    </StackPanel>
+                    <Grid>
+                        <StackPanel Visibility="{Binding QrLoginVisible, Converter={StaticResource InverseBoolToVisibility}}">
+                            <FontIcon Glyph="&#xE72E;" FontSize="36" HorizontalAlignment="Left" />
+                            <TextBlock x:Name="LoginTitleText" Text="Steam sign-in" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,16,0,0" />
+                            <TextBlock x:Name="LoginDescriptionText" Text="Sign in to scan your remaining card drops and start idling."
+                                       Margin="0,4,0,18" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                            <TextBlock x:Name="UsernameLabelText" Text="Steam account name" Style="{ThemeResource CaptionTextBlockStyle}" />
+                            <TextBox x:Name="UserBox" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding NotBusy}" />
+                            <TextBlock x:Name="PasswordLabelText" Text="Password" Style="{ThemeResource CaptionTextBlockStyle}" Margin="0,12,0,0" />
+                            <PasswordBox x:Name="PasswordBox" IsEnabled="{Binding NotBusy}" KeyDown="PasswordBox_KeyDown" />
+                            <CheckBox x:Name="StaySignedInCheckBox" Content="Stay signed in (encrypted on this PC)" IsChecked="{Binding StayLoggedIn, Mode=TwoWay}" Margin="0,12,0,0" />
+                            <InfoBar IsOpen="True" Severity="Error" IsClosable="False" Message="{Binding LoginError}" Margin="0,12,0,0"
+                                     Visibility="{Binding LoginError, Converter={StaticResource StringToVisibility}}" />
+                            <Button x:Name="LoginButton" Content="Sign in" Style="{ThemeResource AccentButtonStyle}" Margin="0,18,0,0"
+                                    HorizontalAlignment="Stretch" Click="LoginButton_Click" IsEnabled="{Binding NotBusy}" />
+                            <Grid Margin="0,12,0,0" ColumnSpacing="12">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                <Border Height="1" Background="{ThemeResource CardStrokeColorDefaultBrush}" VerticalAlignment="Center" />
+                                <TextBlock x:Name="LoginOrText" Grid.Column="1" Text="or" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                <Border Grid.Column="2" Height="1" Background="{ThemeResource CardStrokeColorDefaultBrush}" VerticalAlignment="Center" />
+                            </Grid>
+                            <Button x:Name="QrLoginButton" Content="Sign in with QR code" Margin="0,12,0,0" HorizontalAlignment="Stretch"
+                                    Command="{Binding QrLoginCommand}" IsEnabled="{Binding NotBusy}" />
+                            <TextBlock Text="{Binding Status}" Margin="0,10,0,0" HorizontalAlignment="Center"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" Visibility="{Binding Busy, Converter={StaticResource BoolToVisibility}}" />
+                        </StackPanel>
+
+                        <StackPanel Visibility="{Binding QrLoginVisible, Converter={StaticResource BoolToVisibility}}">
+                            <TextBlock x:Name="QrTitleText" Text="Sign in with Steam Mobile" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Center" />
+                            <TextBlock x:Name="QrDescriptionText" Text="Open Steam Mobile, scan this code and confirm the sign-in."
+                                       Margin="0,6,0,14" TextAlignment="Center" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                            <Border Width="248" Height="248" Padding="8" CornerRadius="8" Background="White" HorizontalAlignment="Center">
+                                <Image x:Name="QrCodeImage" Stretch="Uniform" />
+                            </Border>
+                            <ProgressBar Margin="0,14,0,0" IsIndeterminate="True" />
+                            <TextBlock Text="{Binding QrStatus}" Margin="0,8,0,0" TextAlignment="Center" TextWrapping="Wrap" />
+                            <Button x:Name="QrCancelButton" Content="Cancel" Margin="0,16,0,0" HorizontalAlignment="Stretch" Command="{Binding CancelQrLoginCommand}" />
+                        </StackPanel>
+                    </Grid>
                 </Border>
             </Grid>
 
             <Grid Visibility="{Binding GuardVisible, Converter={StaticResource BoolToVisibility}}" Background="#AA000000">
-                <Border Width="390" Padding="28" CornerRadius="12"
-                        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                <Border Width="390" Padding="28" CornerRadius="12" Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                         BorderBrush="{ThemeResource AccentFillColorDefaultBrush}" BorderThickness="1"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel>
                         <TextBlock x:Name="GuardTitleText" Text="Steam Guard" Style="{ThemeResource TitleTextBlockStyle}" />
                         <TextBlock Text="{Binding GuardHint}" Margin="0,6,0,14" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                        <TextBox x:Name="GuardCodeBox" Text="{Binding GuardCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="8" CharacterCasing="Upper" FontFamily="Consolas" FontSize="24" TextAlignment="Center" KeyDown="GuardCodeBox_KeyDown" />
-                        <TextBlock x:Name="GuardWrongText" Text="The code was not accepted. Enter the newest code." Foreground="{ThemeResource SystemFillColorCriticalBrush}" Margin="0,8,0,0" TextWrapping="Wrap" Visibility="{Binding GuardWrong, Converter={StaticResource BoolToVisibility}}" />
+                        <TextBox x:Name="GuardCodeBox" Text="{Binding GuardCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 MaxLength="8" CharacterCasing="Upper" FontFamily="Consolas" FontSize="24" TextAlignment="Center" KeyDown="GuardCodeBox_KeyDown" />
+                        <TextBlock x:Name="GuardWrongText" Text="The code was not accepted. Enter the newest code."
+                                   Foreground="{ThemeResource SystemFillColorCriticalBrush}" Margin="0,8,0,0" TextWrapping="Wrap"
+                                   Visibility="{Binding GuardWrong, Converter={StaticResource BoolToVisibility}}" />
                         <Grid Margin="0,18,0,0" ColumnSpacing="8">
                             <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
                             <Button x:Name="GuardCancelButton" Content="Cancel" Command="{Binding CancelGuardCommand}" HorizontalAlignment="Stretch" />
-                            <Button x:Name="GuardConfirmButton" Grid.Column="1" Content="Confirm" Command="{Binding SubmitGuardCommand}" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Stretch" />
+                            <Button x:Name="GuardConfirmButton" Grid.Column="1" Content="Confirm" Command="{Binding SubmitGuardCommand}"
+                                    Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Stretch" />
                         </Grid>
                     </StackPanel>
                 </Border>
             </Grid>
 
-            <InfoBar IsOpen="{Binding ToastVisible}"
-                     Severity="Success"
-                     IsClosable="False"
-                     Title="Card drop"
-                     Message="{Binding Toast}"
-                     HorizontalAlignment="Center"
-                     VerticalAlignment="Bottom"
-                     Margin="24" />
+            <InfoBar IsOpen="{Binding ToastVisible}" Severity="Success" IsClosable="False" Title="Card drop" Message="{Binding Toast}"
+                     HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="24" />
         </Grid>
     </Grid>
 </Page>

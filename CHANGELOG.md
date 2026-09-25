@@ -1,5 +1,16 @@
 # RSSAM Changelog
 
+## 2.0.1 - 2026-09-25
+
+- Added tile, list and detail views to Card Idler, with icon-only view controls in the global toolbar.
+- Added Card Idler game filtering through the existing global title-bar search field.
+- Moved Start/Stop, Rescan, concurrent-game count, recheck interval and Sign out from the page into the shared CommandBar.
+- Kept live concurrent-game, recheck-interval and countdown values visible in the toolbar controls.
+- Added Steam Mobile QR-code sign-in through SteamKit2, including rotating challenge URLs, cancellation and optional protected refresh-token storage.
+- Added QRCoder 1.8.0 for local QR image rendering and included its MIT attribution and release-payload validation.
+- Added all new Card Idler labels and tooltips to the German, English, Spanish, French and Turkish dictionaries.
+- Increased the RSSAM version to **2.0.1**.
+
 ## 2.0.0 - 2026-09-25
 
 - Integrated CardIdler 1.0.0 as the dedicated WinUI 3 module `RSSAM.CardIdler` and added Card Idler to the main navigation.

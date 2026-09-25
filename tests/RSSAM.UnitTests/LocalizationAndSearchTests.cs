@@ -22,16 +22,19 @@ public sealed class LocalizationAndSearchTests
         Assert.Equal("es-ES", localization.Language);
         Assert.Equal("spanish", localization.SteamLanguage);
         Assert.Equal("Juegos", localization.Get("Nav.Games"));
+        Assert.Equal("Buscar juegos con cromos disponibles …", localization.Get("Search.CardIdler"));
 
         localization.SetLanguage("fr-FR");
         Assert.Equal("fr-FR", localization.Language);
         Assert.Equal("french", localization.SteamLanguage);
         Assert.Equal("Jeux", localization.Get("Nav.Games"));
+        Assert.Equal("Se connecter avec un code QR", localization.Get("CardIdler.QrSignIn"));
 
         localization.SetLanguage("tr");
         Assert.Equal("tr-TR", localization.Language);
         Assert.Equal("turkish", localization.SteamLanguage);
         Assert.Equal("Oyunlar", localization.Get("Nav.Games"));
+        Assert.Equal("Ayrıntı görünümü", localization.Get("CardIdler.View.Detail"));
 
         localization.SetLanguage("unsupported");
         Assert.Equal("de-DE", localization.Language);

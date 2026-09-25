@@ -5,6 +5,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
@@ -345,6 +346,9 @@ public sealed partial class ShellPage : Page
             };
         }
 
+        if (item.ItemType == ShellToolbarItemType.Slider)
+            return CreateToolbarSlider(item);
+
         if (item.ItemType == ShellToolbarItemType.ToggleButton)
         {
             var toggle = new ToggleButton
@@ -363,6 +367,8 @@ public sealed partial class ShellPage : Page
 
             ToolTipService.SetToolTip(toggle, item.ToolTip ?? item.Text);
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(toggle, item.Text);
+            toggle.SetBinding(Control.IsEnabledProperty, CreateItemBinding(item, nameof(ShellToolbarItem.IsEnabled)));
+            toggle.SetBinding(ToggleButton.IsCheckedProperty, CreateItemBinding(item, nameof(ShellToolbarItem.IsChecked)));
             toggle.Click += (_, _) => item.Toggle?.Invoke(toggle.IsChecked == true);
             return toggle;
         }
@@ -382,9 +388,90 @@ public sealed partial class ShellPage : Page
 
         ToolTipService.SetToolTip(button, item.ToolTip ?? item.Text);
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(button, item.Text);
+        button.SetBinding(Control.IsEnabledProperty, CreateItemBinding(item, nameof(ShellToolbarItem.IsEnabled)));
         button.Click += (_, _) => item.Execute?.Invoke();
         return button;
     }
+
+    private FrameworkElement CreateToolbarSlider(ShellToolbarItem item)
+    {
+        var grid = new Grid
+        {
+            Width = item.SliderWidth,
+            Height = 58,
+            Margin = new Thickness(4, 0, 4, 0),
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(22) });
+        grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(32) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+        var label = new TextBlock
+        {
+            Text = item.Text,
+            FontSize = 12,
+            FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            TextTrimming = TextTrimming.CharacterEllipsis
+        };
+        Grid.SetRow(label, 0);
+        Grid.SetColumn(label, 0);
+        grid.Children.Add(label);
+
+        var secondary = new TextBlock
+        {
+            FontSize = 11,
+            Margin = new Thickness(8, 0, 0, 0),
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Foreground = (Brush)Application.Current.Resources["AppSecondaryTextBrush"]
+        };
+        secondary.SetBinding(TextBlock.TextProperty, CreateItemBinding(item, nameof(ShellToolbarItem.SecondaryText)));
+        Grid.SetRow(secondary, 0);
+        Grid.SetColumn(secondary, 1);
+        grid.Children.Add(secondary);
+
+        var slider = new Slider
+        {
+            Minimum = item.Minimum,
+            Maximum = item.Maximum,
+            StepFrequency = item.StepFrequency,
+            IsThumbToolTipEnabled = false,
+            Margin = new Thickness(0, 0, 8, 0),
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        slider.SetBinding(RangeBase.ValueProperty, CreateItemBinding(item, nameof(ShellToolbarItem.Value)));
+        slider.SetBinding(Control.IsEnabledProperty, CreateItemBinding(item, nameof(ShellToolbarItem.IsEnabled)));
+        slider.ValueChanged += (_, args) => item.ValueChanged?.Invoke(args.NewValue);
+        ToolTipService.SetToolTip(slider, item.ToolTip ?? item.Text);
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(slider, item.Text);
+        Grid.SetRow(slider, 1);
+        Grid.SetColumn(slider, 0);
+        grid.Children.Add(slider);
+
+        var value = new TextBlock
+        {
+            MinWidth = 24,
+            Margin = new Thickness(0, 0, 0, 2),
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Center,
+            TextAlignment = TextAlignment.Right
+        };
+        value.SetBinding(TextBlock.TextProperty, CreateItemBinding(item, nameof(ShellToolbarItem.ValueText)));
+        Grid.SetRow(value, 1);
+        Grid.SetColumn(value, 1);
+        grid.Children.Add(value);
+
+        return grid;
+    }
+
+    private static Binding CreateItemBinding(ShellToolbarItem item, string propertyName)
+        => new()
+        {
+            Source = item,
+            Path = new PropertyPath(propertyName),
+            Mode = BindingMode.OneWay
+        };
 
     private UIElement CreateToolbarButtonContent(ShellToolbarItem item)
     {

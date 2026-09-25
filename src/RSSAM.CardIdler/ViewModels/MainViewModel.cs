@@ -40,6 +40,8 @@ public sealed partial class MainViewModel : ObservableObject, IGuardPrompt, IDis
         _clock.Tick += (_, _) => Tick();
         _toastTimer.Tick += (_, _) => { _toastTimer.Stop(); ToastVisible = false; };
         LoginCommand = new RelayCommand(p => _ = LoginAsync(p as string), _ => !Busy && !IsLoggedIn);
+        QrLoginCommand = new RelayCommand(_ => _ = LoginWithQrAsync(), _ => !Busy && !IsLoggedIn);
+        CancelQrLoginCommand = new RelayCommand(_ => CancelQrLogin(), _ => QrLoginVisible);
         LogoutCommand = new RelayCommand(_ => Logout(), _ => IsLoggedIn);
         StartCommand = new RelayCommand(_ => StartIdling(), _ => IsLoggedIn && !IsIdling);
         StopCommand = new RelayCommand(_ => StopIdling("Idling stopped"), _ => IsIdling);
@@ -61,6 +63,8 @@ public sealed partial class MainViewModel : ObservableObject, IGuardPrompt, IDis
     public ObservableCollection<string> Activity { get; } = new();
 
     public RelayCommand LoginCommand { get; }
+    public RelayCommand QrLoginCommand { get; }
+    public RelayCommand CancelQrLoginCommand { get; }
     public RelayCommand LogoutCommand { get; }
     public RelayCommand StartCommand { get; }
     public RelayCommand StopCommand { get; }
@@ -222,6 +226,8 @@ public sealed partial class MainViewModel : ObservableObject, IGuardPrompt, IDis
     private void RefreshCommands()
     {
         LoginCommand?.RaiseCanExecuteChanged();
+        QrLoginCommand?.RaiseCanExecuteChanged();
+        CancelQrLoginCommand?.RaiseCanExecuteChanged();
         LogoutCommand?.RaiseCanExecuteChanged();
         StartCommand?.RaiseCanExecuteChanged();
         StopCommand?.RaiseCanExecuteChanged();
@@ -232,6 +238,7 @@ public sealed partial class MainViewModel : ObservableObject, IGuardPrompt, IDis
     public void Dispose()
     {
         _idleCts?.Cancel();
+        _qrLoginCts?.Cancel();
         try { _steam?.SetGamesPlayed(Array.Empty<int>()); } catch { }
         _steam?.Dispose();
     }
