@@ -16,17 +16,49 @@
       Normal Visual Studio builds are unchanged because RSSAMBuildRoot is only
       supplied by the publish script.
     -->
-    <BaseIntermediateOutputPath Condition="'$(RSSAMBuildRoot)' != ''">$(RSSAMBuildRoot)\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
-    <BaseOutputPath Condition="'$(RSSAMBuildRoot)' != ''">$(RSSAMBuildRoot)\bin\$(MSBuildProjectName)\</BaseOutputPath>
+    <BaseIntermediateOutputPath
+      Condition="'$(RSSAMBuildRoot)' != ''">$(RSSAMBuildRoot)\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+
+    <BaseOutputPath
+      Condition="'$(RSSAMBuildRoot)' != ''">$(RSSAMBuildRoot)\bin\$(MSBuildProjectName)\</BaseOutputPath>
+
+    <!--
+      Important:
+      When BaseIntermediateOutputPath is redirected outside the project,
+      the repository-local obj directory is no longer automatically covered
+      by the SDK's intermediate-output exclusion.
+
+      Explicitly exclude repository-local bin/obj directories so generated
+      AssemblyInfo.cs and .NETCoreApp AssemblyAttributes.cs files from older
+      x86/x64 or Debug/Release builds cannot be compiled again.
+    -->
+    <DefaultItemExcludes>
+      $(DefaultItemExcludes);
+      $(MSBuildProjectDirectory)\bin\**;
+      $(MSBuildProjectDirectory)\obj\**
+    </DefaultItemExcludes>
 
     <RSSAMArchitecture Condition="'$(Platform)' == 'x86'">x86</RSSAMArchitecture>
     <RSSAMArchitecture Condition="'$(Platform)' == 'x64'">x64</RSSAMArchitecture>
-    <RSSAMArchitecture Condition="'$(RSSAMArchitecture)' == '' And '$(RuntimeIdentifier)' == 'win-x86'">x86</RSSAMArchitecture>
-    <RSSAMArchitecture Condition="'$(RSSAMArchitecture)' == '' And '$(RuntimeIdentifier)' == 'win-x64'">x64</RSSAMArchitecture>
+
+    <RSSAMArchitecture
+      Condition="'$(RSSAMArchitecture)' == '' And '$(RuntimeIdentifier)' == 'win-x86'">x86</RSSAMArchitecture>
+
+    <RSSAMArchitecture
+      Condition="'$(RSSAMArchitecture)' == '' And '$(RuntimeIdentifier)' == 'win-x64'">x64</RSSAMArchitecture>
+
     <RSSAMArchitecture Condition="'$(RSSAMArchitecture)' == ''">x64</RSSAMArchitecture>
+
     <PlatformTarget>$(RSSAMArchitecture)</PlatformTarget>
-    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == '' And '$(BuildingForUnitTests)' != 'true' And '$(MSBuildProjectName)' != 'RSSAM.UnitTests'">win-$(RSSAMArchitecture)</RuntimeIdentifier>
-    <DefineConstants Condition="'$(RSSAMArchitecture)' == 'x64'">$(DefineConstants);RSSAM_X64</DefineConstants>
+
+    <RuntimeIdentifier
+      Condition="'$(RuntimeIdentifier)' == '' And
+                 '$(BuildingForUnitTests)' != 'true' And
+                 '$(MSBuildProjectName)' != 'RSSAM.UnitTests'">win-$(RSSAMArchitecture)</RuntimeIdentifier>
+
+    <DefineConstants
+      Condition="'$(RSSAMArchitecture)' == 'x64'">$(DefineConstants);RSSAM_X64</DefineConstants>
+
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 </Project>
