@@ -43,7 +43,7 @@ Examples:
 .\scripts\test.ps1 -Configuration Release -CollectCoverage
 ```
 
-The test project always runs with `Platform=x64` and its checked-in runsettings file. Coverage output is written to `artifacts/test-results/x64`.
+The test project always runs with `Platform=x64` and its checked-in runsettings file. Every run uses a fresh temporary MSBuild root, so stale x86/x64 `bin` and `obj` files cannot enter the test build. Coverage output is written to `artifacts/test-results/x64`.
 
 ## Clean
 
@@ -72,7 +72,7 @@ Publishing uses isolated temporary build and intermediate directories to avoid s
     [-InnoCompiler <path-to-ISCC.exe>]
 ```
 
-If `-InnoCompiler` is omitted, the script checks the command path and common machine-wide and per-user Inno Setup 6 locations. `-SkipPublish` requires an already validated matching publish directory.
+If `-InnoCompiler` is omitted, the script checks the command path and common machine-wide and per-user Inno Setup 6 locations. `-SkipPublish` requires an already validated matching publish directory; the script rejects publish output whose `RSSAM.dll` file version does not match the source version.
 
 Expected filenames:
 
@@ -88,7 +88,7 @@ Expected filenames:
     [-SkipPublish]
 ```
 
-The script validates required application, Card Idler, SteamKit2, QRCoder, WinUI, .NET runtime and resource files before creating each archive.
+The script validates required application, Card Idler, SteamKit2, QRCoder, WinUI, .NET runtime and resource files before creating each archive. With `-SkipPublish`, it also rejects publish output whose `RSSAM.dll` version does not match the current source version.
 
 Expected filenames:
 
@@ -101,12 +101,12 @@ Expected filenames:
 .\scripts\build-source-zip.ps1 [-OutputDirectory <path>]
 ```
 
-Without an output argument, the archive is created as `artifacts/source/RSSAM_<version>-Source.zip`. Generated build directories and repository metadata are excluded.
+Without an output argument, the archive is created as `artifacts/source/RSSAM_<version>-Source.zip`. Generated build directories, repository metadata and Visual Studio user files are excluded; documentation screenshots remain part of the archive.
 
 ## Version synchronization
 
 ```powershell
-.\scripts\set-version.ps1 -Version 2.0.3
+.\scripts\set-version.ps1 -Version 2.0.4
 ```
 
 The value must contain exactly three numeric parts. The script validates every expected match before writing and synchronizes:
@@ -120,7 +120,7 @@ The script deliberately does not rewrite changelog text, README package examples
 ## Safe release order
 
 ```powershell
-.\scripts\set-version.ps1 -Version 2.0.3
+.\scripts\set-version.ps1 -Version 2.0.4
 .\scripts\clean.ps1
 .\scripts\test.ps1 -Configuration Release -CollectCoverage
 .\scripts\publish.ps1 -Configuration Release -Architecture All

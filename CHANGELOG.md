@@ -1,5 +1,18 @@
 # RSSAM Changelog
 
+## 2.0.4 - 2026-09-25
+
+- Isolated every unit-test build in a fresh temporary output and intermediate directory, preventing stale x86, x64 and publish files from entering test compilation.
+- Kept Core, API and Card Idler runtime-identifier neutral so Visual Studio solution builds and UnitTests use the same reference-assembly paths.
+- Fixed missing `RSSAM.Core.dll` and `RSSAM.API.dll` metadata references caused by the test project expecting RID-neutral `obj` paths while the solution produced runtime-specific library paths.
+- Fixed every test failing at startup with `FileNotFoundException` even though the DLL names existed in the output directory: Core and API no longer emit separate compiler-only reference assemblies, and the test deployment now copies only loadable implementation assemblies from MSBuild's `ReferenceCopyLocalPaths` beside `RSSAM.UnitTests.dll`.
+- Updated the .NET test host to `Microsoft.NET.Test.Sdk` 18.10.1 and the Visual Studio xUnit adapter to 3.1.5 for .NET 10 test discovery and execution.
+- Hardened MSBuild's repository-local `bin` and `obj` exclusions to prevent duplicate generated `AssemblyInfo` and target-framework attributes.
+- Made localization tests restore global culture state and added coverage for key and format-placeholder parity across all five dictionaries.
+- Added version validation to installer and portable packaging so `-SkipPublish` cannot relabel stale binaries as a new release.
+- Corrected source-archive exclusions so Visual Studio user files are omitted while README screenshots remain included.
+- Increased the RSSAM version to **2.0.4**.
+
 ## 2.0.3 - 2026-09-25
 
 - Replaced the Card Idler's manually constructed detail list with the shared `WinUI.TableView` control.

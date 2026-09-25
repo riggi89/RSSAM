@@ -14,8 +14,6 @@
     <Platforms>x64</Platforms>
     <PlatformTarget>x64</PlatformTarget>
     <RSSAMArchitecture>x64</RSSAMArchitecture>
-    <BuildingForUnitTests>true</BuildingForUnitTests>
-    <RuntimeIdentifier></RuntimeIdentifier>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <SelfContained>false</SelfContained>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -29,9 +27,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4">
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -39,14 +37,36 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\RSSAM.Core\RSSAM.Core.csproj"
-                      AdditionalProperties="BuildingForUnitTests=true;Platform=x64"
                       ReferenceOutputAssembly="true"
                       Private="true" />
     <ProjectReference Include="..\..\src\RSSAM.API\RSSAM.API.csproj"
-                      AdditionalProperties="BuildingForUnitTests=true;Platform=x64"
                       ReferenceOutputAssembly="true"
                       Private="true" />
   </ItemGroup>
+
+  <!--
+    Visual Studio can execute the test assembly from a deployment directory
+    that is populated from the resolved copy-local items. Keep the two RSSAM
+    runtime assemblies explicit here as well as in the ProjectReference graph.
+    ReferenceCopyLocalPaths contains implementation assemblies intended for
+    execution, unlike compiler-only files below obj\...\ref.
+  -->
+  <Target Name="CopyUnitTestRuntimeProjectOutputs"
+          AfterTargets="CopyFilesToOutputDirectory"
+          DependsOnTargets="ResolveProjectReferences">
+    <ItemGroup>
+      <_UnitTestRuntimeProjectOutput
+        Include="@(ReferenceCopyLocalPaths)"
+        Condition="'%(Filename)' == 'RSSAM.Core' Or '%(Filename)' == 'RSSAM.API'" />
+    </ItemGroup>
+
+    <Error Condition="'@(_UnitTestRuntimeProjectOutput)' == ''"
+           Text="The RSSAM runtime project outputs could not be resolved for the UnitTests project." />
+
+    <Copy SourceFiles="@(_UnitTestRuntimeProjectOutput)"
+          DestinationFiles="@(_UnitTestRuntimeProjectOutput->'$(TargetDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
+  </Target>
 
   <Target Name="ValidateUnitTestDependencies" AfterTargets="Build">
     <Error Condition="!Exists('$(TargetDir)RSSAM.Core.dll')"

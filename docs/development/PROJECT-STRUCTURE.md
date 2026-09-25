@@ -81,7 +81,7 @@ Files copied from or substantially derived from the original Steam Achievement M
 
 The test project is framework-dependent and always uses an x64 test host. It validates storage, models, localization, CSV export, search, native-wrapper guards and Valve KeyValue parsing without starting WinUI or opening a live Steam session.
 
-Project references use the `BuildingForUnitTests` path so Core and API dependencies are copied beside the test assembly without production runtime identifiers.
+Core, API and Card Idler are RID-neutral class libraries. Only the executable App project owns a default runtime identifier, so Visual Studio and the x64 test host resolve the same Core/API reference-assembly paths. Both dependencies are copied beside the test assembly.
 
 ## Repository folders
 
@@ -102,7 +102,8 @@ Project references use the `BuildingForUnitTests` path so Core and API dependenc
 | `CHANGELOG.md` | English release history displayed inside RSSAM |
 | `LICENSE.md` | Project license and third-party license text |
 | `NOTICE.md` | Fork and third-party attribution |
-| `Directory.Build.props` | Shared version, platform and build properties |
+| `Directory.Build.props` | Shared version, platform, isolated-output and unit-test properties |
+| `Directory.Build.targets` | Post-evaluation removal of stale repository-local generated C# files during isolated builds |
 | `RSSAM.sln` | Visual Studio solution |
 
 The root `ARCHITECTURE.md` and `PROJECTS.md` files are compatibility links to this documentation because the application project still includes those filenames in its published documentation set.

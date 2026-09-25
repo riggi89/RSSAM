@@ -13,14 +13,19 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <!--
+      RSSAM.Core is consumed by the executable and the test host from the same
+      build tree. Use the implementation assembly for compilation as well as
+      execution so a ref-only DLL can never be deployed beside UnitTests.
+    -->
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     <Company>Daniel Riggi (riggi89)</Company>
     <Authors>Daniel Riggi (riggi89); Rick (Gibbed)</Authors>
     <Description>Core models, services, search contracts and Steam schema support for RSSAM.</Description>
     <Copyright>RSSAM modifications Copyright © 2026 Daniel Riggi (riggi89). Original Steam Achievement Manager Copyright © 2024 Rick (Gibbed).</Copyright>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RSSAM.API\RSSAM.API.csproj"
-                      AdditionalProperties="BuildingForUnitTests=$(BuildingForUnitTests)" />
+    <ProjectReference Include="..\RSSAM.API\RSSAM.API.csproj" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization\Resources\*.json">

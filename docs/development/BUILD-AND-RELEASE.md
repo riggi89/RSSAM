@@ -2,7 +2,7 @@
 
 ## Build configurations
 
-RSSAM supports `Debug` and `Release` configurations for `x86` and `x64`. Shared settings in `Directory.Build.props` map each solution platform to its matching Windows runtime identifier.
+RSSAM supports `Debug` and `Release` configurations for `x86` and `x64`. Shared settings in `Directory.Build.props` map the executable App to its matching Windows runtime identifier while Core, API and Card Idler remain RID-neutral libraries.
 
 Use x64 for routine development. Build x86 whenever native Steam interop, callback layouts, installers or release packaging changes.
 
@@ -112,4 +112,4 @@ The compiled version is synchronized across:
 - `src/RSSAM.App/AppVersion.cs`;
 - `src/RSSAM.App/app.manifest`.
 
-The Windows manifest uses four parts; the final component remains zero. User-facing RSSAM versions use three parts, for example `2.0.3`.
+The Windows manifest uses four parts; the final component remains zero. User-facing RSSAM versions use three parts, for example `2.0.4`.

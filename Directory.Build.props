@@ -4,23 +4,27 @@
 
 <Project>
   <PropertyGroup>
-    <Version>2.0.3</Version>
-    <AssemblyVersion>2.0.3</AssemblyVersion>
-    <FileVersion>2.0.3</FileVersion>
+    <Version>2.0.4</Version>
+    <AssemblyVersion>2.0.4</AssemblyVersion>
+    <FileVersion>2.0.4</FileVersion>
     <Platforms>x86;x64</Platforms>
 
     <!--
-      publish.ps1 can redirect every project's bin/obj state to an isolated
-      temporary build root. This prevents Visual Studio, Roslyn build servers
-      or a previous x86/x64 build from locking files inside src\*\obj.
+      publish.ps1 and test.ps1 can redirect every project's bin/obj state to
+      an isolated temporary build root. This prevents Visual Studio, Roslyn
+      build servers or a previous x86/x64 build from locking or contaminating
+      files inside repository-local bin/obj directories.
       Normal Visual Studio builds are unchanged because RSSAMBuildRoot is only
-      supplied by the publish script.
+      supplied by the build scripts.
     -->
     <BaseIntermediateOutputPath
       Condition="'$(RSSAMBuildRoot)' != ''">$(RSSAMBuildRoot)\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
 
     <BaseOutputPath
       Condition="'$(RSSAMBuildRoot)' != ''">$(RSSAMBuildRoot)\bin\$(MSBuildProjectName)\</BaseOutputPath>
+
+    <MSBuildProjectExtensionsPath
+      Condition="'$(RSSAMBuildRoot)' != ''">$(RSSAMBuildRoot)\obj\$(MSBuildProjectName)\</MSBuildProjectExtensionsPath>
 
     <!--
       Important:
@@ -34,9 +38,19 @@
     -->
     <DefaultItemExcludes>
       $(DefaultItemExcludes);
-      $(MSBuildProjectDirectory)\bin\**;
-      $(MSBuildProjectDirectory)\obj\**
+      $(MSBuildProjectDirectory)\bin\**\*;
+      $(MSBuildProjectDirectory)\obj\**\*;
+      $(MSBuildProjectDirectory)/bin/**/*;
+      $(MSBuildProjectDirectory)/obj/**/*
     </DefaultItemExcludes>
+
+    <DefaultItemExcludesInProjectFolder>
+      $(DefaultItemExcludesInProjectFolder);
+      bin\**\*;
+      obj\**\*;
+      bin/**/*;
+      obj/**/*
+    </DefaultItemExcludesInProjectFolder>
 
     <RSSAMArchitecture Condition="'$(Platform)' == 'x86'">x86</RSSAMArchitecture>
     <RSSAMArchitecture Condition="'$(Platform)' == 'x64'">x64</RSSAMArchitecture>
@@ -51,10 +65,15 @@
 
     <PlatformTarget>$(RSSAMArchitecture)</PlatformTarget>
 
+    <!--
+      Only the executable owns a default runtime identifier. Class libraries
+      remain RID-neutral so Visual Studio solution builds and UnitTests resolve
+      the same reference-assembly paths. An explicit dotnet publish -r value is
+      still propagated by the app publish graph.
+    -->
     <RuntimeIdentifier
       Condition="'$(RuntimeIdentifier)' == '' And
-                 '$(BuildingForUnitTests)' != 'true' And
-                 '$(MSBuildProjectName)' != 'RSSAM.UnitTests'">win-$(RSSAMArchitecture)</RuntimeIdentifier>
+                 '$(MSBuildProjectName)' == 'RSSAM.App'">win-$(RSSAMArchitecture)</RuntimeIdentifier>
 
     <DefineConstants
       Condition="'$(RSSAMArchitecture)' == 'x64'">$(DefineConstants);RSSAM_X64</DefineConstants>

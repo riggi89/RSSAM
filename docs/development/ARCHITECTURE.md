@@ -12,7 +12,7 @@ flowchart LR
     Tests --> API
 ```
 
-Dependencies point toward the native bridge. `RSSAM.API` has no WinUI dependency, `RSSAM.Core` has no presentation dependency, and `RSSAM.App` does not call native Steam interfaces directly.
+Dependencies point toward the native bridge. `RSSAM.API` has no WinUI dependency, `RSSAM.Core` has no presentation dependency, and `RSSAM.App` does not call native Steam interfaces directly. The three library projects remain runtime-identifier neutral; only the executable App selects `win-x86` or `win-x64`.
 
 `RSSAM.CardIdler` is a separate WinUI class library referenced by the application. It owns its SteamKit2 session, badge scraper, encrypted refresh-token settings, store metadata cache, view model and embedded page. It references Core only for the presentation-neutral shell contract and does not call the native SAM bridge used by achievement management.
 

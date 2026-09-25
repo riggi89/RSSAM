@@ -1,0 +1,18 @@
+<!-- RSSAM project code.
+     Copyright (c) 2026 Daniel Riggi (riggi89).
+     Distributed under the project license; see LICENSE.md and NOTICE.md. -->
+
+<Project>
+  <!--
+    When tests or publishes redirect the active intermediate directory to a
+    temporary root, remove any repository-local generated C# files after SDK
+    default-item evaluation. This is a second line of defence against stale
+    AssemblyInfo and TargetFrameworkAttribute files from older builds.
+  -->
+  <ItemGroup Condition="'$(RSSAMBuildRoot)' != ''">
+    <Compile Remove="$(MSBuildProjectDirectory)\bin\**\*.cs" />
+    <Compile Remove="$(MSBuildProjectDirectory)\obj\**\*.cs" />
+    <Compile Remove="$(MSBuildProjectDirectory)/bin/**/*.cs" />
+    <Compile Remove="$(MSBuildProjectDirectory)/obj/**/*.cs" />
+  </ItemGroup>
+</Project>

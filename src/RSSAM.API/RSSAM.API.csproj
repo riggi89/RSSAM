@@ -14,6 +14,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <!-- Keep test compilation and execution on the same loadable assembly. -->
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     <Company>Daniel Riggi (riggi89)</Company>
     <Authors>Daniel Riggi (riggi89); Rick (Gibbed)</Authors>
     <Description>Steam native API bridge for RSSAM, derived from Steam Achievement Manager by Rick (Gibbed).</Description>

@@ -4,12 +4,12 @@
 
 `tests/RSSAM.UnitTests` is an xUnit project targeting .NET 10 for Windows. It is framework-dependent and fixed to an x64 test host because the suite tests managed Core and API behavior without loading the production Steam client module.
 
-The current suite contains 23 tests covering:
+The current suite contains 24 tests covering:
 
 - settings defaults, normalization, persistence and reset;
 - favorites persistence;
 - domain-model behavior;
-- localization and Steam-language mapping;
+- localization, Steam-language mapping, resource-key parity and format placeholders;
 - search-provider forwarding and argument validation;
 - achievement CSV escaping and output;
 - Steam native-wrapper argument guards;
@@ -29,6 +29,8 @@ Collect code coverage:
 
 Coverage results are written below `artifacts/test-results/x64`.
 
+The test script redirects all project outputs and NuGet/MSBuild intermediate files to a fresh temporary build root. Repository-local `bin` and `obj` directories from earlier x86, x64 or publish builds therefore cannot introduce duplicate generated assembly attributes into the test compilation.
+
 ## Run from Visual Studio
 
 1. Open `RSSAM.sln`.
@@ -37,6 +39,14 @@ Coverage results are written below `artifacts/test-results/x64`.
 4. Run all tests.
 
 `RSSAM.UnitTests.runsettings` selects the x64 test host. Do not switch the test assembly to x86 simply because the current production configuration is x86.
+
+The test project explicitly copies `RSSAM.Core.dll` and `RSSAM.API.dll` from MSBuild's runtime-only `ReferenceCopyLocalPaths` into its output directory. Core and API disable separate compiler-only reference assemblies, so a file from `obj\...\ref` cannot be mistaken for a loadable runtime DLL. A post-build validation fails immediately if either runtime assembly is absent, instead of allowing every test to fail later with `FileNotFoundException`.
+
+After changing project references or test-host packages, close Visual Studio and run a complete cleanup before reopening the solution:
+
+```powershell
+.\scripts\clean.ps1
+```
 
 ## Test isolation
 
