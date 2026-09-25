@@ -124,7 +124,7 @@
                         </ListView>
 
                         <Grid x:Name="DetailGamesPanel" Visibility="Collapsed">
-                            <tv:TableView x:Name="DetailGamesView"
+                            <tv:TableView x:Name="DetailGamesTable"
                                           ItemsSource="{Binding FilteredGames, ElementName=RootPage}"
                                           AutoGenerateColumns="False"
                                           IsReadOnly="True"
@@ -139,6 +139,9 @@
                                           ItemClick="GameList_ItemClick">
                                 <tv:TableView.Columns>
                                     <tv:TableViewTemplateColumn x:Name="DetailImageColumn" Width="142">
+                                        <tv:TableViewTemplateColumn.Header>
+                                            <TextBlock x:Name="DetailImageColumnText" Text="Image" />
+                                        </tv:TableViewTemplateColumn.Header>
                                         <tv:TableViewTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border Width="116"
@@ -154,16 +157,32 @@
                                     </tv:TableViewTemplateColumn>
                                     <tv:TableViewTextColumn x:Name="DetailGameColumn"
                                                             Width="*"
-                                                            Binding="{Binding Name, Mode=OneWay}" />
+                                                            Binding="{Binding Name, Mode=OneWay}">
+                                        <tv:TableViewTextColumn.Header>
+                                            <TextBlock x:Name="DetailGameColumnText" Text="Game" />
+                                        </tv:TableViewTextColumn.Header>
+                                    </tv:TableViewTextColumn>
                                     <tv:TableViewNumberColumn x:Name="DetailAppIdColumn"
                                                               Width="100"
-                                                              Binding="{Binding AppId, Mode=OneWay}" />
+                                                              Binding="{Binding AppId, Mode=OneWay}">
+                                        <tv:TableViewNumberColumn.Header>
+                                            <TextBlock x:Name="DetailAppIdColumnText" Text="App ID" />
+                                        </tv:TableViewNumberColumn.Header>
+                                    </tv:TableViewNumberColumn>
                                     <tv:TableViewNumberColumn x:Name="DetailDropsColumn"
                                                               Width="90"
-                                                              Binding="{Binding DropsRemaining, Mode=OneWay}" />
+                                                              Binding="{Binding DropsRemaining, Mode=OneWay}">
+                                        <tv:TableViewNumberColumn.Header>
+                                            <TextBlock x:Name="DetailDropsColumnText" Text="Drops" />
+                                        </tv:TableViewNumberColumn.Header>
+                                    </tv:TableViewNumberColumn>
                                     <tv:TableViewTextColumn x:Name="DetailPlaytimeColumn"
                                                             Width="120"
-                                                            Binding="{Binding HoursText, Mode=OneWay}" />
+                                                            Binding="{Binding HoursText, Mode=OneWay}">
+                                        <tv:TableViewTextColumn.Header>
+                                            <TextBlock x:Name="DetailPlaytimeColumnText" Text="Playtime" />
+                                        </tv:TableViewTextColumn.Header>
+                                    </tv:TableViewTextColumn>
                                 </tv:TableView.Columns>
                             </tv:TableView>
                         </Grid>

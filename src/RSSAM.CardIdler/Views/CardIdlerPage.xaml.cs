@@ -167,11 +167,11 @@ public sealed partial class CardIdlerPage : Page, IShellContentPage
         DetailPlaytimeLabelText.Text = T("CardIdler.Playtime", "Playtime");
         OpenStoreButton.Content = T("CardIdler.OpenStore", "Open store page");
         ActivityLabelText.Text = T("CardIdler.Activity", "Activity");
-        DetailImageColumn.Header = T("CardIdler.Image", "Image");
-        DetailGameColumn.Header = T("CardIdler.Game", "Game");
-        DetailAppIdColumn.Header = T("CardIdler.AppId", "App ID");
-        DetailDropsColumn.Header = T("CardIdler.Drops", "Drops");
-        DetailPlaytimeColumn.Header = T("CardIdler.Playtime", "Playtime");
+        DetailImageColumnText.Text = T("CardIdler.Image", "Image");
+        DetailGameColumnText.Text = T("CardIdler.Game", "Game");
+        DetailAppIdColumnText.Text = T("CardIdler.AppId", "App ID");
+        DetailDropsColumnText.Text = T("CardIdler.Drops", "Drops");
+        DetailPlaytimeColumnText.Text = T("CardIdler.Playtime", "Playtime");
         LoginTitleText.Text = T("CardIdler.LoginTitle", "Steam sign-in");
         LoginDescriptionText.Text = T("CardIdler.LoginDescription", "Sign in to scan your remaining card drops and start idling.");
         UsernameLabelText.Text = T("CardIdler.Username", "Steam account name");

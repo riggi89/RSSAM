@@ -5,6 +5,7 @@
 - Replaced the Card Idler's manually constructed detail list with the shared `WinUI.TableView` control.
 - Added read-only image, game, App ID, drops and playtime columns with localized headers.
 - Enabled single-click selection across the complete Card Idler detail row, matching the main game library.
+- Kept stable XAML field names for the localized column headers and assigned a distinct name to the new TableView, preventing stale Visual Studio-generated fields from conflicting with the former ListView.
 - Added the Card Idler screenshot to the root README.
 - Increased the RSSAM version to **2.0.3**.
 
